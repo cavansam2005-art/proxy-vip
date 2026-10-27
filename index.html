@@ -27,7 +27,6 @@
 
         .font-mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* --- BACKGROUND ANIMATION: AURORA MESH --- */
         .cosmic-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -2;
@@ -40,7 +39,6 @@
             50%  { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-
         .cosmic-bg::after {
             content: '';
             position: absolute; inset: 0;
@@ -51,7 +49,6 @@
             pointer-events: none;
         }
 
-        /* --- FLOATING PARTICLES --- */
         .particles {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; pointer-events: none; overflow: hidden;
@@ -68,7 +65,6 @@
             100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
         }
 
-        /* --- GLASSMORPHISM CARD --- */
         .glass-card {
             background: rgba(6, 12, 24, 0.55);
             backdrop-filter: blur(24px) saturate(140%);
@@ -107,7 +103,6 @@
             border-color: rgba(34, 211, 238, 0.3);
         }
 
-        /* Highlight gradient text */
         .text-gradient {
             background: linear-gradient(120deg, #22d3ee 0%, #a855f7 50%, #f0abfc 100%);
             -webkit-background-clip: text;
@@ -122,7 +117,6 @@
             50%      { background-position: 100% 50%; }
         }
 
-        /* Form Inputs */
         .glass-input {
             background: rgba(0, 0, 0, 0.35);
             border: 1px solid rgba(34, 211, 238, 0.15);
@@ -138,7 +132,6 @@
         }
         .glass-input::placeholder { color: rgba(255, 255, 255, 0.35); letter-spacing: 0.08em; }
 
-        /* Buttons */
         .btn-cosmic {
             background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 25%, #a855f7 75%, #d946ef 100%);
             background-size: 200% 200%;
@@ -175,7 +168,6 @@
             transform: translateY(-1px);
         }
 
-        /* Modules */
         .mod-item {
             background: rgba(0, 0, 0, 0.25);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -198,7 +190,6 @@
             box-shadow: inset 3px 0 0 var(--secondary), 0 0 25px rgba(168, 85, 247, 0.15);
         }
 
-        /* Toggle */
         .toggle-switch { position: relative; display: inline-block; width: 50px; height: 28px; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
         .toggle-slider {
@@ -219,35 +210,23 @@
         }
         input:checked + .toggle-slider:before { transform: translateX(22px); }
 
-        /* Toast */
         #toastContent {
             background: rgba(6, 12, 24, 0.92);
             backdrop-filter: blur(14px);
             border: 1px solid rgba(34, 211, 238, 0.35);
-            box-shadow:
-                0 20px 40px rgba(0,0,0,0.55),
-                0 0 30px rgba(34, 211, 238, 0.2),
-                0 0 60px rgba(168, 85, 247, 0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.55), 0 0 30px rgba(34, 211, 238, 0.2);
         }
         
         .disabled { opacity: 0.5; pointer-events: none; filter: grayscale(50%); }
-
-        #statusBox {
-            background: rgba(6, 12, 24, 0.45) !important;
-            border: 1px solid rgba(34, 211, 238, 0.15) !important;
-            box-shadow: inset 0 0 25px rgba(34, 211, 238, 0.05), inset 0 0 40px rgba(168, 85, 247, 0.03) !important;
-        }
+        #statusBox { background: rgba(6, 12, 24, 0.45) !important; border: 1px solid rgba(34, 211, 238, 0.15) !important; }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4">
 
-    <!-- FX Backgrounds -->
     <div class="cosmic-bg"></div>
     <div class="particles" id="particles"></div>
 
     <div class="w-full max-w-[420px] z-10 space-y-6">
-        
-        <!-- Header -->
         <div class="flex items-center justify-between px-2">
             <div>
                 <h1 class="text-3xl font-extrabold tracking-tight text-gradient">SAMM VIP IOS</h1>
@@ -264,13 +243,11 @@
             </div>
         </div>
 
-        <!-- Glass Card -->
         <div class="glass-card">
             <form id="mainForm" method="POST" class="space-y-6" onsubmit="return false;">
                 <input type="hidden" name="action" id="actionType">
                 <input type="hidden" name="browser_uuid" id="uuidField">
                 
-                <!-- KEY INPUT -->
                 <div class="space-y-2">
                     <label class="text-[10px] font-bold text-white/60 uppercase tracking-widest flex items-center gap-2 ml-1">
                         <i class="fa-solid fa-key text-cyan-400"></i> License Token
@@ -279,7 +256,6 @@
                     class="glass-input w-full rounded-2xl py-4 px-4 text-sm font-mono tracking-wider text-center">
                 </div>
 
-                <!-- SELECTOR -->
                 <div id="aimSelector" class="space-y-3 hidden">
                     <label class="text-[10px] font-bold text-white/60 uppercase tracking-widest flex items-center gap-2 ml-1">
                         <i class="fa-solid fa-crosshairs text-violet-400"></i> Select Module
@@ -287,7 +263,6 @@
                     <div id="modList" class="space-y-2"></div>
                 </div>
 
-                <!-- STATUS BOX -->
                 <div id="statusBox" class="hidden flex flex-col p-4 rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
                     <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
                         <span class="px-2.5 py-1 rounded bg-black/30 text-white/70 text-[10px] font-mono border border-white/5" id="clientIpDisplay">Fetching...</span>
@@ -318,12 +293,10 @@
                     </div>
                 </div>
 
-                <!-- MAIN BUTTON -->
                 <button type="button" id="btn-submit-main" onclick="handleInitialStep()" class="w-full py-4.5 rounded-2xl btn-cosmic font-extrabold text-[13px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 h-14">
                     <span id="btnText" class="z-10">INITIALIZE LINK</span> <i class="fa-solid fa-bolt z-10 text-white/80 text-[11px]"></i>
                 </button>
 
-                <!-- SUB BUTTONS -->
                 <div class="grid grid-cols-2 gap-3 pt-2">
                     <button type="button" onclick="openExternalBrowser('https://solitudepremium.click/vanduyios/solitude.mobileconfig')" class="py-3.5 rounded-xl btn-sub font-bold text-[10px] uppercase tracking-widest flex items-center justify-center gap-2">
                         <i class="fa-solid fa-download text-cyan-400"></i> CONFIG
@@ -342,12 +315,13 @@
         </div>
     </div>
 
-    <!-- TOAST -->
     <div id="toast" style="position:fixed;top:20px;left:50%;transform:translate(-50%, -20px);opacity:0;visibility:hidden;z-index:99999;width:90%;max-width:380px;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);">
         <div id="toastContent" class="p-4 rounded-2xl text-[13px] font-medium text-white flex items-center gap-3"></div>
     </div>
 
     <script>
+        const SERVER_URL = 'https://api-proxy-18ww.onrender.com';
+
         function openExternalBrowser(url) {
             const a = document.createElement('a');
             a.href = url;
@@ -356,10 +330,7 @@
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            
-            setTimeout(() => {
-                window.open(url, '_system') || window.open(url, '_blank');
-            }, 100);
+            setTimeout(() => { window.open(url, '_system') || window.open(url, '_blank'); }, 100);
         }
 
         function createParticles() {
@@ -379,7 +350,6 @@
         }
         createParticles();
 
-        // LOGIC HỆ THỐNG
         let clientIP = null;
         let currentActiveMod = null, currentActiveFile = null;
         let currentServer = 'server.zenithsolitude.store', currentPort = 5560;
@@ -404,7 +374,7 @@
         async function loadModList() {
             try {
                 const fd = new FormData(); fd.append('action', 'get_aims');
-                const resp = await fetch(window.location.href, { method: 'POST', body: fd });
+                const resp = await fetch(SERVER_URL, { method: 'POST', body: fd }); // Đã trỏ về Render
                 const data = await resp.json();
                 if (data.status === 'success' && data.aims) {
                     modList = data.aims.map(a => ({
@@ -414,10 +384,10 @@
                 } else { throw new Error('Load fail'); }
             } catch (e) {
                 modList = [
-                    { file: 'aim_dragon2.txt', name: 'Aim Drag On 2.0', icon: 'fa-bolt', desc: 'Smooth track', server: 'server.zenithsolitude.store', port: 5560 },
-                    { file: 'aim_chest.txt', name: 'Aim Chest', icon: 'fa-crosshairs', desc: 'Chest lock', server: 'server.zenithsolitude.store', port: 5560 },
-                    { file: 'aim_neck_dragon2.txt', name: 'Aim Neck Drag 2.0', icon: 'fa-user-ninja', desc: 'Neck lock', server: 'server.zenithsolitude.store', port: 5560 },
-                    { file: 'aim_magic_bullet.txt', name: 'Magic Bullet', icon: 'fa-wand-magic-sparkles', desc: 'Hit assist', server: 'server.zenithsolitude.store', port: 5560 }
+                    { file: 'aim_dragon2.txt', name: 'Aim Drag On 2.0', icon: 'fa-bolt', desc: 'Smooth track', server: 'dhieushop.click', port: 7776 },
+                    { file: 'aim_chest.txt', name: 'Aim Chest', icon: 'fa-crosshairs', desc: 'Chest lock', server: 'dhieushop.click', port: 7777 },
+                    { file: 'aim_neck_dragon2.txt', name: 'Aim Neck Drag 2.0', icon: 'fa-user-ninja', desc: 'Neck lock', server: 'dhieushop.click', port: 7778 },
+                    { file: 'aim_magic_bullet.txt', name: 'Magic Bullet', icon: 'fa-wand-magic-sparkles', desc: 'Hit assist', server: 'dhieushop.click', port: 7779 }
                 ];
             }
             renderModList();
@@ -481,7 +451,7 @@
             stopCountdown(); stopStatusCheck();
             if (currentKey) {
                 const fd = new FormData(); fd.append('action', 'remove_ip'); fd.append('key_code', currentKey); fd.append('client_ip', clientIP);
-                await fetch(window.location.href, { method: 'POST', body: fd }).catch(() => {});
+                await fetch(SERVER_URL, { method: 'POST', body: fd }).catch(() => {});
             }
             updateStatusUI(null, null); clearState();
             showToast("⚠️ Key has expired!");
@@ -495,7 +465,7 @@
                 fd.append('client_ip', clientIP);
                 if (currentActiveFile) fd.append('file_name', currentActiveFile);
                 try {
-                    const resp = await fetch(window.location.href, { method: 'POST', body: fd });
+                    const resp = await fetch(SERVER_URL, { method: 'POST', body: fd });
                     const data = await resp.json();
                     if (data.expired || data.status === 'error' || !data.active) { handleExpired(); }
                     else if (data.active && data.data) {
@@ -574,7 +544,7 @@
                 fd.append('browser_uuid', document.getElementById('uuidField').value);
                 if (clientIP) fd.append('client_ip', clientIP);
                 try {
-                    const resp = await fetch(window.location.href, { method: 'POST', body: fd });
+                    const resp = await fetch(SERVER_URL, { method: 'POST', body: fd });
                     const data = await resp.json();
                     if (data.status === 'success') {
                         isKeyChecked = true; currentKey = key;
@@ -615,7 +585,7 @@
             fd.append('browser_uuid', document.getElementById('uuidField').value);
             fd.append('client_ip', clientIP);
             try {
-                const resp = await fetch(window.location.href, { method: 'POST', body: fd });
+                const resp = await fetch(SERVER_URL, { method: 'POST', body: fd });
                 const data = await resp.json();
                 if (data.status === 'success') {
                     updateStatusUI(modName, fileName, data.server, data.port);
@@ -638,7 +608,7 @@
             fd.append('file_name', currentActiveFile); fd.append('mod_type', currentActiveMod);
             fd.append('client_ip', clientIP);
             try {
-                const resp = await fetch(window.location.href, { method: 'POST', body: fd });
+                const resp = await fetch(SERVER_URL, { method: 'POST', body: fd });
                 const data = await resp.json();
                 if (data.status === 'success') {
                     updateStatusUI(null, null); clearState();
@@ -708,7 +678,7 @@
                 if (saved.fileName) fd.append('file_name', saved.fileName);
                 if (clientIP) fd.append('client_ip', clientIP);
                 try {
-                    const resp = await fetch(window.location.href, { method: 'POST', body: fd }); const data = await resp.json();
+                    const resp = await fetch(SERVER_URL, { method: 'POST', body: fd }); const data = await resp.json();
                     if (data.status === 'success' && data.active && data.data) {
                         updateStatusUI(data.data.mod || data.data.aim, data.data.file, data.data.server, data.data.port);
                         document.getElementById('aimSelector').classList.add('hidden');
