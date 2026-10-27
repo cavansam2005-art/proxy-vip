@@ -374,7 +374,7 @@
         async function loadModList() {
             try {
                 const fd = new FormData(); fd.append('action', 'get_aims');
-                const resp = await fetch(SERVER_URL, { method: 'POST', body: fd }); // Đã trỏ về Render
+                const resp = await fetch(SERVER_URL, { method: 'POST', body: fd });
                 const data = await resp.json();
                 if (data.status === 'success' && data.aims) {
                     modList = data.aims.map(a => ({
