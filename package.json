@@ -1,5 +1,5 @@
 {
-  "name": "proxy-vip-api",
+  "name": "proxy-vip-server",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
