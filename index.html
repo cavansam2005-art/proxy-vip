@@ -290,9 +290,9 @@
 
   // ===== Cấu hình kết nối API Server thật =====
   const CONFIG = {
-    ipEndpoint: "/api/whoami",                          // API lấy IP công khai trực tiếp từ server
-    activateEndpoint: "/api/activate",                  // POST {key, ip, device_id}
-    demoMode: false,                                    // false: kết nối trực tiếp với backend server thật
+    ipEndpoint: "https://sammxmodz.onrender.com/api/whoami",       // Link lấy IP
+    activateEndpoint: "https://sammxmodz.onrender.com/api/activate", // Link kích hoạt
+    demoMode: false,
     demoIp: "183.80.162.165",
   };
   const KEY_RE = /^KEY(-[A-Z0-9]{4}){3}$/;
@@ -459,7 +459,7 @@
 
   async function checkStatus(key) {
     try {
-      const r = await fetch("/api/status", {
+      const r = await fetch("https://sammxmodz.onrender.com/api/status", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ key, device_id: getDeviceId() }),
