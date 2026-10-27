@@ -288,10 +288,10 @@
 (() => {
   "use strict";
 
-  // ===== Cấu hình kết nối API Server thật =====
+  // ===== Cấu hình kết nối API Server mới của bạn =====
   const CONFIG = {
-    ipEndpoint: "https://sammxmodz.onrender.com/api/whoami",       // Link lấy IP
-    activateEndpoint: "https://sammxmodz.onrender.com/api/activate", // Link kích hoạt
+    ipEndpoint: "https://api-proxy-18ww.onrender.com/api/whoami",       // Link lấy IP
+    activateEndpoint: "https://api-proxy-18ww.onrender.com/api/activate", // Link kích hoạt
     demoMode: false,
     demoIp: "183.80.162.165",
   };
@@ -459,7 +459,7 @@
 
   async function checkStatus(key) {
     try {
-      const r = await fetch("https://sammxmodz.onrender.com/api/status", {
+      const r = await fetch("https://api-proxy-18ww.onrender.com/api/status", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ key, device_id: getDeviceId() }),
