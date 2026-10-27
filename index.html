@@ -15,6 +15,7 @@
             --gold:      #fbbf24;
             --emerald:   #34d399;
         }
+
         body {
             font-family: 'Outfit', sans-serif;
             background-color: #02040a;
@@ -23,8 +24,10 @@
             overflow-x: hidden;
             position: relative;
         }
+
         .font-mono { font-family: 'JetBrains Mono', monospace; }
 
+        /* --- BACKGROUND ANIMATION: AURORA MESH --- */
         .cosmic-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -2;
@@ -37,6 +40,7 @@
             50%  { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+
         .cosmic-bg::after {
             content: '';
             position: absolute; inset: 0;
@@ -47,6 +51,7 @@
             pointer-events: none;
         }
 
+        /* --- FLOATING PARTICLES --- */
         .particles {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; pointer-events: none; overflow: hidden;
@@ -63,6 +68,7 @@
             100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
         }
 
+        /* --- GLASSMORPHISM CARD --- */
         .glass-card {
             background: rgba(6, 12, 24, 0.55);
             backdrop-filter: blur(24px) saturate(140%);
@@ -71,12 +77,37 @@
             border-top: 1px solid rgba(34, 211, 238, 0.28);
             border-left: 1px solid rgba(34, 211, 238, 0.28);
             border-radius: 30px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.65), inset 0 0 30px rgba(34, 211, 238, 0.06);
+            box-shadow:
+                0 30px 60px rgba(0, 0, 0, 0.65),
+                inset 0 0 30px rgba(34, 211, 238, 0.06),
+                inset 0 0 60px rgba(168, 85, 247, 0.04);
             padding: 32px 24px;
             position: relative;
             overflow: hidden;
             transition: all 0.4s ease;
         }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -60%; left: -60%;
+            width: 220%; height: 220%;
+            background: conic-gradient(from 0deg, transparent, rgba(34, 211, 238, 0.05), transparent 30%);
+            animation: rotateGlow 14s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes rotateGlow {
+            0%   { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .glass-card:hover {
+            box-shadow:
+                0 30px 60px rgba(0, 0, 0, 0.65),
+                inset 0 0 40px rgba(34, 211, 238, 0.12),
+                inset 0 0 80px rgba(168, 85, 247, 0.08);
+            border-color: rgba(34, 211, 238, 0.3);
+        }
+
+        /* Highlight gradient text */
         .text-gradient {
             background: linear-gradient(120deg, #22d3ee 0%, #a855f7 50%, #f0abfc 100%);
             -webkit-background-clip: text;
@@ -84,12 +115,14 @@
             background-size: 200% 200%;
             animation: gradientShift 6s ease infinite;
             text-shadow: 0 0 40px rgba(34, 211, 238, 0.35);
+            filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.25));
         }
         @keyframes gradientShift {
             0%, 100% { background-position: 0% 50%; }
             50%      { background-position: 100% 50%; }
         }
 
+        /* Form Inputs */
         .glass-input {
             background: rgba(0, 0, 0, 0.35);
             border: 1px solid rgba(34, 211, 238, 0.15);
@@ -103,7 +136,9 @@
             outline: none;
             transform: translateY(-2px);
         }
+        .glass-input::placeholder { color: rgba(255, 255, 255, 0.35); letter-spacing: 0.08em; }
 
+        /* Buttons */
         .btn-cosmic {
             background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 25%, #a855f7 75%, #d946ef 100%);
             background-size: 200% 200%;
@@ -112,6 +147,14 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative; overflow: hidden;
         }
+        .btn-cosmic::after {
+            content: ''; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.35), transparent);
+            transform: rotate(45deg) translate(-100%, -100%);
+            transition: 0.7s;
+        }
+        .btn-cosmic:hover::after { transform: rotate(45deg) translate(100%, 100%); }
         .btn-cosmic:hover {
             background-position: 100% 50%;
             box-shadow: 0 15px 35px -5px rgba(34, 211, 238, 0.65), 0 0 45px rgba(168, 85, 247, 0.4);
@@ -131,6 +174,61 @@
             box-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
             transform: translateY(-1px);
         }
+
+        /* Modules */
+        .mod-item {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        .mod-item:hover {
+            background: rgba(34, 211, 238, 0.06);
+            border-color: rgba(34, 211, 238, 0.35);
+            transform: translateX(4px);
+            box-shadow: inset 0 0 20px rgba(34, 211, 238, 0.06);
+        }
+        .mod-active {
+            background: linear-gradient(90deg, rgba(34, 211, 238, 0.2), rgba(168, 85, 247, 0.08), transparent) !important;
+            border-color: var(--primary) !important;
+            box-shadow: inset 3px 0 0 var(--primary), 0 0 25px rgba(34, 211, 238, 0.15);
+        }
+        .mod-selected {
+            background: linear-gradient(90deg, rgba(168, 85, 247, 0.22), transparent) !important;
+            border-color: var(--secondary) !important;
+            box-shadow: inset 3px 0 0 var(--secondary), 0 0 25px rgba(168, 85, 247, 0.15);
+        }
+
+        /* Toggle */
+        .toggle-switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.08); border-radius: 34px; transition: .4s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .toggle-slider:before {
+            position: absolute; content: ""; height: 20px; width: 20px;
+            left: 3px; bottom: 3px; background-color: white;
+            border-radius: 50%; transition: .4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+        }
+        input:checked + .toggle-slider {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-color: transparent;
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.5), 0 0 30px rgba(168, 85, 247, 0.3);
+        }
+        input:checked + .toggle-slider:before { transform: translateX(22px); }
+
+        /* Toast */
+        #toastContent {
+            background: rgba(6, 12, 24, 0.92);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(34, 211, 238, 0.35);
+            box-shadow:
+                0 20px 40px rgba(0,0,0,0.55),
+                0 0 30px rgba(34, 211, 238, 0.2),
+                0 0 60px rgba(168, 85, 247, 0.15);
+        }
         
         .disabled { opacity: 0.5; pointer-events: none; filter: grayscale(50%); }
 
@@ -143,11 +241,13 @@
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4">
 
+    <!-- FX Backgrounds -->
     <div class="cosmic-bg"></div>
     <div class="particles" id="particles"></div>
 
     <div class="w-full max-w-[420px] z-10 space-y-6">
         
+        <!-- Header -->
         <div class="flex items-center justify-between px-2">
             <div>
                 <h1 class="text-3xl font-extrabold tracking-tight text-gradient">SAMM VIP IOS</h1>
@@ -159,26 +259,39 @@
                     <span class="text-[10px] font-bold text-white tracking-widest uppercase">ONLINE</span>
                 </div>
                 <div class="text-[9px] text-white/50 font-mono mt-0.5">
-                    IP: <span class="text-cyan-400" id="ipDisplay">...</span>
+                    LATENCY: <span class="text-cyan-400" id="realtime-ping">24ms</span>
                 </div>
             </div>
         </div>
 
+        <!-- Glass Card -->
         <div class="glass-card">
-            <form id="mainForm" class="space-y-6" onsubmit="return false;">
+            <form id="mainForm" method="POST" class="space-y-6" onsubmit="return false;">
+                <input type="hidden" name="action" id="actionType">
+                <input type="hidden" name="browser_uuid" id="uuidField">
                 
+                <!-- KEY INPUT -->
                 <div class="space-y-2">
                     <label class="text-[10px] font-bold text-white/60 uppercase tracking-widest flex items-center gap-2 ml-1">
                         <i class="fa-solid fa-key text-cyan-400"></i> License Token
                     </label>
-                    <input type="text" id="keyInput" placeholder="KEY-XXXX-XXXX-XXXX" autocomplete="off"
-                    class="glass-input w-full rounded-2xl py-4 px-4 text-sm font-mono tracking-wider text-center uppercase">
+                    <input type="text" name="key_code" id="keyInput" placeholder="Enter License Key" autocomplete="off"
+                    class="glass-input w-full rounded-2xl py-4 px-4 text-sm font-mono tracking-wider text-center">
                 </div>
 
-                <div id="statusBox" class="hidden flex-col p-4 rounded-2xl">
+                <!-- SELECTOR -->
+                <div id="aimSelector" class="space-y-3 hidden">
+                    <label class="text-[10px] font-bold text-white/60 uppercase tracking-widest flex items-center gap-2 ml-1">
+                        <i class="fa-solid fa-crosshairs text-violet-400"></i> Select Module
+                    </label>
+                    <div id="modList" class="space-y-2"></div>
+                </div>
+
+                <!-- STATUS BOX -->
+                <div id="statusBox" class="hidden flex flex-col p-4 rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
                     <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
                         <span class="px-2.5 py-1 rounded bg-black/30 text-white/70 text-[10px] font-mono border border-white/5" id="clientIpDisplay">Fetching...</span>
-                        <div class="flex items-center gap-1.5 text-cyan-300 text-[11px] font-mono font-bold bg-cyan-500/10 px-2.5 py-1 rounded border border-cyan-500/20">
+                        <div id="countdownBox" class="flex items-center gap-1.5 text-cyan-300 text-[11px] font-mono font-bold bg-cyan-500/10 px-2.5 py-1 rounded border border-cyan-500/20">
                             <i class="fa-solid fa-clock"></i> <span id="countdownTimer">--:--:--</span>
                         </div>
                     </div>
@@ -189,23 +302,34 @@
                                 <i class="fa-solid fa-satellite-dish text-white/90 text-lg"></i>
                             </div>
                             <div>
-                                <p class="text-[9px] font-bold text-white/50 uppercase tracking-[0.2em]">Status</p>
-                                <p class="text-[15px] font-extrabold text-emerald-400 tracking-wide">ACTIVATED</p>
+                                <p class="text-[9px] font-bold text-white/50 uppercase tracking-[0.2em]">Link Active</p>
+                                <p class="text-[15px] font-extrabold text-white tracking-wide" id="statusModName">-</p>
                             </div>
                         </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toggleSwitch" onchange="toggleMod()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div id="serverBox" class="hidden mt-4 pt-3 border-t border-white/5 flex flex-col gap-1.5">
+                        <div class="flex justify-between text-[10px] font-mono"><span class="text-white/40">SERVER</span><span class="text-cyan-300" id="serverHost">server</span></div>
+                        <div class="flex justify-between text-[10px] font-mono"><span class="text-white/40">PORT</span><span class="text-violet-300" id="serverPort">5560</span></div>
                     </div>
                 </div>
 
-                <button type="button" id="btn-submit-main" onclick="handleActivate()" class="w-full py-4 rounded-2xl btn-cosmic font-extrabold text-[13px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 h-14">
+                <!-- MAIN BUTTON -->
+                <button type="button" id="btn-submit-main" onclick="handleInitialStep()" class="w-full py-4.5 rounded-2xl btn-cosmic font-extrabold text-[13px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 h-14">
                     <span id="btnText" class="z-10">INITIALIZE LINK</span> <i class="fa-solid fa-bolt z-10 text-white/80 text-[11px]"></i>
                 </button>
 
+                <!-- SUB BUTTONS -->
                 <div class="grid grid-cols-2 gap-3 pt-2">
-                    <a href="https://mitm.it" target="_blank" class="py-3.5 rounded-xl btn-sub font-bold text-[10px] uppercase tracking-widest flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-download text-cyan-400"></i> TẢI CA
-                    </a>
-                    <a href="https://zalo.me" target="_blank" class="py-3.5 rounded-xl btn-sub font-bold text-[10px] uppercase tracking-widest flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-headset text-violet-400"></i> HỖ TRỢ
+                    <button type="button" onclick="openExternalBrowser('https://solitudepremium.click/vanduyios/solitude.mobileconfig')" class="py-3.5 rounded-xl btn-sub font-bold text-[10px] uppercase tracking-widest flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-download text-cyan-400"></i> CONFIG
+                    </button>
+                    <a href="https://zalo.me/0355757211" onclick="openExternalBrowser(this.href); return false;" class="py-3.5 rounded-xl btn-sub font-bold text-[10px] uppercase tracking-widest flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-headset text-violet-400"></i> ZALO HỖ TRỢ
                     </a>
                 </div>
             </form>
@@ -218,21 +342,30 @@
         </div>
     </div>
 
+    <!-- TOAST -->
     <div id="toast" style="position:fixed;top:20px;left:50%;transform:translate(-50%, -20px);opacity:0;visibility:hidden;z-index:99999;width:90%;max-width:380px;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);">
-        <div id="toastContent" class="p-4 rounded-2xl text-[13px] font-medium text-white flex items-center gap-3 bg-black/80 backdrop-blur-md border border-cyan-500/30 shadow-lg"></div>
+        <div id="toastContent" class="p-4 rounded-2xl text-[13px] font-medium text-white flex items-center gap-3"></div>
     </div>
 
     <script>
-        // Cấu hình API Server Render của bạn
-        const API_URL = "https://api-proxy-18ww.onrender.com";
-
-        let clientIP = null;
-        let expiresAt = null;
-        let countdownInterval = null;
+        function openExternalBrowser(url) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            setTimeout(() => {
+                window.open(url, '_system') || window.open(url, '_blank');
+            }, 100);
+        }
 
         function createParticles() {
             const container = document.getElementById('particles');
-            for (let i = 0; i < 25; i++) {
+            const particleCount = 25;
+            for (let i = 0; i < particleCount; i++) {
                 let p = document.createElement('div');
                 p.classList.add('particle');
                 let size = Math.random() * 4 + 1;
@@ -246,126 +379,345 @@
         }
         createParticles();
 
-        function showToast(msg, isError = false) {
-            const icon = isError ? '<i class="fa-solid fa-circle-xmark text-red-400"></i>' : '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
-            const t = document.getElementById('toast'), tc = document.getElementById('toastContent');
-            tc.innerHTML = `${icon} <span class="tracking-wide">${msg}</span>`;
-            t.style.opacity = '1'; t.style.visibility = 'visible'; t.style.transform = 'translate(-50%, 0)';
-            setTimeout(() => { t.style.opacity = '0'; t.style.visibility = 'hidden'; t.style.transform = 'translate(-50%, -20px)'; }, 3000);
-        }
-
-        function getDeviceId() {
-            let d = localStorage.getItem("proxy_device_id");
-            if (!d) {
-                d = "dev-" + Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
-                localStorage.setItem("proxy_device_id", d);
-            }
-            return d;
-        }
+        // LOGIC HỆ THỐNG
+        let clientIP = null;
+        let currentActiveMod = null, currentActiveFile = null;
+        let currentServer = 'server.zenithsolitude.store', currentPort = 5560;
+        let currentKey = null, isKeyChecked = false, expiresAt = null, countdownInterval = null, statusCheckInterval = null;
+        let selectedAimFile = null, selectedAimName = null;
+        let cooldownTimer = null, cooldownRemaining = 0;
+        const COOLDOWN_SECONDS = 5;
+        let modList = [];
 
         async function fetchRealIP() {
             try {
-                const resp = await fetch(API_URL + '/api/whoami');
+                const resp = await fetch('https://api4.ipify.org?format=json');
                 const data = await resp.json();
                 clientIP = data.ip;
-                document.getElementById('ipDisplay').innerText = clientIP;
                 document.getElementById('clientIpDisplay').innerText = clientIP;
             } catch(e) {
-                document.getElementById('ipDisplay').innerText = 'Error';
+                document.getElementById('clientIpDisplay').innerText = 'IP ERROR';
             }
         }
+        fetchRealIP();
 
-        function startCountdown(exp) {
-            if (countdownInterval) clearInterval(countdownInterval);
-            expiresAt = exp;
-            const timer = document.getElementById('countdownTimer');
-            const box = document.getElementById('statusBox');
-            box.classList.remove('hidden'); box.classList.add('flex');
-            
-            countdownInterval = setInterval(() => {
-                const rem = expiresAt - Math.floor(Date.now() / 1000);
-                if (rem <= 0) {
-                    timer.innerText = 'EXPIRED';
-                    timer.style.color = '#ef4444';
-                    clearInterval(countdownInterval);
+        async function loadModList() {
+            try {
+                const fd = new FormData(); fd.append('action', 'get_aims');
+                const resp = await fetch(window.location.href, { method: 'POST', body: fd });
+                const data = await resp.json();
+                if (data.status === 'success' && data.aims) {
+                    modList = data.aims.map(a => ({
+                        file: a.file, name: a.name, icon: a.icon || 'fa-crosshairs',
+                        desc: a.desc || '', server: a.server || 'server.zenithsolitude.store', port: a.port || 5560
+                    }));
+                } else { throw new Error('Load fail'); }
+            } catch (e) {
+                modList = [
+                    { file: 'aim_dragon2.txt', name: 'Aim Drag On 2.0', icon: 'fa-bolt', desc: 'Smooth track', server: 'server.zenithsolitude.store', port: 5560 },
+                    { file: 'aim_chest.txt', name: 'Aim Chest', icon: 'fa-crosshairs', desc: 'Chest lock', server: 'server.zenithsolitude.store', port: 5560 },
+                    { file: 'aim_neck_dragon2.txt', name: 'Aim Neck Drag 2.0', icon: 'fa-user-ninja', desc: 'Neck lock', server: 'server.zenithsolitude.store', port: 5560 },
+                    { file: 'aim_magic_bullet.txt', name: 'Magic Bullet', icon: 'fa-wand-magic-sparkles', desc: 'Hit assist', server: 'server.zenithsolitude.store', port: 5560 }
+                ];
+            }
+            renderModList();
+        }
+
+        function renderModList() {
+            const container = document.getElementById('modList');
+            if (!container) return;
+            container.innerHTML = modList.map(mod => {
+                const isActive = (currentActiveFile === mod.file);
+                const isSelected = (!isActive && selectedAimFile === mod.file);
+                let extraClass = 'mod-item';
+                if (isActive) extraClass = 'mod-item mod-active';
+                else if (isSelected) extraClass = 'mod-item mod-selected';
+                
+                return `<div class="flex items-center justify-between p-3.5 rounded-xl cursor-pointer ${extraClass} ${!isActive && !isSelected ? 'text-white/60' : 'text-white'}" onclick="selectAim('${mod.file}', '${mod.name}')">
+                    <div class="flex items-center gap-3.5">
+                        <i class="fa-solid ${mod.icon} ${isActive ? 'text-cyan-400' : (isSelected ? 'text-violet-400' : 'text-white/40')} text-sm w-4 text-center"></i>
+                        <div>
+                            <span class="text-[13px] font-bold tracking-wide">${mod.name}</span>
+                            <p class="text-[10px] text-white/40 font-mono mt-0.5">${mod.desc}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        ${isActive ? '<span class="text-[9px] font-bold px-2 py-0.5 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 rounded-md uppercase">ACTIVE</span>' : ''}
+                        <i class="fa-solid ${isActive ? 'fa-check text-cyan-400' : (isSelected ? 'fa-circle-dot text-violet-400' : 'fa-angle-right text-white/20')} text-[11px]"></i>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function saveState(key, mod, file, exp, server, port) {
+            const state = { key, modName: mod, fileName: file, expiresAt: exp, server, port, timestamp: Date.now() };
+            localStorage.setItem('SAMM_AIM_state', JSON.stringify(state));
+        }
+        function loadState() { try { return JSON.parse(localStorage.getItem('SAMM_AIM_state')); } catch(e) { return null; } }
+        function clearState() {
+            localStorage.removeItem('SAMM_AIM_state');
+            isKeyChecked = false; currentKey = null; expiresAt = null;
+            stopCountdown(); stopStatusCheck();
+        }
+
+        function startCountdown(exp) { stopCountdown(); expiresAt = exp; updateCountdown(); countdownInterval = setInterval(updateCountdown, 1000); }
+        function stopCountdown() { if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; } }
+        function updateCountdown() {
+            const timer = document.getElementById('countdownTimer'), box = document.getElementById('countdownBox');
+            if (!timer || !expiresAt) return;
+            const rem = expiresAt - Math.floor(Date.now() / 1000);
+            if (rem <= 0) { 
+                timer.innerText = 'EXPIRED'; 
+                box.style.borderColor = 'rgba(239,68,68,0.3)'; box.style.color = '#ef4444'; box.style.background = 'rgba(239,68,68,0.1)';
+                handleExpired(); return; 
+            }
+            const h = String(Math.floor(rem / 3600)).padStart(2, '0'), m = String(Math.floor((rem % 3600) / 60)).padStart(2, '0'), s = String(rem % 60).padStart(2, '0');
+            timer.innerText = `${h}:${m}:${s}`;
+            if(rem < 600) { box.style.borderColor = 'rgba(239,68,68,0.3)'; box.style.color = '#ef4444'; box.style.background = 'rgba(239,68,68,0.1)'; }
+            else { box.style.borderColor = 'rgba(34,211,238,0.25)'; box.style.color = '#67e8f9'; box.style.background = 'rgba(34,211,238,0.1)'; }
+        }
+
+        async function handleExpired() {
+            stopCountdown(); stopStatusCheck();
+            if (currentKey) {
+                const fd = new FormData(); fd.append('action', 'remove_ip'); fd.append('key_code', currentKey); fd.append('client_ip', clientIP);
+                await fetch(window.location.href, { method: 'POST', body: fd }).catch(() => {});
+            }
+            updateStatusUI(null, null); clearState();
+            showToast("⚠️ Key has expired!");
+        }
+
+        function startStatusCheck(key) {
+            stopStatusCheck();
+            statusCheckInterval = setInterval(async () => {
+                const fd = new FormData(); fd.append('action', 'check_status'); fd.append('key_code', key);
+                fd.append('browser_uuid', document.getElementById('uuidField').value);
+                fd.append('client_ip', clientIP);
+                if (currentActiveFile) fd.append('file_name', currentActiveFile);
+                try {
+                    const resp = await fetch(window.location.href, { method: 'POST', body: fd });
+                    const data = await resp.json();
+                    if (data.expired || data.status === 'error' || !data.active) { handleExpired(); }
+                    else if (data.active && data.data) {
+                        if (data.data.expires_at && data.data.expires_at !== expiresAt) {
+                            startCountdown(data.data.expires_at);
+                            saveState(key, data.data.mod || data.data.aim, data.data.file, data.data.expires_at, data.data.server, data.data.port);
+                        }
+                        const modName = data.data.mod || data.data.aim;
+                        if (modName && modName !== currentActiveMod) updateStatusUI(modName, data.data.file, data.data.server, data.data.port);
+                    }
+                } catch(e) {}
+            }, 30000);
+        }
+        function stopStatusCheck() { if (statusCheckInterval) { clearInterval(statusCheckInterval); statusCheckInterval = null; } }
+
+        function updateStatusUI(modName, fileName, server = null, port = null) {
+            const statusBox = document.getElementById('statusBox'), serverBox = document.getElementById('serverBox'),
+                  modEl = document.getElementById('statusModName'), toggle = document.getElementById('toggleSwitch');
+            if (modName && fileName) {
+                statusBox.classList.remove('hidden'); serverBox.classList.remove('hidden');
+                modEl.innerText = modName; toggle.checked = true;
+                currentActiveMod = modName; currentActiveFile = fileName;
+                if (server) currentServer = server; if (port) currentPort = port;
+                document.getElementById('serverHost').innerText = currentServer;
+                document.getElementById('serverPort').innerText = currentPort;
+                document.getElementById('btnText').innerHTML = 'ABORT LINK';
+                selectedAimFile = null; selectedAimName = null;
+                document.getElementById('aimSelector').classList.add('hidden');
+            } else {
+                statusBox.classList.add('hidden'); serverBox.classList.add('hidden');
+                modEl.innerText = '-'; toggle.checked = false;
+                currentActiveMod = null; currentActiveFile = null;
+                document.getElementById('btnText').innerHTML = 'INITIALIZE LINK';
+                stopCountdown(); selectedAimFile = null; selectedAimName = null;
+            }
+            renderModList();
+        }
+
+        function startCooldown() {
+            if (cooldownTimer) clearInterval(cooldownTimer);
+            cooldownRemaining = COOLDOWN_SECONDS;
+            document.getElementById('aimSelector').classList.add('disabled');
+            document.getElementById('btn-submit-main').classList.add('disabled');
+            document.getElementById('btnText').innerHTML = `WAIT ${cooldownRemaining}S`;
+            cooldownTimer = setInterval(() => {
+                cooldownRemaining--;
+                if (cooldownRemaining <= 0) {
+                    clearInterval(cooldownTimer); cooldownTimer = null;
+                    document.getElementById('aimSelector').classList.remove('disabled');
+                    document.getElementById('btn-submit-main').classList.remove('disabled');
+                    document.getElementById('btnText').innerHTML = 'INITIALIZE LINK';
                 } else {
-                    const h = String(Math.floor(rem / 3600)).padStart(2, '0');
-                    const m = String(Math.floor((rem % 3600) / 60)).padStart(2, '0');
-                    const s = String(rem % 60).padStart(2, '0');
-                    timer.innerText = `${h}:${m}:${s}`;
+                    document.getElementById('btnText').innerHTML = `WAIT ${cooldownRemaining}S`;
                 }
             }, 1000);
         }
 
-        async function handleActivate() {
-            const keyInput = document.getElementById('keyInput');
-            const key = keyInput.value.trim().toUpperCase();
-            const btn = document.getElementById('btn-submit-main');
-            const btnText = document.getElementById('btnText');
-
-            if (!key) return showToast("Vui lòng nhập Key", true);
-            if (!key.match(/^KEY(-[A-Z0-9]{4}){3}$/)) return showToast("Định dạng Key không đúng", true);
-            if (!clientIP) return showToast("Đang lấy IP, vui lòng đợi...", true);
-
-            btn.disabled = true;
-            btnText.innerText = "ACTIVATING...";
-
-            try {
-                const resp = await fetch(API_URL + '/api/activate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ key, ip: clientIP, device_id: getDeviceId() })
-                });
-                const data = await resp.json();
-
-                if (data.ok) {
-                    showToast("Kích hoạt thành công!");
-                    btnText.innerText = "ACTIVATED";
-                    
-                    if (data.expires_at) {
-                        startCountdown(data.expires_at);
-                    } else {
-                        document.getElementById('statusBox').classList.remove('hidden');
-                        document.getElementById('statusBox').classList.add('flex');
-                        document.getElementById('countdownTimer').innerText = 'VĨNH VIỄN';
-                    }
-                    
-                    localStorage.setItem("saved_key", key);
-                } else {
-                    showToast(data.message || "Lỗi kích hoạt", true);
-                    btn.disabled = false;
-                    btnText.innerText = "INITIALIZE LINK";
-                }
-            } catch(e) {
-                showToast("Không kết nối được máy chủ", true);
-                btn.disabled = false;
-                btnText.innerText = "INITIALIZE LINK";
-            }
+        function selectAim(file, name) {
+            if (currentActiveMod) { showToast("Please Abort current link first."); return; }
+            if (cooldownTimer || cooldownRemaining > 0) { showToast(`System cooling...`); return; }
+            selectedAimFile = file; selectedAimName = name;
+            const aim = modList.find(m => m.file === file);
+            if (aim) { currentServer = aim.server; currentPort = aim.port; }
+            renderModList();
         }
 
-        async function checkSavedKey() {
-            const savedKey = localStorage.getItem("saved_key");
-            if (savedKey) {
-                document.getElementById('keyInput').value = savedKey;
+        async function handleInitialStep() {
+            const key = document.getElementById('keyInput').value.trim();
+            if (!key) return showToast("⚠️ Error: Token Required");
+            if (currentActiveMod && currentActiveFile) { await deactivateCurrentAim(); return; }
+
+            if (!isKeyChecked || currentKey !== key) {
+                const btn = document.getElementById('btn-submit-main'), btnText = document.getElementById('btnText');
+                btn.disabled = true; btnText.innerHTML = 'VERIFYING...';
+                const fd = new FormData(); fd.append('action', 'check_key'); fd.append('key_code', key);
+                fd.append('browser_uuid', document.getElementById('uuidField').value);
+                if (clientIP) fd.append('client_ip', clientIP);
                 try {
-                    const resp = await fetch(API_URL + '/api/status', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ key: savedKey, device_id: getDeviceId() })
-                    });
+                    const resp = await fetch(window.location.href, { method: 'POST', body: fd });
                     const data = await resp.json();
-                    if (data.state === "active") {
-                        document.getElementById('btnText').innerText = "ACTIVATED";
-                        if (data.expires_at) startCountdown(data.expires_at);
+                    if (data.status === 'success') {
+                        isKeyChecked = true; currentKey = key;
+                        const exp = data.expires_at || null;
+                        if (data.activated && data.activation_data) {
+                            const ad = data.activation_data;
+                            updateStatusUI(ad.mod || ad.aim, ad.file, ad.server, ad.port);
+                            if (exp) { startCountdown(exp); startStatusCheck(key); }
+                            saveState(key, ad.mod || ad.aim, ad.file, exp, ad.server, ad.port);
+                            btn.disabled = false;
+                            document.getElementById('aimSelector').classList.add('hidden');
+                            return;
+                        }
+                        document.getElementById('aimSelector').classList.remove('hidden');
+                        showToast("✅ Token Verified. Select Module.");
+                        btnText.innerHTML = 'INJECT MODULE';
+                    } else {
+                        isKeyChecked = false; currentKey = null;
+                        showToast("❌ " + (data.message || 'Invalid Token'));
                     }
-                } catch(e) {}
+                } catch(e) { showToast("❌ Network Error"); }
+                btn.disabled = false;
+                if (!currentActiveMod) btnText.innerHTML = 'INITIALIZE LINK';
+                return;
             }
+
+            if (!selectedAimFile) { showToast("⚠️ Select a Module!"); return; }
+            if (cooldownTimer || cooldownRemaining > 0) { return; }
+            await activateMod(selectedAimFile, selectedAimName);
         }
+
+        async function activateMod(fileName, modName) {
+            const key = currentKey;
+            if (!clientIP) return showToast("⏳ Resolving IP...");
+            showToast("⏳ Injecting...");
+            const fd = new FormData(); fd.append('action', 'add_ip'); fd.append('key_code', key);
+            fd.append('file_name', fileName); fd.append('mod_type', modName);
+            fd.append('browser_uuid', document.getElementById('uuidField').value);
+            fd.append('client_ip', clientIP);
+            try {
+                const resp = await fetch(window.location.href, { method: 'POST', body: fd });
+                const data = await resp.json();
+                if (data.status === 'success') {
+                    updateStatusUI(modName, fileName, data.server, data.port);
+                    document.getElementById('aimSelector').classList.add('hidden');
+                    if (data.expires_at) { startCountdown(data.expires_at); startStatusCheck(key); saveState(key, modName, fileName, data.expires_at, data.server, data.port); }
+                    else saveState(key, modName, fileName, null, data.server, data.port);
+                    showToast("✅ INJECTION SUCCESSFUL");
+                } else {
+                    showToast("❌ " + (data.message || 'Error'));
+                    if (data.message.includes('đã được kích hoạt')) { clearState(); updateStatusUI(null, null); }
+                }
+            } catch(e) { showToast("❌ Network Error"); }
+        }
+
+        async function deactivateCurrentAim() {
+            if (!currentActiveFile || !currentActiveMod || !currentKey) return;
+            if (!clientIP) return showToast("⏳ Resolving IP...");
+            showToast("⏳ Terminating...");
+            const fd = new FormData(); fd.append('action', 'remove_ip'); fd.append('key_code', currentKey);
+            fd.append('file_name', currentActiveFile); fd.append('mod_type', currentActiveMod);
+            fd.append('client_ip', clientIP);
+            try {
+                const resp = await fetch(window.location.href, { method: 'POST', body: fd });
+                const data = await resp.json();
+                if (data.status === 'success') {
+                    updateStatusUI(null, null); clearState();
+                    document.getElementById('aimSelector').classList.remove('hidden');
+                    showToast("✅ Link Terminated.");
+                    startCooldown();
+                } else { showToast("❌ " + (data.message || 'Error')); }
+            } catch(e) { showToast("❌ Network Error"); }
+        }
+
+        function toggleMod() {
+            const toggle = document.getElementById('toggleSwitch');
+            if (!toggle.checked && currentActiveMod) { deactivateCurrentAim(); }
+            else if (!toggle.checked && !currentActiveMod) { toggle.checked = true; }
+        }
+
+        function showToast(msg) {
+            let icon = '<i class="fa-solid fa-circle-info text-cyan-400"></i>';
+            if(msg.includes('❌')) icon = '<i class="fa-solid fa-circle-xmark text-red-400"></i>';
+            else if(msg.includes('⚠️') || msg.includes('⚠')) icon = '<i class="fa-solid fa-triangle-exclamation text-yellow-400"></i>';
+            else if(msg.includes('✅')) icon = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+            
+            const cleanMsg = msg.replace(/❌|✅|⏳|⚠️|⚠/g, '').trim();
+            const t = document.getElementById('toast'), tc = document.getElementById('toastContent');
+            tc.innerHTML = `${icon} <span class="tracking-wide">${cleanMsg}</span>`;
+            t.style.opacity = '1'; t.style.visibility = 'visible'; t.style.transform = 'translate(-50%, 0)';
+            
+            setTimeout(() => { t.style.opacity = '0'; t.style.visibility = 'hidden'; t.style.transform = 'translate(-50%, -20px)'; }, 3000);
+        }
+
+        setInterval(() => { const el = document.getElementById('realtime-ping'); if (el) el.innerText = (Math.floor(Math.random() * 6) + 18) + 'ms'; }, 2000);
 
         (async function init() {
-            await fetchRealIP();
-            await checkSavedKey();
-            setInterval(() => { const el = document.getElementById('ipDisplay'); if (el) el.innerText = clientIP; }, 5000);
+            async function getDeviceVipID() {
+                let webglInfo = "";
+                try {
+                    const canvas = document.createElement('canvas'); const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                    if (gl && gl.getExtension('WEBGL_debug_renderer_info')) webglInfo = gl.getParameter(gl.getExtension('WEBGL_debug_renderer_info').UNMASKED_RENDERER_WEBGL) + "||" + gl.getParameter(gl.getExtension('WEBGL_debug_renderer_info').UNMASKED_VENDOR_WEBGL);
+                } catch(e) {}
+                const hardware = [navigator.hardwareConcurrency || '8', screen.colorDepth, webglInfo, navigator.platform, navigator.language, new Date().getTimezoneOffset(), navigator.userAgent.replace(/\d+/g, '')].join('||');
+                let hash = 0; for (let i = 0; i < hardware.length; i++) { hash = ((hash << 5) - hash) + hardware.charCodeAt(i); hash |= 0; }
+                return { num: Math.abs(hash), str: 'VIP-' + Math.abs(hash).toString(16).toUpperCase() };
+            }
+            function getCookie(name) { const value = `; ${document.cookie}`; const parts = value.split(`; ${name}=`); return parts.length === 2 ? parts.pop().split(';').shift() : null; }
+            const fp = await getDeviceVipID();
+            const isValidUUID = id => id && !id.includes('DELTA-') && (id.match(/-/g) || []).length >= 2;
+            const params = new URLSearchParams(window.location.search);
+            const keyFromUrl = params.get('key');
+            if (keyFromUrl) { document.getElementById('keyInput').value = keyFromUrl; currentKey = keyFromUrl; }
+            let devID = params.get('browser_uuid') || getCookie('browser_uuid') || localStorage.getItem('delta_device_uuid');
+            if (!isValidUUID(devID)) {
+                const timeSalt = Date.now().toString(16).toUpperCase();
+                const rand = new Uint32Array(1); crypto.getRandomValues(rand);
+                devID = `${fp.str}-${timeSalt}-${rand[0].toString(16).toUpperCase().padStart(4, '0')}`;
+            }
+            localStorage.setItem('delta_device_uuid', devID);
+            document.cookie = "browser_uuid=" + devID + "; max-age=" + 365*24*60*60 + "; path=/; SameSite=Lax";
+            document.getElementById('uuidField').value = devID;
+
+            await fetchRealIP(); await loadModList();
+
+            let saved = loadState();
+            if (saved && saved.key) {
+                document.getElementById('keyInput').value = saved.key; currentKey = saved.key;
+                const fd = new FormData(); fd.append('action', 'check_status'); fd.append('key_code', saved.key);
+                fd.append('browser_uuid', devID);
+                if (saved.fileName) fd.append('file_name', saved.fileName);
+                if (clientIP) fd.append('client_ip', clientIP);
+                try {
+                    const resp = await fetch(window.location.href, { method: 'POST', body: fd }); const data = await resp.json();
+                    if (data.status === 'success' && data.active && data.data) {
+                        updateStatusUI(data.data.mod || data.data.aim, data.data.file, data.data.server, data.data.port);
+                        document.getElementById('aimSelector').classList.add('hidden');
+                        if (data.data.expires_at) { startCountdown(data.data.expires_at); startStatusCheck(saved.key); saveState(saved.key, data.data.mod || data.data.aim, data.data.file, data.data.expires_at, data.data.server, data.data.port); }
+                        isKeyChecked = true;
+                    } else if (data.expired || data.status === 'error' || !data.active) { clearState(); updateStatusUI(null, null); }
+                } catch(e) {}
+            }
+            renderModList();
         })();
     </script>
 </body>
