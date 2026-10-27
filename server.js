@@ -1,12 +1,18 @@
 const express = require('express');
 const cors = require('cors');
 const Database = require('better-sqlite3');
+const path = require('path');
 
 const app = express();
-app.use(cors()); // Cho phép gọi API từ GitHub Pages
+
+// Cấu hình CORS: Cho phép GitHub Pages của bạn gọi API, chặn web khác
+app.use(cors({
+  origin: ['https://cavansam2005-art.github.io', 'http://localhost:3000'], 
+  methods: ['GET', 'POST']
+}));
 app.use(express.json());
 
-// Khởi tạo Database (Lưu file db.sqlite)
+// Khởi tạo Database (Lưu vào file db.sqlite)
 const db = new Database('db.sqlite');
 db.exec(`
   CREATE TABLE IF NOT EXISTS keys (
@@ -14,132 +20,140 @@ db.exec(`
     ip TEXT,
     device_id TEXT,
     expires_at INTEGER,
-    activated_at INTEGER
+    activated_at INTEGER,
+    created_at INTEGER
   )
 `);
 
-// Hàm tạo key ngẫu nhiên (Dùng để test)
+// Tạo key ngẫu nhiên
 function generateKey() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   const part = () => Array.from({length: 4}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
   return `KEY-${part()}-${part()}-${part()}`;
 }
 
-// Tạo sẵn 1 key test trong DB nếu chưa có
-const testKey = "KEY-TEST-1234-ABCD";
-if (!db.prepare('SELECT * FROM keys WHERE key_code = ?').get(testKey)) {
-  // Hạn sử dụng 30 ngày tính từ lúc kích hoạt
-  db.prepare('INSERT INTO keys (key_code) VALUES (?)').run(testKey);
-  console.log(`✅ Đã tạo sẵn Key test: ${testKey}`);
-}
-
 // ==========================================
-// 1. API LẤY IP (Giao diện gọi vào /api/whoami)
+// CÁC API DÀNH CHO CLIENT (Giao diện)
 // ==========================================
 app.get('/api/whoami', (req, res) => {
-  // Lấy IP thật của client (kể cả khi qua proxy/render)
   let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   if (ip && ip.includes(',')) ip = ip.split(',')[0].trim();
-  if (ip && ip.startsWith('::ffff:')) ip = ip.substring(7); // Xoá prefix IPv6
-  
+  if (ip && ip.startsWith('::ffff:')) ip = ip.substring(7);
   res.json({ ip: ip || "127.0.0.1" });
 });
 
-// ==========================================
-// 2. API KÍCH HOẠT KEY (Giao diện gọi vào /api/activate)
-// ==========================================
 app.post('/api/activate', (req, res) => {
-  const { key, ip, device_id } = req.body;
+  try {
+    const { key, ip, device_id } = req.body;
+    if (!key || !ip || !device_id) return res.status(400).json({ ok: false, message: "Thiếu dữ liệu." });
 
-  if (!key || !ip || !device_id) {
-    return res.status(400).json({ ok: false, message: "Thiếu dữ liệu yêu cầu." });
-  }
+    const record = db.prepare('SELECT * FROM keys WHERE key_code = ?').get(key);
+    if (!record) return res.status(404).json({ ok: false, message: "Key không tồn tại." });
 
-  const record = db.prepare('SELECT * FROM keys WHERE key_code = ?').get(key);
-
-  // 1. Kiểm tra Key có tồn tại không
-  if (!record) {
-    return res.status(404).json({ ok: false, message: "Key không tồn tại trên hệ thống." });
-  }
-
-  const now = Math.floor(Date.now() / 1000); // Thời gian hiện tại (giây)
-
-  // 2. Nếu Key đã được kích hoạt trước đó
-  if (record.device_id) {
-    // Kiểm tra xem có đúng thiết bị cũ không
-    if (record.device_id !== device_id) {
-      return res.status(403).json({ ok: false, message: "Key này đã được kích hoạt trên thiết bị khác." });
+    const now = Math.floor(Date.now() / 1000);
+    
+    // Kiểm tra thiết bị
+    if (record.device_id && record.device_id !== device_id) {
+      return res.status(403).json({ ok: false, message: "Key đã được dùng trên thiết bị khác." });
     }
-    // Nếu đúng thiết bị, kiểm tra hạn sử dụng
+    // Kiểm tra hạn sử dụng
     if (record.expires_at && now > record.expires_at) {
       return res.status(403).json({ ok: false, message: "Key đã hết hạn sử dụng." });
     }
     
-    // Nếu đúng thiết bị và còn hạn -> Cập nhật lại IP mới (nếu thay đổi mạng) và trả về OK
+    // Nếu hợp lệ, cập nhật lại IP
     db.prepare('UPDATE keys SET ip = ? WHERE key_code = ?').run(ip, key);
     return res.json({ 
       ok: true, 
-      message: "Gia hạn/Cập nhật IP thành công!", 
-      expires_at: record.expires_at,
-      expiresAt: new Date(record.expires_at * 1000).toISOString()
+      message: "Kích hoạt/Cập nhật IP thành công!", 
+      expires_at: record.expires_at, 
+      expiresAt: new Date(record.expires_at * 1000).toISOString() 
     });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: "Lỗi Server." });
   }
-
-  // 3. Nếu Key chưa kích hoạt (Kích hoạt lần đầu)
-  // Mặc định cộng 30 ngày (30 * 24 * 60 * 60 giây)
-  const durationDays = 30; 
-  const expires_at = now + (durationDays * 24 * 60 * 60);
-
-  db.prepare('UPDATE keys SET ip = ?, device_id = ?, expires_at = ?, activated_at = ? WHERE key_code = ?')
-    .run(ip, device_id, expires_at, now, key);
-
-  res.json({ 
-    ok: true, 
-    message: `Kích hoạt thành công (${durationDays} ngày)!`, 
-    expires_at: expires_at,
-    expiresAt: new Date(expires_at * 1000).toISOString()
-  });
 });
 
-// ==========================================
-// 3. API KIỂM TRA TRẠNG THÁI (Giao diện gọi vào /api/status)
-// ==========================================
 app.post('/api/status', (req, res) => {
   const { key, device_id } = req.body;
-  
-  if (!key) return res.status(400).json({ state: "none" });
-
+  if (!key) return res.json({ state: "none" });
   const record = db.prepare('SELECT * FROM keys WHERE key_code = ?').get(key);
-  
-  if (!record || !record.device_id) {
-    return res.json({ state: "none" }); // Chưa kích hoạt
-  }
-
-  if (record.device_id !== device_id) {
-    return res.json({ state: "active", device_conflict: true }); // Bị dùng trên máy khác
-  }
-
+  if (!record || !record.device_id) return res.json({ state: "none" });
+  if (record.device_id !== device_id) return res.json({ state: "active", device_conflict: true });
   const now = Math.floor(Date.now() / 1000);
-  if (record.expires_at && now > record.expires_at) {
-    return res.json({ state: "expired", message: "Key đã hết hạn" });
-  }
-
-  res.json({ 
-    state: "active", 
-    expires_at: new Date(record.expires_at * 1000).toISOString(),
-    ip_matches: record.ip === req.body.ip // Trả về để frontend báo đổi IP
-  });
+  if (record.expires_at && now > record.expires_at) return res.json({ state: "expired", message: "Key đã hết hạn" });
+  res.json({ state: "active", expires_at: new Date(record.expires_at * 1000).toISOString(), ip_matches: record.ip === req.body.ip });
 });
 
-// Route test để tự động tạo key mới
-app.get('/api/genkey', (req, res) => {
+// ==========================================
+// TRANG ADMIN QUẢN LÝ (Dành riêng cho bạn)
+// ==========================================
+app.get('/admin', (req, res) => {
+  const keys = db.prepare('SELECT * FROM keys ORDER BY created_at DESC').all();
+  
+  let rows = keys.map(k => {
+    const isActivated = !!k.device_id;
+    const expires = k.expires_at ? new Date(k.expires_at * 1000).toLocaleString('vi-VN') : 'Chưa kích hoạt';
+    return `
+      <tr>
+        <td><b>${k.key_code}</b></td>
+        <td>${isActivated ? '🟢 Đã dùng' : '⚪ Chưa dùng'}</td>
+        <td>${expires}</td>
+        <td>${k.ip || '-'}</td>
+        <td>${k.device_id ? k.device_id.substring(0,8) : '-'}</td>
+      </tr>
+    `;
+  }).join('');
+
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="vi">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Admin - Quản lý Key</title>
+      <style>
+        body { font-family: sans-serif; background: #f4f4f9; padding: 20px; }
+        h1 { color: #333; }
+        .btn { padding: 10px 15px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #007bff; color: white; }
+        tr:hover { background: #f1f1f1; }
+      </style>
+    </head>
+    <body>
+      <h1>Quản Lý Key Proxy</h1>
+      <a href="/api/admin/genkey" class="btn">+ Tạo Key Mới</a>
+      <table>
+        <thead>
+          <tr>
+            <th>Key Code</th>
+            <th>Trạng Thái</th>
+            <th>Hạn Sử Dụng</th>
+            <th>IP Hiện Tại</th>
+            <th>Device ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows || '<tr><td colspan="5">Chưa có key nào.</td></tr>'}
+        </tbody>
+      </table>
+    </body>
+    </html>
+  `);
+});
+
+// API Tạo Key dành cho Admin
+app.get('/api/admin/genkey', (req, res) => {
   const newKey = generateKey();
-  db.prepare('INSERT INTO keys (key_code) VALUES (?)').run(newKey);
-  res.json({ key: newKey });
+  const now = Math.floor(Date.now() / 1000);
+  db.prepare('INSERT INTO keys (key_code, created_at) VALUES (?, ?)').run(newKey, now);
+  res.redirect('/admin'); // Tạo xong tự quay lại trang Admin
 });
 
+// Bắt buộc phải có '0.0.0.0' thì Render mới chạy được
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server API đang chạy tại cổng ${PORT}`);
-  console.log(`🔑 Key test của bạn là: KEY-TEST-1234-ABCD`);
 });
