@@ -3,191 +3,226 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SENS VIP – Kích hoạt & Cấu hình</title>
+<title>SENS VIP – Cấu hình độ nhạy</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
 <style>
   :root{
     --cyan:#3DF2C8; --yellow:#FFE14D; --magenta:#FF2BD6; --ink:#1A0B2E;
     --extrude:#4B1F7A; --track-off:#7B4FD6; --muted:#B9A6E0; --danger:#FF6B8B;
-    --bg: #09090e;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{
-    margin:0; min-height:100dvh; background: var(--bg); color:#fff;
-    font-family:"Baloo 2", system-ui, sans-serif;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    overflow-x:hidden; padding: calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 16px);
-    background-image: radial-gradient(circle at 50% 0%, #1e1338 0%, #09090e 60%);
+    margin:0; min-height:100dvh;
+    background: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px) 0 0/28px 28px, linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px) 0 0/28px 28px, radial-gradient(ellipse at 80% 0%, #2a1850 0%, #120c1e 55%) #120c1e;
+    font-family:"Baloo 2", system-ui, sans-serif; color:#fff;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; overflow-x:hidden;
+    padding: calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 16px);
   }
-  
-  /* Ẩn/Hiện các trang */
-  .page { display: none; width: 100%; max-width: 400px; flex-direction: column; gap: 15px; animation: fadeIn 0.3s ease; }
-  .page.active { display: flex; }
+
+  /* Quản lý hiển thị trang */
+  .page { display: none; width: 100%; max-width: 400px; flex-direction: column; }
+  .page.active { display: flex; animation: fadeIn 0.4s ease; }
   @keyframes fadeIn { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)} }
 
-  /* TRANG 1: LOGIN */
-  .login-card {
-    background: rgba(26, 11, 46, 0.8); border: 1.5px solid var(--magenta);
-    border-radius: 16px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    text-align: center;
-  }
-  .login-title { font-size: 24px; font-weight: 800; text-transform: uppercase; background: linear-gradient(90deg, var(--cyan), var(--magenta)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
-  .input-group { margin-top: 20px; text-align: left; }
-  .input-group label { font-size: 12px; color: var(--cyan); font-weight: bold; margin-bottom: 5px; display: block; }
-  .input-group input {
-    width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #333;
-    background: rgba(0,0,0,0.5); color: #fff; font-size: 16px; font-family: monospace;
-    outline: none; transition: 0.2s; text-transform: uppercase;
-  }
-  .input-group input:focus { border-color: var(--cyan); box-shadow: 0 0 10px rgba(61,242,200,0.3); }
-  .btn-main {
-    width: 100%; padding: 16px; margin-top: 25px; border: none; border-radius: 10px;
-    background: linear-gradient(90deg, var(--magenta), #b14cff); color: #fff;
-    font-size: 16px; font-weight: 800; text-transform: uppercase; cursor: pointer;
-    box-shadow: 0 4px 15px rgba(255, 43, 214, 0.4);
-  }
-  .btn-main:active { transform: scale(0.97); }
+  /* =========================================
+     TRANG 1: GIAO DIỆN KÍCH HOẠT (PROXY VIP)
+     ========================================= */
+  .stage { position: relative; width: 300px; height: 332px; margin: 0 auto; }
+  .content { position: absolute; left: 36px; top: 120px; width: 228px; display: flex; flex-direction: column; gap: 12px; }
+  .ip { display: flex; align-items: center; gap: 7px; height: 36px; width: 100%; padding: 0 10px; border: 0; border-radius: 9px; background: rgba(26,11,46,.75); box-shadow: inset 0 0 0 1px rgba(163,91,214,.55); }
+  .ip .k { font-size: 13px; color: var(--muted); white-space: nowrap; }
+  .ip .v { font-weight: 700; font-size: 13.5px; color: #fff; flex: 1; text-align: right; }
+  .field { position: relative; height: 58px; border-radius: 11px; background: #170a2e; box-shadow: inset 0 0 0 1.5px var(--track-off); transition: box-shadow .12s; }
+  .field:focus-within { box-shadow: inset 0 0 0 2px var(--magenta), 3px 3px 0 0 var(--cyan); }
+  .field.bad { box-shadow: inset 0 0 0 2px var(--danger), 3px 3px 0 0 rgba(255,107,139,.35); }
+  .field label { position: absolute; left: 13px; top: 8px; font-size: 10.5px; font-weight: 700; color: var(--cyan); text-transform: uppercase; }
+  .field input { position: absolute; left: 0; right: 0; bottom: 0; height: 40px; width: 100%; border: 0; outline: 0; background: transparent; padding: 0 13px 4px; font-family: "JetBrains Mono", monospace; font-size: 16px; color: #fff; text-transform: uppercase; }
+  .actions { display: flex; gap: 10px; margin-top: 2px; }
+  .cta { flex: 1; height: 52px; border: 0; cursor: pointer; border-radius: 11px; background: linear-gradient(#FF6BE6 52%, #FF2BD6 52%); box-shadow: inset 0 0 0 2px var(--ink), 0 0 0 1px var(--ink), 0 5px 0 1px var(--extrude); display: grid; place-items: center; transition: transform .06s; }
+  .cta:active { transform: translateY(4px); box-shadow: inset 0 0 0 2px var(--ink), 0 0 0 1px var(--ink), 0 1px 0 1px var(--extrude); }
+  .trash { width: 52px; height: 52px; border: 0; border-radius: 11px; cursor: pointer; background: linear-gradient(#FF8A6B 52%, #FF3D5E 52%); display: grid; place-items: center; box-shadow: inset 0 0 0 2px var(--ink), 0 0 0 1px var(--ink), 0 5px 0 1px var(--extrude); }
 
-  /* TRANG 2: DASHBOARD ĐỘ NHẠY */
-  .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .user-info { font-size: 13px; color: var(--muted); }
-  .user-info b { color: var(--cyan); font-size: 15px; }
-  .timer { background: rgba(255, 43, 214, 0.15); border: 1px solid var(--magenta); color: var(--magenta); padding: 5px 12px; border-radius: 20px; font-family: monospace; font-weight: bold; font-size: 14px; }
-
-  .sens-container { background: #12121c; border: 1px solid #2a2a3e; border-radius: 16px; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
-  .sens-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid #2a2a3e; }
-  .sens-row:last-child { border-bottom: none; padding-bottom: 0; }
-  .sens-name { font-size: 14px; font-weight: 600; color: #ccc; }
-  .sens-ctrl { display: flex; align-items: center; gap: 10px; }
-  .btn-ctrl { width: 32px; height: 32px; border-radius: 8px; background: #2a2a3e; color: #fff; border: none; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-  .btn-ctrl:active { background: var(--magenta); }
-  .sens-val { width: 40px; text-align: center; font-family: monospace; font-size: 16px; font-weight: bold; color: var(--yellow); }
-
-  .btn-tools {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;
+  /* =========================================
+     TRANG 2: GIAO DIỆN ĐỘ NHẠY (CHẤT LƯỢNG CAO)
+     ========================================= */
+  .dash-box {
+    background: rgba(15, 15, 25, 0.85); border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px); border-radius: 20px; padding: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(61, 242, 200, 0.05);
+    display: flex; flex-direction: column; gap: 15px;
   }
-  .btn-tool {
-    padding: 12px; border-radius: 10px; border: 1px solid #333;
-    background: rgba(255,255,255,0.05); color: #fff; font-size: 13px; font-weight: bold; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; gap: 5px;
-  }
-  .btn-tool:active { background: rgba(255,255,255,0.1); }
-  .btn-tool.random { border-color: var(--cyan); color: var(--cyan); }
-  .btn-tool.kéo-tâm { border-color: var(--yellow); color: var(--yellow); }
+  .dash-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+  .timer { background: rgba(255, 43, 214, 0.15); border: 1px solid var(--magenta); color: var(--magenta); padding: 6px 14px; border-radius: 8px; font-family: "JetBrains Mono"; font-weight: bold; font-size: 14px; }
+  .input-device { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 12px; border-radius: 10px; font-family: "Baloo 2"; font-size: 15px; outline: none; }
+  .input-device:focus { border-color: var(--cyan); box-shadow: 0 0 10px rgba(61, 242, 200, 0.3); }
 
-  .btn-logout {
-    margin-top: 20px; width: 100%; padding: 12px; background: transparent;
-    border: 1px solid #555; color: #888; border-radius: 10px; font-weight: bold; cursor: pointer;
-  }
+  .sens-list { display: flex; flex-direction: column; gap: 12px; }
+  .sens-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 12px 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+  .sens-name { font-size: 14px; font-weight: 600; color: #ddd; }
+  .sens-controls { display: flex; align-items: center; gap: 15px; }
+  .btn-num { width: 35px; height: 35px; border-radius: 8px; background: rgba(255,255,255,0.1); border: none; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.1s; }
+  .btn-num:active { background: var(--magenta); transform: scale(0.9); }
+  .sens-val { width: 45px; text-align: center; font-family: "JetBrains Mono"; font-size: 18px; font-weight: bold; color: var(--yellow); }
 
-  #toast { position:fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px); opacity:0; background:var(--ink); border:2px solid var(--cyan); color:var(--cyan); padding:10px 20px; border-radius:10px; font-weight:bold; transition:0.3s; z-index:99; pointer-events:none; }
-  #toast.show { opacity:1; transform: translateX(-50%) translateY(0); }
+  .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .btn-tool { padding: 14px; border-radius: 12px; border: none; font-family: "Baloo 2"; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 5px; transition: 0.2s; }
+  .btn-tool.random { background: rgba(61, 242, 200, 0.15); border: 1px solid var(--cyan); color: var(--cyan); }
+  .btn-tool.keo-tam { background: rgba(255, 225, 77, 0.15); border: 1px solid var(--yellow); color: var(--yellow); }
+  .btn-tool:active { transform: scale(0.95); }
+
+  .btn-logout { width: 100%; padding: 12px; background: transparent; border: 1px solid #555; color: #aaa; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 5px; font-family: "Baloo 2"; font-size: 14px; }
+  .btn-logout:active { background: rgba(255,255,255,0.05); }
+
+  #toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0; background:#000; border:2px solid var(--cyan); color:var(--cyan); padding:10px 20px; border-radius:10px; font-weight:bold; transition:0.3s; z-index:99; pointer-events:none; font-size:14px; }
+  #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
   #toast.err { border-color:var(--danger); color:var(--danger); }
+
+  @media (max-width: 400px) {
+    .stage { transform: scale(0.9); transform-origin: top center; }
+  }
 </style>
 </head>
 <body>
 
-<!-- TRANG 1: ĐĂNG NHẬP BẰNG KEY -->
+<!-- TRANG 1: GIAO DIỆN PROXY VIP CŨ -->
 <div class="page active" id="pageLogin">
-  <div class="login-card">
-    <div class="login-title">SENS VIP IOS</div>
-    <div style="font-size: 13px; color: var(--muted);">Nhập Key để mở khóa cấu hình</div>
-    
-    <div class="input-group">
-      <label>Tên thiết bị của bạn</label>
-      <input type="text" id="deviceName" placeholder="VD: iPhone 13 Pro Max..." autocomplete="off">
-    </div>
+  <div class="stage">
+    <svg style="position:absolute;left:-62px;top:-62px;width:424px;height:456px;pointer-events:none;" viewBox="-62 -62 424 456">
+      <defs>
+        <path id="frame" d="M0,0 L-42,-34 L22,-10 L46,-26 L62,0 L98,0 L182,0 L220,0 L240,-22 L252,0 L270,-6 L336,-40 L300,28 L300,130 L310,140 L300,152 L300,300 L332,364 L278,332 L184,332 L174,344 L164,332 L18,332 L-28,358 L0,300 L0,200 L-11,190 L0,180 L0,80 L-20,48 L0,36 Z"/>
+        <polygon id="emb" points="98,-8 114,-38 136,-32 150,-52 164,-32 186,-38 202,-8 190,22 166,36 150,28 134,36 110,22"/>
+        <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="332"><stop offset="0" stop-color="#3A1A7A"/><stop offset=".75" stop-color="#5B2DB0"/><stop offset="1" stop-color="#8E7BE8"/></linearGradient>
+        <pattern id="dots" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="1.8" fill="#9FB4FF"/></pattern>
+        <clipPath id="frameClip"><use href="#frame"/></clipPath>
+      </defs>
+      <use href="#frame" fill="none" stroke="#3DF2C8" stroke-width="24" transform="translate(4 3)"/>
+      <use href="#frame" fill="none" stroke="#FFE14D" stroke-width="17" transform="translate(-3 -2)"/>
+      <use href="#frame" fill="none" stroke="#FF2BD6" stroke-width="11"/>
+      <use href="#frame" fill="url(#bodyGrad)"/>
+      <g clip-path="url(#frameClip)"><rect x="-62" y="-62" width="424" height="456" fill="url(#dots)" opacity="0.5"/></g>
+      <use href="#frame" fill="none" stroke="#1A0B2E" stroke-width="5"/>
+      <rect x="22" y="104" width="256" height="212" rx="14" fill="#1E0E44" fill-opacity=".72" stroke="#A35BD6" stroke-width="2"/>
+      <use href="#emb" fill="none" stroke="#FF2BD6" stroke-width="3" transform="translate(0 3)"/>
+      <use href="#emb" fill="#7B3FE0" stroke="#FFE14D" stroke-width="5"/>
+      <g transform="translate(150 -6)">
+        <rect x="-22" y="-18" width="44" height="36" rx="7" fill="#C9B3EE" stroke="#1A0B2E" stroke-width="3"/>
+        <rect x="-16" y="-13" width="32" height="24" rx="4" fill="#1A0B2E"/>
+        <g id="eyes"><polygon points="-12,-7 -2,-3 -3,0.5 -12,-3" fill="#FF2BD6"/><polygon points="12,-7 12,-3 3,0.5 2,-3" fill="#FF2BD6"/></g>
+      </g>
+      <text x="150" y="55" fill="#fff" font-family="monospace" font-size="24" font-weight="900" text-anchor="middle" filter="drop-shadow(2px 2px 0 #000)">SENS VIP</text>
+    </svg>
 
-    <div class="input-group">
-      <label>Key kích hoạt</label>
-      <input type="text" id="keyInput" placeholder="KEY-XXXX-XXXX-XXXX" maxlength="19" autocapitalize="characters">
-    </div>
-
-    <button class="btn-main" onclick="handleLogin()">KÍCH HOẠT NGAY</button>
+    <form class="content" id="loginForm" onsubmit="event.preventDefault(); handleLogin();">
+      <div class="ip">
+        <span class="k">Hệ điều hành:</span>
+        <span class="v" id="deviceType">Đang quét...</span>
+      </div>
+      <div class="field" id="field">
+        <label for="key">Key của bạn</label>
+        <input id="key" maxlength="19" placeholder="KEY-XXXX-XXXX-XXXX" autocapitalize="characters">
+      </div>
+      <div class="actions">
+        <button class="cta" type="submit" id="cta">
+          <span class="label" style="font-weight:900; font-size:15px; letter-spacing:2px; color:#fff; text-shadow:2px 2px 0 #000;">KÍCH HOẠT</span>
+        </button>
+        <button class="trash" type="button" onclick="document.getElementById('key').value=''">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+        </button>
+      </div>
+    </form>
   </div>
 </div>
 
-<!-- TRANG 2: BẢNG ĐIỀU KHIỂN ĐỘ NHẠY (Hiện sau khi Login) -->
+<!-- TRANG 2: GIAO DIỆN ĐỘ NHẠY CHẤT LƯỢNG CAO -->
 <div class="page" id="pageDashboard">
-  <div class="dash-header">
-    <div class="user-info">
-      Thiết bị: <b id="dispDevice">--</b>
-    </div>
-    <div class="timer" id="timerDisplay">00:00:00</div>
-  </div>
-
-  <div class="sens-container">
-    <div class="sens-row">
-      <div class="sens-name">Nhìn xung quanh</div>
-      <div class="sens-ctrl">
-        <button class="btn-ctrl" onclick="changeVal('look', -1)">-</button>
-        <div class="sens-val" id="val-look">127</div>
-        <button class="btn-ctrl" onclick="changeVal('look', 1)">+</button>
-      </div>
-    </div>
+  <div class="dash-box">
     
-    <div class="sens-row">
-      <div class="sens-name">Ống ngắm hồng tâm</div>
-      <div class="sens-ctrl">
-        <button class="btn-ctrl" onclick="changeVal('reddot', -1)">-</button>
-        <div class="sens-val" id="val-reddot">162</div>
-        <button class="btn-ctrl" onclick="changeVal('reddot', 1)">+</button>
+    <div class="dash-header">
+      <div style="font-weight:800; font-size:16px; color:var(--cyan); text-shadow:0 0 10px rgba(61,242,200,0.4);">BẢNG ĐIỀU KHIỂN</div>
+      <div class="timer" id="timerDisplay">00:00:00</div>
+    </div>
+
+    <!-- Phần nhập tên máy riêng biệt -->
+    <div>
+      <label style="font-size:12px; color:var(--muted); margin-bottom:5px; display:block;">Tên thiết bị của bạn</label>
+      <input type="text" class="input-device" id="deviceName" placeholder="Nhập tên thiết bị (VD: iPhone 13)">
+    </div>
+
+    <!-- Phần thanh trượt độ nhạy -->
+    <div class="sens-list">
+      <div class="sens-item">
+        <div class="sens-name">Nhìn xung quanh</div>
+        <div class="sens-controls">
+          <button class="btn-num" onclick="changeVal('look', -1)">-</button>
+          <div class="sens-val" id="val-look">127</div>
+          <button class="btn-num" onclick="changeVal('look', 1)">+</button>
+        </div>
+      </div>
+
+      <div class="sens-item">
+        <div class="sens-name">Hồng tâm</div>
+        <div class="sens-controls">
+          <button class="btn-num" onclick="changeVal('reddot', -1)">-</button>
+          <div class="sens-val" id="val-reddot">162</div>
+          <button class="btn-num" onclick="changeVal('reddot', 1)">+</button>
+        </div>
+      </div>
+
+      <div class="sens-item">
+        <div class="sens-name">Ống ngắm 2x</div>
+        <div class="sens-controls">
+          <button class="btn-num" onclick="changeVal('scope2', -1)">-</button>
+          <div class="sens-val" id="val-scope2">87</div>
+          <button class="btn-num" onclick="changeVal('scope2', 1)">+</button>
+        </div>
+      </div>
+
+      <div class="sens-item">
+        <div class="sens-name">Ống ngắm 4x</div>
+        <div class="sens-controls">
+          <button class="btn-num" onclick="changeVal('scope4', -1)">-</button>
+          <div class="sens-val" id="val-scope4">169</div>
+          <button class="btn-num" onclick="changeVal('scope4', 1)">+</button>
+        </div>
+      </div>
+
+      <div class="sens-item">
+        <div class="sens-name">Súng ngắm</div>
+        <div class="sens-controls">
+          <button class="btn-num" onclick="changeVal('sniper', -1)">-</button>
+          <div class="sens-val" id="val-sniper">40</div>
+          <button class="btn-num" onclick="changeVal('sniper', 1)">+</button>
+        </div>
+      </div>
+
+      <div class="sens-item">
+        <div class="sens-name">Camera tự do</div>
+        <div class="sens-controls">
+          <button class="btn-num" onclick="changeVal('free', -1)">-</button>
+          <div class="sens-val" id="val-free">50</div>
+          <button class="btn-num" onclick="changeVal('free', 1)">+</button>
+        </div>
+      </div>
+
+      <!-- Đã thêm nút bắn riêng nhưng kích thước chuẩn, không bị to -->
+      <div class="sens-item">
+        <div class="sens-name">% Nút bắn</div>
+        <div class="sens-controls">
+          <button class="btn-num" onclick="changeVal('fire', -1)">-</button>
+          <div class="sens-val" id="val-fire">100</div>
+          <button class="btn-num" onclick="changeVal('fire', 1)">+</button>
+        </div>
       </div>
     </div>
 
-    <div class="sens-row">
-      <div class="sens-name">Ống ngắm 2x</div>
-      <div class="sens-ctrl">
-        <button class="btn-ctrl" onclick="changeVal('scope2', -1)">-</button>
-        <div class="sens-val" id="val-scope2">87</div>
-        <button class="btn-ctrl" onclick="changeVal('scope2', 1)">+</button>
-      </div>
+    <!-- Các nút chức năng -->
+    <div class="tool-grid">
+      <button class="btn-tool random" onclick="randomSens()">🎲 Random Độ Nhạy</button>
+      <button class="btn-tool keo-tam" onclick="supportKéoTâm()">🎯 Cấu Hình Kéo Tâm</button>
     </div>
 
-    <div class="sens-row">
-      <div class="sens-name">Ống ngắm 4x</div>
-      <div class="sens-ctrl">
-        <button class="btn-ctrl" onclick="changeVal('scope4', -1)">-</button>
-        <div class="sens-val" id="val-scope4">169</div>
-        <button class="btn-ctrl" onclick="changeVal('scope4', 1)">+</button>
-      </div>
-    </div>
-
-    <div class="sens-row">
-      <div class="sens-name">Súng ngắm (Sniper)</div>
-      <div class="sens-ctrl">
-        <button class="btn-ctrl" onclick="changeVal('sniper', -1)">-</button>
-        <div class="sens-val" id="val-sniper">40</div>
-        <button class="btn-ctrl" onclick="changeVal('sniper', 1)">+</button>
-      </div>
-    </div>
-
-    <div class="sens-row">
-      <div class="sens-name">Camera tự do</div>
-      <div class="sens-ctrl">
-        <button class="btn-ctrl" onclick="changeVal('free', -1)">-</button>
-        <div class="sens-val" id="val-free">50</div>
-        <button class="btn-ctrl" onclick="changeVal('free', 1)">+</button>
-      </div>
-    </div>
-    
-    <!-- Thêm % nút bắn theo yêu cầu -->
-    <div class="sens-row">
-      <div class="sens-name">% Nút bắn (Fire)</div>
-      <div class="sens-ctrl">
-        <button class="btn-ctrl" onclick="changeVal('fire', -1)">-</button>
-        <div class="sens-val" id="val-fire">100</div>
-        <button class="btn-ctrl" onclick="changeVal('fire', 1)">+</button>
-      </div>
-    </div>
+    <button class="btn-logout" onclick="handleLogout()">ĐĂNG XUẤT</button>
   </div>
-
-  <div class="btn-tools">
-    <button class="btn-tool random" onclick="randomSens()">🎲 Random Độ Nhạy</button>
-    <button class="btn-tool kéo-tâm" onclick="supportKéoTâm()">🎯 Hỗ Trợ Kéo Tâm</button>
-  </div>
-
-  <button class="btn-logout" onclick="handleLogout()">ĐĂNG XUẤT / ĐỔI KEY</button>
 </div>
 
 <div id="toast"></div>
@@ -199,13 +234,12 @@
   let currentKey = null;
   let expiresAt = null;
   let timerInterval = null;
+  let deviceNameInput = "";
 
   // Dữ liệu độ nhạy
-  let sensData = {
-    look: 127, reddot: 162, scope2: 87, scope4: 169, sniper: 40, free: 50, fire: 100
-  };
+  let sensData = { look: 127, reddot: 162, scope2: 87, scope4: 169, sniper: 40, free: 50, fire: 100 };
 
-  // Hàm hiển thị thông báo
+  // Hiển thị thông báo
   function toast(msg, isErr = false) {
     const t = $("toast");
     t.textContent = msg;
@@ -213,8 +247,8 @@
     setTimeout(() => t.className = "", 3000);
   }
 
-  // Tự động format Key (thêm dấu gạch)
-  $("keyInput").addEventListener("input", function() {
+  // Format Key
+  $("key").addEventListener("input", function() {
     let raw = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
     if (raw.length > 3) {
       const rest = raw.slice(3, 15).match(/.{1,4}/g) || [];
@@ -224,7 +258,7 @@
     }
   });
 
-  // Cập nhật giao diện số liệu
+  // Cập nhật số liệu lên màn hình
   function updateUI() {
     for (let key in sensData) {
       const el = $(`val-${key}`);
@@ -232,7 +266,7 @@
     }
   }
 
-  // Nút tăng giảm độ nhạy
+  // Thay đổi số liệu
   window.changeVal = (key, amount) => {
     let val = sensData[key] + amount;
     if (val > 200) val = 200;
@@ -241,11 +275,9 @@
     updateUI();
   };
 
-  // Hàm xử lý đăng nhập
+  // Xử lý đăng nhập
   window.handleLogin = async () => {
-    const key = $("keyInput").value.trim();
-    const deviceName = $("deviceName").value.trim() || "Thiết bị ẩn danh";
-
+    const key = $("key").value.trim();
     if (!key.match(/^KEY(-[A-Z0-9]{4}){3}$/)) {
       return toast("Sai định dạng Key!", true);
     }
@@ -253,22 +285,19 @@
     try {
       const res = await fetch(SERVER_URL + "/api/activate", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ key: key, device_name: deviceName })
+        body: JSON.stringify({ key: key, device_name: "Chưa nhập" })
       });
       const data = await res.json();
 
       if (data.ok) {
         toast("Kích hoạt thành công!");
         currentKey = key;
-        expiresAt = data.expires_at; // Số giây hoặc null
-        
-        $("dispDevice").textContent = deviceName;
+        expiresAt = data.expires_at;
         
         // Chuyển trang
         $("pageLogin").classList.remove("active");
         $("pageDashboard").classList.add("active");
 
-        // Bắt đầu đếm ngược (nếu có thời hạn)
         startTimer();
       } else {
         toast(data.message || "Key không hợp lệ!", true);
@@ -278,12 +307,12 @@
     }
   };
 
-  // Hàm đăng xuất
+  // Đăng xuất
   window.handleLogout = () => {
     currentKey = null;
     expiresAt = null;
     clearInterval(timerInterval);
-    $("keyInput").value = "";
+    $("key").value = "";
     $("pageDashboard").classList.remove("active");
     $("pageLogin").classList.add("active");
   };
@@ -307,8 +336,8 @@
         clearInterval(timerInterval);
         timerEl.textContent = "HẾT HẠN";
         timerEl.style.color = "var(--danger)";
-        toast("Key đã hết hạn! Đang đăng xuất...", true);
-        setTimeout(handleLogout, 2000);
+        toast("Key đã hết hạn! Vui lòng nhập Key mới.", true);
+        setTimeout(handleLogout, 2000); // Đá ra ngoài
         return;
       }
 
@@ -321,35 +350,31 @@
     }, 1000);
   }
 
-  // Các Tool tính năng
+  // Các chức năng phụ
   window.randomSens = () => {
-    sensData.look = Math.floor(Math.random() * 50) + 120;
-    sensData.reddot = Math.floor(Math.random() * 40) + 140;
-    sensData.scope2 = Math.floor(Math.random() * 30) + 80;
-    sensData.scope4 = Math.floor(Math.random() * 40) + 150;
-    sensData.sniper = Math.floor(Math.random() * 20) + 30;
-    sensData.free = Math.floor(Math.random() * 50) + 40;
-    sensData.fire = 100;
+    sensData = {
+      look: Math.floor(Math.random() * 50) + 120,
+      reddot: Math.floor(Math.random() * 40) + 140,
+      scope2: Math.floor(Math.random() * 30) + 80,
+      scope4: Math.floor(Math.random() * 40) + 150,
+      sniper: Math.floor(Math.random() * 20) + 30,
+      free: Math.floor(Math.random() * 50) + 40,
+      fire: 100
+    };
     updateUI();
     toast("Đã Random Độ Nhạy!", false);
   };
 
   window.supportKéoTâm = () => {
-    // Đặt cấu hình theo kiểu kéo tâm (Hồng tâm cao, 4x cao, Sniper thấp)
-    sensData.look = 150;
-    sensData.reddot = 180;
-    sensData.scope2 = 110;
-    sensData.scope4 = 190;
-    sensData.sniper = 35;
-    sensData.free = 60;
-    sensData.fire = 100;
+    sensData = { look: 150, reddot: 180, scope2: 110, scope4: 190, sniper: 35, free: 60, fire: 100 };
     updateUI();
     toast("Đã nạp cấu hình Kéo Tâm!", false);
   };
 
-  // Khởi tạo
+  // Khởi tạo ban đầu
+  let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  $("deviceType").textContent = isIOS ? "iOS (iPhone/iPad)" : "Android";
   updateUI();
-
 </script>
 </body>
 </html>
