@@ -4,135 +4,55 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>PROXY VIP VN - Kích hoạt key</title>
-  <style>
-    /* CSS tối giản thay thế cho file base.css và public.css */
-    :root { --bg-dark: #0b1120; --text-main: #fff; --text-muted: #94a3b8; --accent: #b14cff; --primary: #00eaff; --border: #334155; --card-bg: #1e293b; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg-dark); color: var(--text-main); margin: 0; padding: 20px; display: flex; justify-content: center; }
-    .activate-shell { width: 100%; max-width: 480px; }
-    
-    /* Header */
-    .app-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .brand-block { display: flex; align-items: center; gap: 10px; }
-    .brand-logo svg { width: 30px; height: 30px; color: var(--primary); }
-    .brand-title { font-size: 20px; font-weight: 800; letter-spacing: 0.5px; }
-    .brand-vip { color: var(--primary); }
-    .brand-sub { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-top: 2px; }
-    .status-pill { background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); padding: 4px 10px; border-radius: 20px; font-size: 11px; color: #10b981; font-weight: bold; display: flex; align-items: center; gap: 6px; }
-    
-    /* Meta */
-    .meta-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
-    .sync-badge { color: #10b981; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: bold; margin-left: 5px; }
+  <link rel="stylesheet" href="/static/css/base.css" />
+  
+<link rel="stylesheet" href="/static/css/public.css" />
+<style>
+  .ip-auto-sync-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .sync-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    font-family: var(--font-mono, monospace);
+    color: var(--ok, #10b981);
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+</style>
 
-    /* Tabs */
-    .tab-bar { display: flex; gap: 5px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; overflow-x: auto; }
-    .tab { padding: 10px 15px; cursor: pointer; color: var(--text-muted); font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; border-radius: 6px; transition: 0.2s; white-space: nowrap; }
-    .tab svg { width: 16px; height: 16px; }
-    .tab.active { color: var(--primary); background: rgba(0, 234, 255, 0.1); }
-    .tab-panes { display: none; }
-    .tab-panes.active { display: block; }
-
-    /* Form */
-    .step-row { display: flex; justify-content: space-between; margin-bottom: 20px; position: relative; }
-    .step-row::before { content: ''; position: absolute; top: 12px; left: 10%; right: 10%; height: 2px; background: var(--border); z-index: 0; }
-    .step { display: flex; flex-direction: column; align-items: center; gap: 5px; z-index: 1; }
-    .step .num { width: 25px; height: 25px; border-radius: 50%; background: var(--card-bg); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: var(--text-muted); }
-    .step span { font-size: 10px; color: var(--text-muted); }
-    .step.active .num { border-color: var(--primary); color: var(--primary); background: rgba(0, 234, 255, 0.1); }
-    .step.active span { color: var(--primary); }
-    .step.done .num { border-color: #10b981; background: #10b981; color: #fff; }
-    
-    .field { position: relative; margin-bottom: 15px; }
-    .field input { width: 100%; padding: 16px 15px; background: #0f172a; border: 1px solid var(--border); border-radius: 8px; color: #fff; font-size: 15px; outline: none; box-sizing: border-box; transition: 0.2s; font-family: monospace; text-transform: uppercase; }
-    .field input:focus { border-color: var(--primary); }
-    .placeholder { position: absolute; left: 15px; top: 16px; color: var(--text-muted); font-size: 14px; pointer-events: none; transition: 0.2s; }
-    .field input:focus + .placeholder, .field input:not(:placeholder-shown) + .placeholder { top: -10px; left: 10px; font-size: 11px; background: var(--bg-dark); padding: 0 5px; color: var(--primary); }
-    
-    .btn { width: 100%; padding: 16px; background: linear-gradient(90deg, var(--primary), var(--accent)); border: none; border-radius: 8px; color: #fff; font-weight: 800; font-size: 15px; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 234, 255, 0.3); transition: 0.2s; }
-    .btn:active { transform: scale(0.98); }
-    .btn:disabled { opacity: 0.7; cursor: not-allowed; }
-
-    /* Result Panel */
-    .result-panel { display: none; margin-top: 25px; padding: 20px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); }
-    .result-panel.show { display: block; animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .row-head { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: bold; color: #10b981; margin-bottom: 10px; }
-    .msg { font-size: 13px; color: var(--text-muted); margin-bottom: 15px; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-    .grid div { background: #0f172a; padding: 10px; border-radius: 6px; display: flex; flex-direction: column; gap: 3px; }
-    .grid div span:first-child { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
-    .grid div span:last-child { font-size: 13px; font-weight: 600; color: #fff; }
-
-    /* Aim & VIP Menu */
-    .aim-menu-box { margin-top: 15px; border: 1px solid var(--border); border-radius: 8px; padding: 12px; background: #0f172a; }
-    .aim-menu-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-    .aim-menu-title { font-size: 11px; font-weight: bold; color: var(--text-muted); font-family: monospace; }
-    .aim-menu-status-badge { font-size: 10px; color: var(--text-muted); }
-    
-    .aim-item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: var(--card-bg); border-radius: 6px; margin-bottom: 8px; border: 1px solid transparent; transition: 0.2s; cursor: pointer; }
-    .aim-item-row.active-aim { border-color: var(--primary); background: rgba(0, 234, 255, 0.05); }
-    .aim-item-left { display: flex; align-items: center; gap: 10px; }
-    .aim-icon-box { width: 32px; height: 32px; border-radius: 6px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
-    .aim-icon-box svg { width: 16px; height: 16px; }
-    .aim-item-name { font-size: 13px; font-weight: 600; }
-    .aim-item-state { font-size: 10px; display: flex; align-items: center; gap: 5px; margin-top: 2px; }
-    .state-dot { width: 6px; height: 6px; border-radius: 50%; }
-    .state-dot.on { background: #10b981; box-shadow: 0 0 5px #10b981; }
-    .state-dot.off { background: var(--text-muted); }
-    .state-text.on { color: #10b981; font-weight: bold; }
-    
-    /* Switch Toggle */
-    .switch-toggle { position: relative; display: inline-block; width: 40px; height: 22px; }
-    .switch-toggle input { opacity: 0; width: 0; height: 0; }
-    .slider-toggle { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #334155; transition: .4s; border-radius: 22px; }
-    .slider-toggle:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-    input:checked + .slider-toggle { background-color: var(--primary); }
-    input:checked + .slider-toggle:before { transform: translateX(18px); }
-
-    /* Certificate & Shield Tiles */
-    .cert-tile { display: flex; align-items: center; gap: 12px; padding: 12px; background: #0f172a; border: 1px solid var(--border); border-radius: 8px; margin-top: 15px; }
-    .cert-tile-icon { color: var(--primary); }
-    .cert-tile-title { font-size: 12px; font-weight: bold; }
-    .btn-cert-download { margin-left: auto; background: rgba(0, 234, 255, 0.1); border: 1px solid var(--primary); color: var(--primary); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-    .shield-tile { display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(177, 76, 255, 0.1); border-radius: 8px; margin-top: 15px; font-size: 11px; color: var(--text-muted); line-height: 1.4; }
-    .shield-tile b { color: var(--accent); }
-    .hidden { display: none !important; }
-
-    /* Announcement Modal */
-    .announcement-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
-    .announcement-overlay.show { display: flex; }
-    .announcement-card { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
-    .ann-head { display: flex; gap: 15px; padding: 20px; border-bottom: 1px solid var(--border); background: rgba(0, 234, 255, 0.05); }
-    .ann-icon { color: var(--primary); }
-    .ann-eyebrow { font-size: 10px; color: var(--primary); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-    .ann-head h3 { font-size: 16px; margin: 0; }
-    .ann-body { padding: 20px; font-size: 14px; line-height: 1.5; color: var(--text-muted); }
-    .ann-meta { display: flex; justify-content: space-between; font-size: 10px; margin-top: 15px; color: #64748b; }
-    .ann-actions { display: flex; gap: 10px; padding: 15px 20px; border-top: 1px solid var(--border); background: #0f172a; }
-    .btn-ann { flex: 1; padding: 10px; border-radius: 6px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; border: none; }
-    .btn-ann-close { background: var(--primary); color: #000; }
-    .btn-ann-snooze { background: #334155; color: #fff; }
-
-    /* Popup */
-    .popup { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: 0.3s; z-index: 10000; }
-    .popup.show { bottom: 30px; }
-    .popup.err { background: #ef4444; }
-  </style>
 </head>
 <body>
   
 <div class="activate-shell">
+
   <!-- Header -->
   <div class="app-header">
     <div class="brand-block">
       <div class="brand-logo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
           <path d="M12 2 4 6v6c0 5.4 3.4 10.2 8 10 4.6.2 8-4.6 8-10V6l-8-4z" />
           <path d="m9 12 2 2 4-4" />
         </svg>
       </div>
+      <div class="brand-divider"></div>
       <div class="brand-text">
         <div class="brand-title">PROXY <span class="brand-vip">VIP VN</span></div>
-        <div class="brand-sub">DEV &middot; VIETNAM</div>
+        <div class="brand-sub">
+          <span class="led-dot"></span>
+          <span>DEV &middot; VIETNAM</span>
+        </div>
       </div>
     </div>
     <div class="status-pill">
@@ -142,51 +62,74 @@
   </div>
 
   <div class="activate-card">
+
     <!-- IP row -->
     <div class="meta-row">
       <div class="ip-auto-sync-box">
         <span class="live">IP:</span>
         <span class="ip" id="clientIp">--</span>
-        <span class="sync-badge">⚡ ĐỒNG BỘ</span>
+        <span class="sync-badge">⚡ ĐỒNG BỘ TỰ ĐỘNG</span>
       </div>
       <span>Server: <span id="serverTime">--:--:--</span></span>
     </div>
 
-    <!-- Tabs -->
+    <!-- 3 tabs -->
     <div class="tab-bar" role="tablist">
       <div class="tab active" data-pane="activate" role="tab">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        </svg>
         Kích hoạt
       </div>
       <div class="tab" data-pane="lookup" role="tab">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
         Tra cứu
       </div>
       <div class="tab" data-pane="history" role="tab">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
         Lịch sử
       </div>
     </div>
 
-    <!-- TAB 1 -->
+    <!-- TAB 1: KÍCH HOẠT -->
     <div class="tab-panes active" data-pane="activate">
       <div class="step-row">
-        <div class="step active" data-step="1"><div class="num">1</div><span>Nhập key</span></div>
-        <div class="step" data-step="2"><div class="num">2</div><span>Xác thực</span></div>
-        <div class="step" data-step="3"><div class="num">3</div><span>Active</span></div>
+        <div class="step active" data-step="1">
+          <div class="num">1</div><span>Nhập key</span>
+        </div>
+        <div class="step" data-step="2">
+          <div class="num">2</div><span>Xác thực</span>
+        </div>
+        <div class="step" data-step="3">
+          <div class="num">3</div><span>Active</span>
+        </div>
       </div>
 
       <form id="activateForm">
         <div class="field">
-          <input id="licenseInput" placeholder=" " autocomplete="off" autocapitalize="characters" maxlength="32" required />
-          <span class="placeholder">// Nhập key của bạn (ví dụ KEY-XXXX-XXXX-XXXX)</span>
+          <input id="licenseInput" placeholder=" " autocomplete="off" autocapitalize="characters" maxlength="32"
+            required />
+          <span class="placeholder">// Nhập key của bạn (ví dụ AAAA-BBBBB-CCCC)</span>
+          <span class="scan-line"></span>
         </div>
         <button class="btn activate-btn" id="submitBtn" type="submit">KÍCH HOẠT NGAY</button>
       </form>
 
       <div id="activateResult" class="result-panel">
         <div class="row-head">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10" /><path d="M8 12l3 3 5-6" /></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M8 12l3 3 5-6" />
+          </svg>
           <span id="arTitle">KEY ĐANG HOẠT ĐỘNG</span>
         </div>
         <div class="msg" id="arMsg"></div>
@@ -196,55 +139,101 @@
           <div><span>Hết hạn</span><span id="arExpires">--</span></div>
         </div>
 
-        <!-- Aim Menu -->
+        <!-- Menu Bật/Tắt Aim -->
         <div id="arAimMenu" class="aim-menu-box hidden">
           <div class="aim-menu-head">
             <span class="aim-menu-title">// DANH SÁCH AIM</span>
             <span class="aim-menu-status-badge" id="arActiveAimBadge">Đang tắt tất cả Aim</span>
           </div>
           <div id="arAimList" class="aim-list-wrap"></div>
+          <div class="server-list-empty hidden" id="arAimEmpty">
+            Chưa có Aim nào được gán cho key này. Liên hệ admin để được cấp.
+          </div>
         </div>
 
-        <!-- VIP Menu -->
-        <div id="arVipMenu" class="aim-menu-box hidden" style="border-color:rgba(177,76,255,0.35);">
+        <!-- Menu Bật/Tắt Chức năng VIP Gamevar -->
+        <div id="arVipMenu" class="aim-menu-box hidden" style="margin-top:14px;border-color:rgba(177,76,255,0.35);">
           <div class="aim-menu-head">
-            <span class="aim-menu-title" style="color:var(--accent);">// DANH SÁCH CHỨC NĂNG VIP</span>
-            <span class="aim-menu-status-badge" id="arActiveVipBadge" style="color:var(--accent);">Đang tắt Chức năng VIP</span>
+            <span class="aim-menu-title" style="color:var(--accent);font-size:11.5px;">// DANH SÁCH CHỨC NĂNG VIP</span>
+            <span class="aim-menu-status-badge" id="arActiveVipBadge"
+              style="border-color:rgba(177,76,255,0.4);color:var(--accent);">Đang tắt Chức năng VIP</span>
           </div>
           <div id="arVipList" class="aim-list-wrap"></div>
         </div>
 
-        <!-- Cert Tile -->
+        <!-- Download mitmproxy CA cert so client can trust the TLS intercept -->
         <div class="cert-tile hidden" id="arCertTile">
-          <div class="cert-tile-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5.4 3.4 10.2 8 10 4.6.2 8-4.6 8-10V6l-8-4z" /><path d="m9 12 2 2 4-4" /></svg>
+          <div class="cert-tile-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M12 2 4 6v6c0 5.4 3.4 10.2 8 10 4.6.2 8-4.6 8-10V6l-8-4z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
           </div>
-          <div class="cert-tile-body"><div class="cert-tile-title">Chứng chỉ mitmproxy</div></div>
-          <button class="btn-cert-download" id="arCertDownloadBtn" type="button">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+          <div class="cert-tile-body">
+            <div class="cert-tile-title">Chứng chỉ mitmproxy</div>
+          </div>
+          <button class="btn-cert-download" id="arCertDownloadBtn" type="button" aria-label="Tải chứng chỉ mitmproxy">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
             <span>Tải xuống</span>
           </button>
         </div>
 
         <div class="shield-tile">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5.4 3.4 10.2 8 10 4.6.2 8-4.6 8-10V6l-8-4z" stroke="#b14cff"/><path d="m9 12 2 2 4-4" stroke="#b14cff" stroke-width="2.4"/></svg>
+          <svg class="shield-tile-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <defs>
+              <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#00eaff" />
+                <stop offset="100%" stop-color="#b14cff" />
+              </linearGradient>
+            </defs>
+            <path d="M12 2 4 6v6c0 5.4 3.4 10.2 8 10 4.6.2 8-4.6 8-10V6l-8-4z" stroke="url(#shieldGrad)" />
+            <path d="m9 12 2 2 4-4" stroke="url(#shieldGrad)" stroke-width="2.4" />
+            <circle cx="12" cy="12" r="11" stroke="url(#shieldGrad)" stroke-width="0.6" stroke-dasharray="2 3"
+              opacity="0.6" />
+          </svg>
           <span>Bạn chỉ cần xác thực 1 lần. IP và thiết bị sẽ tự động bind trong <b id="arDuration">--</b>.</span>
         </div>
       </div>
     </div>
 
-    <!-- TAB 2 -->
+    <!-- TAB 2: TRA CỨU -->
     <div class="tab-panes" data-pane="lookup">
+      <div class="step-row">
+        <div class="step active" data-step="1">
+          <div class="num">1</div><span>Nhập key</span>
+        </div>
+        <div class="step" data-step="2">
+          <div class="num">2</div><span>Tra cứu</span>
+        </div>
+        <div class="step" data-step="3">
+          <div class="num">3</div><span>Xem kết quả</span>
+        </div>
+      </div>
+
+      <div class="sub-label">// Key đang được truy vấn</div>
       <form id="lookupForm">
         <div class="field">
-          <input id="lookupInput" placeholder=" " autocomplete="off" autocapitalize="characters" maxlength="32" required />
+          <input id="lookupInput" placeholder=" " autocomplete="off" autocapitalize="characters" maxlength="32"
+            required />
           <span class="placeholder">// Nhập key cần tra cứu</span>
+          <span class="scan-line"></span>
         </div>
         <button class="btn activate-btn" id="lookupBtn" type="submit">TRA CỨU THÔNG TIN</button>
       </form>
+
       <div id="lookupResult" class="result-panel">
         <div class="row-head">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
           <span id="lkTitle">THÔNG TIN KEY</span>
         </div>
         <div class="msg" id="lkMsg"></div>
@@ -255,36 +244,90 @@
           <div><span>Hết hạn</span><span id="lkExpires">--</span></div>
           <div style="grid-column: span 2;"><span>IP đã whitelist</span><span id="lkIp">--</span></div>
         </div>
+
+        <!-- Menu Bật/Tắt Aim -->
+        <div id="lkAimMenu" class="aim-menu-box hidden">
+          <div class="aim-menu-head">
+            <span class="aim-menu-title">// DANH SÁCH AIM</span>
+            <span class="aim-menu-status-badge" id="lkActiveAimBadge">Đang tắt tất cả Aim</span>
+          </div>
+          <div id="lkAimList" class="aim-list-wrap"></div>
+        </div>
+
+        <!-- Menu Bật/Tắt Chức năng VIP Gamevar -->
+        <div id="lkVipMenu" class="aim-menu-box hidden" style="margin-top:14px;border-color:rgba(177,76,255,0.35);">
+          <div class="aim-menu-head">
+            <span class="aim-menu-title" style="color:var(--accent);font-size:11.5px;">// DANH SÁCH CHỨC NĂNG VIP
+              (GAMEVAR)</span>
+            <span class="aim-menu-status-badge" id="lkActiveVipBadge"
+              style="border-color:rgba(177,76,255,0.4);color:var(--accent);">Đang tắt Chức năng VIP</span>
+          </div>
+          <div id="lkVipList" class="aim-list-wrap"></div>
+        </div>
+
+        <div class="shield-tile">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 8v4M12 16h.01" />
+          </svg>
+          <span>Key mới cần kích hoạt trước tại tab <b>Kích hoạt</b> để bind thiết bị / IP.</span>
+        </div>
       </div>
     </div>
 
-    <!-- TAB 3 -->
+    <!-- TAB 3: LỊCH SỬ -->
     <div class="tab-panes" data-pane="history">
+      <div class="step-row">
+        <div class="step active" data-step="1">
+          <div class="num">1</div><span>Lấy dữ liệu</span>
+        </div>
+        <div class="step" data-step="2">
+          <div class="num">2</div><span>So sánh</span>
+        </div>
+        <div class="step" data-step="3">
+          <div class="num">3</div><span>Xem chi tiết</span>
+        </div>
+      </div>
+
+      <div class="sub-label">// 5 lần kích hoạt gần nhất của key</div>
       <form id="historyForm">
         <div class="field">
-          <input id="historyInput" placeholder=" " autocomplete="off" autocapitalize="characters" maxlength="32" required />
+          <input id="historyInput" placeholder=" " autocomplete="off" autocapitalize="characters" maxlength="32"
+            required />
           <span class="placeholder">// Nhập key cần xem lịch sử</span>
+          <span class="scan-line"></span>
         </div>
         <button class="btn activate-btn" id="historyBtn" type="submit">XEM LỊCH SỬ</button>
       </form>
+
       <div id="historyResult" class="result-panel">
         <div class="row-head">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
           <span id="hsTitle">LỊCH SỬ KÍCH HOẠT</span>
         </div>
         <div class="msg" id="hsMsg"></div>
-        <div id="historyList" style="font-size:12px; display:flex; flex-direction:column; gap:10px;"></div>
+        <div class="history-card">
+          <div class="history-row"><span>Thời gian</span><span>IP</span><span>Trạng thái</span></div>
+          <div id="historyList"></div>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <!-- Announcement Modal -->
+  <!-- Announcement modal -->
   <div class="announcement-overlay" id="annOverlay">
-    <div class="announcement-card" role="dialog" aria-modal="true">
+    <div class="announcement-card" role="dialog" aria-modal="true" aria-labelledby="annTitle">
       <div class="ann-head">
-        <div class="ann-icon">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3z" /><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" /></svg>
+        <div class="ann-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M3 11l18-5v12L3 14v-3z" />
+            <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+          </svg>
         </div>
         <div class="ann-head-text">
           <div class="ann-eyebrow">// Thông báo hệ thống</div>
@@ -293,10 +336,28 @@
       </div>
       <div class="ann-body">
         <p id="annBody">--</p>
+        <div class="ann-meta">
+          <span id="annMeta"></span>
+          <span id="annPager"></span>
+        </div>
       </div>
       <div class="ann-actions">
-        <button class="btn-ann btn-ann-close" id="annClose" type="button">Đóng</button>
-        <button class="btn-ann btn-ann-snooze" id="annDismiss" type="button">Đóng 2 giờ</button>
+        <button class="btn-ann btn-ann-close" id="annClose" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+          Đóng
+        </button>
+        <button class="btn-ann btn-ann-snooze" id="annDismiss" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="13" r="8" />
+            <path d="M12 9v4l2 2" />
+            <path d="M9 2h6" />
+          </svg>
+          Đóng 2 giờ
+        </button>
       </div>
     </div>
   </div>
@@ -304,252 +365,622 @@
   <div class="popup" id="popup"></div>
 </div>
 
-<script>
-  // === CẤU HÌNH SERVER ===
-  const SERVER_URL = "https://api-proxy-18ww.onrender.com";
-  
+<script src="/static/js/fingerprint.js" type="module"></script>
+<script type="module">
+  import { getDeviceFingerprint } from "/static/js/fingerprint.js";
+
   const $ = (id) => document.getElementById(id);
   const popup = $("popup");
+  const tabs = document.querySelectorAll(".tab-bar .tab");
+  const panes = document.querySelectorAll(".tab-panes");
   let currentIp = null;
 
-  // Tabs Logic
-  document.querySelectorAll(".tab-bar .tab").forEach((t) => {
-    t.addEventListener("click", () => {
-      document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
-      document.querySelectorAll(".tab-panes").forEach(x => x.classList.remove("active"));
-      t.classList.add("active");
-      document.querySelector(`.tab-panes[data-pane="${t.dataset.pane}"]`).classList.add("active");
+  function setActiveStep(pane, idx) {
+    const steps = pane.querySelectorAll(".step-row .step");
+    steps.forEach((s, i) => {
+      s.classList.toggle("active", i === idx);
+      s.classList.toggle("done", i < idx);
     });
-  });
+  }
 
-  // IP
+  function showTab(name) {
+    tabs.forEach((t) => t.classList.toggle("active", t.dataset.pane === name));
+    panes.forEach((p) => p.classList.toggle("active", p.dataset.pane === name));
+    panes.forEach((p) => setActiveStep(p, 0));
+  }
+  tabs.forEach((t) => t.addEventListener("click", () => showTab(t.dataset.pane)));
+
   async function fetchIp() {
     try {
-      const r = await fetch(SERVER_URL + "/whoami");
-      const d = await r.json();
-      currentIp = d.ip;
-      $("clientIp").textContent = currentIp || "--";
-    } catch(e) { $("clientIp").textContent = "n/a"; }
+      let ip = "";
+      try {
+        const r = await fetch("/whoami");
+        const d = await r.json();
+        ip = (d && d.ip) ? d.ip : "";
+      } catch (_) { }
+      if (!ip || ip === "127.0.0.1" || ip === "::1" || ip.startsWith("127.")) {
+        try {
+          const res = await fetch("https://api.ipify.org?format=json");
+          const ipData = await res.json();
+          if (ipData && ipData.ip) ip = ipData.ip;
+        } catch (_) { }
+      }
+      currentIp = ip;
+      if ($("clientIp")) $("clientIp").textContent = ip || "--";
+    } catch (e) {
+      if ($("clientIp")) $("clientIp").textContent = "n/a";
+    }
   }
-  fetchIp();
-
-  // Clock
-  setInterval(() => {
+  function tickClock() {
     const now = new Date();
-    $("serverTime").textContent = now.toLocaleTimeString('vi-VN');
-  }, 1000);
+    const pad = (n) => String(n).padStart(2, "0");
+    $("serverTime").textContent = pad(now.getHours()) + ":" + pad(now.getMinutes()) + ":" + pad(now.getSeconds());
+  }
+  setInterval(tickClock, 1000); tickClock();
 
-  // Popup
   function showPopup(text, isError = true) {
     popup.textContent = text;
-    popup.className = "popup show " + (isError ? "err" : "");
-    setTimeout(() => popup.classList.remove("show"), 3000);
+    popup.classList.remove("show", "ok", "err");
+    void popup.offsetWidth;
+    popup.classList.add("show", isError ? "err" : "ok");
+    clearTimeout(window.__cpvPopup);
+    window.__cpvPopup = setTimeout(() => popup.classList.remove("show"), 3500);
   }
 
-  // Helpers
-  function escapeHtml(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;"); }
-  function tsLabel(t) { if (!t) return "--"; try { return new Date(t * 1000).toLocaleString("vi-VN"); } catch (_) { return "--"; } }
+  function hideAimMenu(isLookup = false) {
+    const aBox = $(isLookup ? "lkAimMenu" : "arAimMenu");
+    const aList = $(isLookup ? "lkAimList" : "arAimList");
+    if (aBox) aBox.classList.add("hidden");
+    if (aList) aList.innerHTML = "";
+  }
 
-  // Render Aim Menu
-  function renderAimMenu(aims, keyToUse) {
-    const aBox = $("arAimMenu");
-    const aList = $("arAimList");
-    const aBadge = $("arActiveAimBadge");
+  function hideVipMenu(isLookup = false) {
+    const vBox = $(isLookup ? "lkVipMenu" : "arVipMenu");
+    const vList = $(isLookup ? "lkVipList" : "arVipList");
+    if (vBox) vBox.classList.add("hidden");
+    if (vList) vList.innerHTML = "";
+  }
+
+  function hideCertTile() {
+    const tile = $("arCertTile");
+    if (tile) tile.classList.add("hidden");
+  }
+
+  function renderCertTile(meta) {
+    const tile = $("arCertTile");
+    if (!tile) return;
+    if (!meta || !meta.has_cert) { hideCertTile(); return; }
+    const name = $("arCertName");
+    const sha = $("arCertSha");
+    const btn = $("arCertDownloadBtn");
+    if (name) name.textContent = meta.filename || "mitmproxy-ca-cert.pem";
+    if (sha) {
+      const h = meta.sha256 || "";
+      sha.textContent = h ? (h.slice(0, 6) + "…" + h.slice(-6)) : "--";
+      sha.title = h || "";
+    }
+    if (btn) {
+      btn.onclick = () => {
+        try { window.location.href = "/api/mitm-cert/download"; } catch (_) { }
+      };
+    }
+    tile.classList.remove("hidden");
+  }
+
+  async function loadCertForClient() {
+    try {
+      const r = await fetch("/api/mitm-cert/info");
+      if (!r.ok) return hideCertTile();
+      const d = await r.json();
+      renderCertTile(d);
+    } catch (_) {
+      hideCertTile();
+    }
+  }
+
+  async function copyText(text) {
+    if (!text) return false;
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch (_) { }
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+  function tsLabel(t) {
+    if (!t) return "--";
+    try { return new Date(t * 1000).toLocaleString("vi-VN"); } catch (_) { return "--"; }
+  }
+
+  function renderAimMenu(aims, keyToUse, isLookup = false) {
+    const aBox = $(isLookup ? "lkAimMenu" : "arAimMenu");
+    const aList = $(isLookup ? "lkAimList" : "arAimList");
+    const aBadge = $(isLookup ? "lkActiveAimBadge" : "arActiveAimBadge");
+    const aEmpty = $("arAimEmpty");
+
     const list = Array.isArray(aims) ? aims : [];
-    if (!list.length) { aBox.classList.add("hidden"); return; }
-    aBox.classList.remove("hidden");
-    aList.innerHTML = "";
-    
-    const activeAim = list.find(a => a.is_active);
-    if (activeAim) { aBadge.textContent = "Đang bật: " + activeAim.name; aBadge.style.color = "var(--primary)"; } 
-    else { aBadge.textContent = "Đang tắt tất cả Aim"; aBadge.style.color = "var(--text-muted)"; }
+    if (!list.length) {
+      if (aEmpty && !isLookup) aEmpty.classList.remove("hidden");
+      if (aBox) aBox.classList.remove("hidden");
+      return;
+    }
+    if (aEmpty && !isLookup) aEmpty.classList.add("hidden");
+    if (aBox) aBox.classList.remove("hidden");
 
-    list.forEach((aim) => {
+    renderAimItems(aList, list, keyToUse, aBadge, isLookup);
+  }
+
+  function renderAimItems(host, aimsList, keyToUse, badgeEl, isLookup = false) {
+    if (!host) return;
+    host.innerHTML = "";
+
+    const activeAim = aimsList.find(a => a.is_active);
+    if (badgeEl) {
+      if (activeAim) {
+        badgeEl.textContent = "Đang bật: " + (activeAim.label || activeAim.name);
+        badgeEl.className = "aim-menu-status-badge active";
+      } else {
+        badgeEl.textContent = "Đang tắt tất cả Aim";
+        badgeEl.className = "aim-menu-status-badge";
+      }
+    }
+
+    aimsList.forEach((aim) => {
       const row = document.createElement("div");
       row.className = "aim-item-row" + (aim.is_active ? " active-aim" : "");
+      row.id = (isLookup ? "lk-aim-" : "ar-aim-") + aim.id;
+
       row.innerHTML = `
-        <div class="aim-item-left">
-          <div class="aim-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg></div>
-          <div class="aim-item-info">
-            <div class="aim-item-name">${escapeHtml(aim.name)}</div>
-            <div class="aim-item-state"><span class="state-dot ${aim.is_active ? 'on' : 'off'}"></span><span class="state-text ${aim.is_active ? 'on' : 'off'}">${aim.is_active ? 'ĐANG BẬT' : 'ĐANG TẮT'}</span></div>
+      <div class="aim-item-left">
+        <div class="aim-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="22" y1="12" x2="18" y2="12"/>
+            <line x1="6" y1="12" x2="2" y2="12"/>
+            <line x1="12" y1="6" x2="12" y2="2"/>
+            <line x1="12" y1="22" x2="12" y2="18"/>
+          </svg>
+        </div>
+        <div class="aim-item-info">
+          <div class="aim-item-name">${escapeHtml(aim.label || aim.name)}</div>
+          <div class="aim-item-state">
+            <span class="state-dot ${aim.is_active ? 'on' : 'off'}"></span>
+            <span class="state-text ${aim.is_active ? 'on' : 'off'}">${aim.is_active ? 'ĐANG BẬT' : 'ĐANG TẮT'}</span>
           </div>
         </div>
-        <div class="aim-item-right">
-          <label class="switch-toggle"><input type="checkbox" class="aim-switch" ${aim.is_active ? 'checked' : ''} /><span class="slider-toggle"></span></label>
-        </div>
-      `;
-      const input = row.querySelector(".aim-switch");
+      </div>
+      <div class="aim-item-right">
+        <label class="switch-toggle" title="${aim.is_active ? 'Bấm để tắt' : 'Bấm để bật'}">
+          <input type="checkbox" class="aim-switch-input" data-aim-id="${escapeHtml(aim.id)}" data-aim-name="${escapeHtml(aim.label || aim.name)}" ${aim.is_active ? 'checked' : ''} />
+          <span class="slider-toggle"></span>
+        </label>
+      </div>
+    `;
+
+      const input = row.querySelector(".aim-switch-input");
       input.addEventListener("change", async () => {
         const willEnable = input.checked;
-        aList.querySelectorAll(".aim-switch").forEach(s => s.disabled = true);
+        const targetId = input.dataset.aimId;
+        const targetName = input.dataset.aimName;
+
+        // Lock switches during network request
+        host.querySelectorAll(".aim-switch-input").forEach(s => s.disabled = true);
+
         try {
-          const res = await fetch(SERVER_URL + "/api/client/toggle-aim", {
-            method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ key: keyToUse, ip: currentIp, aim_id: aim.id, enabled: willEnable })
+          const res = await fetch("/api/client/toggle-aim", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              key: keyToUse,
+              ip: currentIp,
+              aim_id: targetId,
+              enabled: willEnable
+            })
           });
           const data = await res.json();
-          if (data.success) {
-            showPopup(data.message, false);
-            list.forEach(a => { if (willEnable) a.is_active = (a.id === aim.id); else if (a.id === aim.id) a.is_active = false; });
-            renderAimMenu(list, keyToUse);
-          } else { showPopup(data.message || "Lỗi", true); input.checked = !willEnable; }
-        } catch (err) { showPopup("Lỗi kết nối", true); input.checked = !willEnable; }
-        finally { aList.querySelectorAll(".aim-switch").forEach(s => s.disabled = false); }
+          if (res.ok && data.success) {
+            showPopup(data.message || (willEnable ? `Đã bật ${targetName}` : "Đã tắt Aim"), false);
+            if (data.proxy_endpoint) {
+              const pEl = isLookup ? $("lkProxyEndpoint") : $("arProxyEndpoint");
+              if (pEl) pEl.textContent = data.proxy_endpoint;
+            }
+            // Update state and re-render list
+            aimsList.forEach(a => {
+              if (willEnable) {
+                a.is_active = (a.id === targetId);
+              } else {
+                if (a.id === targetId) a.is_active = false;
+              }
+            });
+            renderAimItems(host, aimsList, keyToUse, badgeEl, isLookup);
+          } else {
+            showPopup(data.message || "Không thể chuyển trạng thái Aim.", true);
+            input.checked = !willEnable;
+          }
+        } catch (err) {
+          showPopup("Lỗi kết nối máy chủ.", true);
+          input.checked = !willEnable;
+        } finally {
+          host.querySelectorAll(".aim-switch-input").forEach(s => s.disabled = false);
+        }
       });
-      row.addEventListener("click", (e) => { if (e.target.closest(".switch-toggle")) return; if (!input.disabled) { input.checked = !input.checked; input.dispatchEvent(new Event("change")); } });
-      aList.appendChild(row);
+
+      row.addEventListener("click", (e) => {
+        if (e.target.closest(".switch-toggle")) return;
+        if (input.disabled) return;
+        input.checked = !input.checked;
+        input.dispatchEvent(new Event("change"));
+      });
+
+      host.appendChild(row);
     });
   }
 
-  // Render VIP Menu
-  function renderVipMenu(vipGamevars, activeVipId, keyToUse) {
-    const vBox = $("arVipMenu");
-    const vList = $("arVipList");
-    const vBadge = $("arActiveVipBadge");
+  function renderVipGamevarMenu(vipGamevars, activeVipId, keyToUse, isLookup = false) {
+    const vBox = $(isLookup ? "lkVipMenu" : "arVipMenu");
+    const vList = $(isLookup ? "lkVipList" : "arVipList");
+    const vBadge = $(isLookup ? "lkActiveVipBadge" : "arActiveVipBadge");
+
     const list = Array.isArray(vipGamevars) ? vipGamevars : [];
-    if (!list.length) { vBox.classList.add("hidden"); return; }
-    vBox.classList.remove("hidden");
-    vList.innerHTML = "";
+    if (!list.length) {
+      if (vBox) vBox.classList.add("hidden");
+      return;
+    }
+    if (vBox) vBox.classList.remove("hidden");
 
-    const activeVip = list.find(v => v.id === activeVipId);
-    if (activeVip) { vBadge.textContent = "Đang bật: " + activeVip.name; vBadge.style.color = "var(--accent)"; }
-    else { vBadge.textContent = "Đang tắt Chức năng VIP"; vBadge.style.color = "var(--accent)"; }
+    renderVipGamevarItems(vList, list, activeVipId, keyToUse, vBadge, isLookup);
+  }
 
-    list.forEach((vip) => {
-      const isCurActive = (vip.id === activeVipId);
+  function renderVipGamevarItems(host, vipList, activeVipId, keyToUse, badgeEl, isLookup = false) {
+    if (!host) return;
+    host.innerHTML = "";
+
+    const activeVip = vipList.find(v => (v._id || v.id) === activeVipId);
+    if (badgeEl) {
+      if (activeVip) {
+        badgeEl.textContent = "Đang bật: " + activeVip.name;
+        badgeEl.className = "aim-menu-status-badge active";
+        badgeEl.style.borderColor = "var(--accent)";
+        badgeEl.style.color = "var(--accent)";
+      } else {
+        badgeEl.textContent = "Đang tắt Chức năng VIP";
+        badgeEl.className = "aim-menu-status-badge";
+        badgeEl.style.borderColor = "";
+        badgeEl.style.color = "";
+      }
+    }
+
+    vipList.forEach((vip) => {
+      const vipId = vip._id || vip.id;
+      const isCurActive = (vipId === activeVipId);
       const row = document.createElement("div");
       row.className = "aim-item-row" + (isCurActive ? " active-aim" : "");
+      row.style.borderLeft = isCurActive ? "3px solid var(--accent)" : "1px solid var(--border)";
+
       row.innerHTML = `
-        <div class="aim-item-left">
-          <div class="aim-icon-box" style="color:var(--accent);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-          <div class="aim-item-info">
-            <div class="aim-item-name" style="color:${isCurActive ? 'var(--accent)' : '#fff'};">${escapeHtml(vip.name)}</div>
-            <div class="aim-item-state"><span class="state-dot ${isCurActive ? 'on' : 'off'}" style="${isCurActive ? 'background:var(--accent);' : ''}"></span><span class="state-text ${isCurActive ? 'on' : 'off'}" style="${isCurActive ? 'color:var(--accent);' : ''}">${isCurActive ? 'ĐANG BẬT' : 'ĐANG TẮT'}</span></div>
+      <div class="aim-item-left">
+        <div class="aim-icon-box" style="color:var(--accent);border-color:rgba(177,76,255,0.4);background:rgba(177,76,255,0.1);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <div class="aim-item-info">
+          <div class="aim-item-name" style="color:${isCurActive ? 'var(--accent)' : 'var(--text-strong)'};">${escapeHtml(vip.name)}</div>
+          <div class="aim-item-state">
+            <span class="state-dot ${isCurActive ? 'on' : 'off'}" style="${isCurActive ? 'background:var(--accent);box-shadow:0 0 8px var(--accent);' : ''}"></span>
+            <span class="state-text ${isCurActive ? 'on' : 'off'}" style="${isCurActive ? 'color:var(--accent);' : ''}">${isCurActive ? 'ĐANG BẬT' : 'ĐANG TẮT'}</span>
           </div>
         </div>
-        <div class="aim-item-right">
-          <label class="switch-toggle"><input type="checkbox" class="vip-switch" ${isCurActive ? 'checked' : ''} /><span class="slider-toggle" style="${isCurActive ? 'background:var(--accent);' : ''}"></span></label>
-        </div>
-      `;
-      const input = row.querySelector(".vip-switch");
+      </div>
+      <div class="aim-item-right">
+        <label class="switch-toggle" title="${isCurActive ? 'Bấm để tắt' : 'Bấm để bật'}">
+          <input type="checkbox" class="vip-switch-input" data-vip-id="${escapeHtml(vipId)}" data-vip-name="${escapeHtml(vip.name)}" ${isCurActive ? 'checked' : ''} />
+          <span class="slider-toggle" style="${isCurActive ? 'background:var(--accent);' : ''}"></span>
+        </label>
+      </div>
+    `;
+
+      const input = row.querySelector(".vip-switch-input");
       input.addEventListener("change", async () => {
         const willEnable = input.checked;
-        vList.querySelectorAll(".vip-switch").forEach(s => s.disabled = true);
+        const targetId = input.dataset.vipId;
+        const targetName = input.dataset.vipName;
+
+        host.querySelectorAll(".vip-switch-input").forEach(s => s.disabled = true);
+
         try {
-          const res = await fetch(SERVER_URL + "/api/client/toggle-vip-gamevar", {
-            method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ key: keyToUse, ip: currentIp, vip_id: vip.id, enabled: willEnable })
+          const res = await fetch("/api/client/toggle-vip-gamevar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              key: keyToUse,
+              ip: currentIp,
+              vip_id: targetId,
+              enabled: willEnable
+            })
           });
           const data = await res.json();
-          if (data.success) {
-            showPopup(data.message, false);
-            renderVipMenu(list, data.active_vip_gamevar_id, keyToUse);
-          } else { showPopup(data.message || "Lỗi", true); input.checked = !willEnable; }
-        } catch (err) { showPopup("Lỗi kết nối", true); input.checked = !willEnable; }
-        finally { vList.querySelectorAll(".vip-switch").forEach(s => s.disabled = false); }
+          if (res.ok && data.success) {
+            showPopup(data.message || (willEnable ? `Đã bật ${targetName}` : "Đã tắt Chức năng VIP"), false);
+            const newActiveId = data.active_vip_gamevar_id;
+            renderVipGamevarItems(host, vipList, newActiveId, keyToUse, badgeEl, isLookup);
+          } else {
+            showPopup(data.message || "Không thể chuyển trạng thái VIP.", true);
+            input.checked = !willEnable;
+          }
+        } catch (err) {
+          showPopup("Lỗi kết nối máy chủ.", true);
+          input.checked = !willEnable;
+        } finally {
+          host.querySelectorAll(".vip-switch-input").forEach(s => s.disabled = false);
+        }
       });
-      row.addEventListener("click", (e) => { if (e.target.closest(".switch-toggle")) return; if (!input.disabled) { input.checked = !input.checked; input.dispatchEvent(new Event("change")); } });
-      vList.appendChild(row);
+
+      row.addEventListener("click", (e) => {
+        if (e.target.closest(".switch-toggle")) return;
+        if (input.disabled) return;
+        input.checked = !input.checked;
+        input.dispatchEvent(new Event("change"));
+      });
+
+      host.appendChild(row);
     });
   }
 
-  // Submit Active
   $("activateForm").addEventListener("submit", async (ev) => {
     ev.preventDefault();
     const key = ($("licenseInput").value || "").trim();
+    const pane = document.querySelector('.tab-panes[data-pane="activate"]');
     if (!key) { showPopup("Vui lòng nhập key.", true); return; }
-    if (!currentIp) { showPopup("Không lấy được IP.", true); return; }
-    
+    if (!currentIp) { showPopup("Không lấy được IP. Thử lại.", true); return; }
+    setActiveStep(pane, 1);
     $("submitBtn").disabled = true;
     $("submitBtn").textContent = "ĐANG XÁC THỰC...";
-    
     try {
-      const res = await fetch(SERVER_URL + "/submit", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ip: currentIp, key, device_id: "device_web_" + Math.random().toString(36).substr(2, 9) }),
+      const fp = await getDeviceFingerprint();
+      const res = await fetch("/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ip: currentIp, key, device_id: fp }),
       });
       const data = await res.json();
-      
+      setActiveStep(pane, 2);
       if (res.ok) {
         showPopup(data.message || "Kích hoạt thành công.", false);
+        setActiveStep(pane, 3);
         $("arTitle").textContent = "KÍCH HOẠT THÀNH CÔNG";
-        $("arMsg").textContent = "Key đã bind IP " + currentIp + ".";
-        $("arStatus").innerHTML = '<span style="color:#10b981;font-weight:bold;">ACTIVE</span>';
+        $("arMsg").textContent = "Key đã bind IP " + currentIp + " và thiết bị của bạn.";
+        $("arStatus").innerHTML = '<span class="badge ok">active</span>';
         $("arCreated").textContent = tsLabel(Math.floor(Date.now() / 1000));
         $("arExpires").textContent = tsLabel(data.expires_at);
         $("arDuration").textContent = data.duration || "thời hạn key";
-        renderAimMenu(data.aims || [], key);
-        renderVipMenu(data.vip_gamevars || [], data.active_vip_gamevar_id, key);
+        renderAimMenu(data.aims || [], key, false);
+        renderVipGamevarMenu(data.vip_gamevars || [], data.active_vip_gamevar_id, key, false);
+        loadCertForClient();
+        $("activateResult").classList.remove("err");
         $("activateResult").classList.add("show");
-        localStorage.setItem("cpv_key", key);
+        try { localStorage.setItem("cpv_key", key); } catch (_) { }
+
+        smoothScrollToAimMenu(false);
       } else {
         showPopup(data.message || "Key không hợp lệ.", true);
-        $("activateResult").classList.remove("show");
+        $("arTitle").textContent = "KÍCH HOẠT THẤT BẠI";
+        $("arMsg").textContent = data.message || "Vui lòng kiểm tra lại key.";
+        hideAimMenu(false);
+        hideVipMenu(false);
+        hideCertTile();
+        $("activateResult").classList.add("err", "show");
       }
-    } catch (e) { showPopup("Lỗi gửi yêu cầu.", true); }
-    finally { $("submitBtn").disabled = false; $("submitBtn").textContent = "KÍCH HOẠT NGAY"; }
+    } catch (e) {
+      showPopup("Lỗi gửi yêu cầu.", true);
+    } finally {
+      $("submitBtn").disabled = false;
+      $("submitBtn").textContent = "KÍCH HOẠT NGAY";
+    }
   });
 
-  // Lookup
+  function smoothScrollToAimMenu(isLookup = false) {
+    const aimMenuId = isLookup ? "lkAimMenu" : "arAimMenu";
+    const resultId = isLookup ? "lookupResult" : "activateResult";
+
+    const performScroll = () => {
+      const el = $(aimMenuId) || $(resultId);
+      if (!el) return;
+
+      try {
+        el.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "nearest"
+        });
+      } catch (_) {
+        const topPos = el.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop || 0) - 20;
+        window.scrollTo({
+          top: Math.max(0, topPos),
+          behavior: "smooth"
+        });
+      }
+    };
+
+    requestAnimationFrame(() => {
+      setTimeout(performScroll, 80);
+      setTimeout(performScroll, 250);
+      setTimeout(performScroll, 500);
+    });
+  }
+
   $("lookupForm").addEventListener("submit", async (ev) => {
     ev.preventDefault();
     const key = ($("lookupInput").value || "").trim();
+    const pane = document.querySelector('.tab-panes[data-pane="lookup"]');
     if (!key) { showPopup("Nhập key cần tra cứu.", true); return; }
-    
+    setActiveStep(pane, 1);
     $("lookupBtn").disabled = true;
     $("lookupBtn").textContent = "ĐANG TRA CỨU...";
     try {
-      const r = await fetch(SERVER_URL + "/api/key-status?key=" + encodeURIComponent(key));
+      const r = await fetch("/api/key-status?key=" + encodeURIComponent(key));
       const d = await r.json();
+      setActiveStep(pane, 2);
       if (r.ok && d.active) {
+        setActiveStep(pane, 3);
         $("lkTitle").textContent = "TRA CỨU THÀNH CÔNG";
         $("lkMsg").textContent = "Key hợp lệ và đang hoạt động.";
-        $("lkStatus").innerHTML = '<span style="color:#10b981;font-weight:bold;">ACTIVE</span>';
+        $("lkStatus").innerHTML = '<span class="badge ok">' + (d.status || "active") + '</span>';
         $("lkDuration").textContent = (d.duration || "--").toUpperCase();
-        $("lkCreated").textContent = tsLabel(d.created_at ? Math.floor(new Date(d.created_at).getTime() / 1000) : null);
+        $("lkCreated").textContent = tsLabel(d.created_ts || (d.created_at ? Math.floor(new Date(d.created_at).getTime() / 1000) : null));
         $("lkExpires").textContent = tsLabel(d.expires_at);
-        $("lkIp").textContent = d.ip_whitelisted ? (currentIp ? currentIp + " (đã đồng bộ)" : "Đã kích hoạt") : "Chưa kích hoạt";
+        $("lkIp").textContent = d.ip_whitelisted ? (currentIp ? currentIp + " (đã đồng bộ)" : "Đã kích hoạt & đồng bộ") : "Chưa kích hoạt key";
+
+        if (d.ip_whitelisted) {
+          renderAimMenu(d.aims || [], key, true);
+          renderVipGamevarMenu(d.vip_gamevars || [], d.active_vip_gamevar_id, key, true);
+        } else {
+          hideAimMenu(true);
+          hideVipMenu(true);
+        }
+
+        $("lookupResult").classList.remove("err");
         $("lookupResult").classList.add("show");
+
+        smoothScrollToAimMenu(true);
       } else {
+        setActiveStep(pane, 3);
         $("lkTitle").textContent = "KHÔNG TÌM THẤY";
-        $("lkMsg").textContent = d.message || "Key không tồn tại.";
-        $("lookupResult").classList.add("show");
+        $("lkMsg").textContent = (d && d.message) || "Key không tồn tại.";
+        $("lkStatus").textContent = "--";
+        $("lkDuration").textContent = "--";
+        $("lkCreated").textContent = "--";
+        $("lkExpires").textContent = "--";
+        $("lkIp").textContent = "--";
+        hideAimMenu(true);
+        hideVipMenu(true);
+        $("lookupResult").classList.add("err", "show");
       }
-    } catch (e) { showPopup("Lỗi tra cứu.", true); }
-    finally { $("lookupBtn").disabled = false; $("lookupBtn").textContent = "TRA CỨU THÔNG TIN"; }
+    } catch (e) {
+      showPopup("Lỗi tra cứu.", true);
+    } finally {
+      $("lookupBtn").disabled = false;
+      $("lookupBtn").textContent = "TRA CỨU THÔNG TIN";
+    }
   });
 
-  // History
   $("historyForm").addEventListener("submit", async (ev) => {
     ev.preventDefault();
     const key = ($("historyInput").value || "").trim();
+    const pane = document.querySelector('.tab-panes[data-pane="history"]');
     if (!key) { showPopup("Nhập key cần xem lịch sử.", true); return; }
-    
+    setActiveStep(pane, 1);
     $("historyBtn").disabled = true;
     $("historyBtn").textContent = "ĐANG LẤY...";
     try {
-      const r = await fetch(SERVER_URL + "/api/key-history?key=" + encodeURIComponent(key));
-      const d = await r.json();
-      const items = d.items || [];
+      const r = await fetch("/api/key-history?key=" + encodeURIComponent(key));
+      let items = [];
+      if (r.ok) {
+        const d = await r.json();
+        items = (d && d.items) || [];
+      }
+      setActiveStep(pane, 2);
+      setActiveStep(pane, 3);
       const list = $("historyList");
       list.innerHTML = "";
-      if (!items.length) { list.innerHTML = '<div style="color:#94a3b8;text-align:center;">Chưa có lịch sử.</div>'; } 
-      else {
+      if (!items.length) {
+        $("hsTitle").textContent = "CHƯA CÓ LỊCH SỬ";
+        $("hsMsg").textContent = "Key này chưa được kích hoạt lần nào.";
+        const empty = document.createElement("div");
+        empty.className = "history-empty";
+        empty.textContent = "Chưa có lần kích hoạt nào được ghi nhận.";
+        list.appendChild(empty);
+      } else {
+        $("hsTitle").textContent = "LỊCH SỬ KÍCH HOẠT";
+        $("hsMsg").textContent = "Đã tìm thấy " + items.length + " lần kích hoạt.";
         items.forEach((it) => {
-          list.innerHTML += `<div style="display:flex;justify-content:space-between;background:#0f172a;padding:10px;border-radius:6px;"><span>${it.time}</span><span>${it.ip}</span><span style="color:#10b981;">${it.status}</span></div>`;
+          const row = document.createElement("div");
+          row.className = "history-row";
+          row.innerHTML =
+            '<span>' + (it.time || "--") + '</span>' +
+            '<span>' + (it.ip || "--") + '</span>' +
+            '<span><span class="badge ' + ((it.status || "").toLowerCase() === "ok" ? "ok" : "warn") + '">' + (it.status || "--") + '</span></span>';
+          list.appendChild(row);
         });
       }
-      $("hsTitle").textContent = "LỊCH SỬ KÍCH HOẠT";
-      $("hsMsg").textContent = "Tìm thấy " + items.length + " lần kích hoạt.";
       $("historyResult").classList.add("show");
-    } catch (e) { showPopup("Không thể lấy lịch sử.", true); }
-    finally { $("historyBtn").disabled = false; $("historyBtn").textContent = "XEM LỊCH SỬ"; }
+    } catch (e) {
+      showPopup("Không thể lấy lịch sử.", true);
+    } finally {
+      $("historyBtn").disabled = false;
+      $("historyBtn").textContent = "XEM LỊCH SỬ";
+    }
   });
 
-  // Restore Key
-  const saved = localStorage.getItem("cpv_key");
-  if (saved) $("licenseInput").value = saved;
+  const overlay = $("annOverlay");
+  let annList = [];
+  let annIndex = 0;
+  function showAnn(i) {
+    if (!annList.length) return;
+    annIndex = ((i % annList.length) + annList.length) % annList.length;
+    const item = annList[annIndex];
+    $("annTitle").textContent = item.title || "";
+    $("annBody").textContent = item.content || "";
+    $("annMeta").textContent = item.created_ts ? new Date(item.created_ts * 1000).toLocaleString("vi-VN") : "";
+    $("annPager").textContent = (annList.length > 1) ? (annIndex + 1) + " / " + annList.length : "";
+    overlay.classList.add("show");
+  }
+  function hideAnn() { overlay.classList.remove("show"); }
+  $("annClose") && ($("annClose").onclick = () => hideAnn());
+  $("annDismiss") && ($("annDismiss").onclick = () => {
+    try { localStorage.setItem("cpv_ann_dismiss_until", String(Date.now() + 2 * 3600 * 1000)); } catch (_) { }
+    hideAnn();
+  });
+  overlay && (overlay.onclick = (e) => { if (e.target === overlay) hideAnn(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && overlay.classList.contains("show")) hideAnn();
+  });
+
+  (async function loadAnns() {
+    try {
+      const r = await fetch("/api/announcements/active");
+      const d = await r.json();
+      const items = (d && d.items) || [];
+      if (!items.length) return;
+      let until = 0;
+      try { until = parseInt(localStorage.getItem("cpv_ann_dismiss_until") || "0", 10) || 0; } catch (_) { }
+      if (until && Date.now() < until) return;
+      annList = items;
+      showAnn(0);
+    } catch (_) { }
+  })();
+
+  try {
+    const saved = localStorage.getItem("cpv_key");
+    if (saved) $("licenseInput").value = saved;
+  } catch (_) { }
+
+  fetchIp();
 </script>
+
+  <script src="/static/js/toast.js" type="module"></script>
+  
 </body>
 </html>
