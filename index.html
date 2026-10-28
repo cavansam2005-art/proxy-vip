@@ -19,14 +19,11 @@
     padding: calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 16px);
   }
 
-  /* Quản lý hiển thị trang */
   .page { display: none; width: 100%; max-width: 400px; flex-direction: column; }
   .page.active { display: flex; animation: fadeIn 0.4s ease; }
   @keyframes fadeIn { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)} }
 
-  /* =========================================
-     TRANG 1: GIAO DIỆN KÍCH HOẠT (PROXY VIP)
-     ========================================= */
+  /* TRANG 1: KÍCH HOẠT (PIXEL ART) */
   .stage { position: relative; width: 300px; height: 332px; margin: 0 auto; }
   .content { position: absolute; left: 36px; top: 120px; width: 228px; display: flex; flex-direction: column; gap: 12px; }
   .ip { display: flex; align-items: center; gap: 7px; height: 36px; width: 100%; padding: 0 10px; border: 0; border-radius: 9px; background: rgba(26,11,46,.75); box-shadow: inset 0 0 0 1px rgba(163,91,214,.55); }
@@ -42,36 +39,49 @@
   .cta:active { transform: translateY(4px); box-shadow: inset 0 0 0 2px var(--ink), 0 0 0 1px var(--ink), 0 1px 0 1px var(--extrude); }
   .trash { width: 52px; height: 52px; border: 0; border-radius: 11px; cursor: pointer; background: linear-gradient(#FF8A6B 52%, #FF3D5E 52%); display: grid; place-items: center; box-shadow: inset 0 0 0 2px var(--ink), 0 0 0 1px var(--ink), 0 5px 0 1px var(--extrude); }
 
-  /* =========================================
-     TRANG 2: GIAO DIỆN ĐỘ NHẠY (CHẤT LƯỢNG CAO)
-     ========================================= */
+  /* TRANG 2: BẢNG ĐIỀU KHIỂN CHẤT LƯỢNG CAO */
   .dash-box {
     background: rgba(15, 15, 25, 0.85); border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(15px); border-radius: 20px; padding: 20px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(61, 242, 200, 0.05);
     display: flex; flex-direction: column; gap: 15px;
   }
-  .dash-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
-  .timer { background: rgba(255, 43, 214, 0.15); border: 1px solid var(--magenta); color: var(--magenta); padding: 6px 14px; border-radius: 8px; font-family: "JetBrains Mono"; font-weight: bold; font-size: 14px; }
-  .input-device { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 12px; border-radius: 10px; font-family: "Baloo 2"; font-size: 15px; outline: none; }
+  
+  /* Phần Header tài khoản mới */
+  .user-header {
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(0,0,0,0.3); padding: 10px 15px; border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.05); margin-bottom: 5px;
+  }
+  .user-info { display: flex; align-items: center; gap: 10px; }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--cyan), var(--magenta)); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; }
+  .username { font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 5px; }
+  .tick { width: 16px; height: 16px; fill: #1DA1F2; } /* Màu xanh của tích xanh */
+  
+  .timer { background: rgba(255, 43, 214, 0.15); border: 1px solid var(--magenta); color: var(--magenta); padding: 5px 12px; border-radius: 8px; font-family: "JetBrains Mono"; font-weight: bold; font-size: 13px; }
+  
+  .input-device { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 12px; border-radius: 10px; font-family: "Baloo 2"; font-size: 15px; outline: none; transition: 0.2s; }
   .input-device:focus { border-color: var(--cyan); box-shadow: 0 0 10px rgba(61, 242, 200, 0.3); }
 
-  .sens-list { display: flex; flex-direction: column; gap: 12px; }
+  .sens-list { display: flex; flex-direction: column; gap: 10px; }
   .sens-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 12px 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
   .sens-name { font-size: 14px; font-weight: 600; color: #ddd; }
-  .sens-controls { display: flex; align-items: center; gap: 15px; }
-  .btn-num { width: 35px; height: 35px; border-radius: 8px; background: rgba(255,255,255,0.1); border: none; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.1s; }
+  .sens-controls { display: flex; align-items: center; gap: 10px; }
+  .btn-num { width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,0.1); border: none; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.1s; display: flex; justify-content: center; align-items: center; }
   .btn-num:active { background: var(--magenta); transform: scale(0.9); }
-  .sens-val { width: 45px; text-align: center; font-family: "JetBrains Mono"; font-size: 18px; font-weight: bold; color: var(--yellow); }
+  .sens-val { width: 45px; text-align: center; font-family: "JetBrains Mono"; font-size: 16px; font-weight: bold; color: var(--yellow); }
 
-  .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .btn-tool { padding: 14px; border-radius: 12px; border: none; font-family: "Baloo 2"; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 5px; transition: 0.2s; }
-  .btn-tool.random { background: rgba(61, 242, 200, 0.15); border: 1px solid var(--cyan); color: var(--cyan); }
-  .btn-tool.keo-tam { background: rgba(255, 225, 77, 0.15); border: 1px solid var(--yellow); color: var(--yellow); }
+  .toggle-switch { position: relative; display: inline-block; width: 46px; height: 26px; }
+  .toggle-switch input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; transition: .3s; border-radius: 26px; }
+  .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
+  input:checked + .slider { background-color: var(--cyan); }
+  input:checked + .slider:before { transform: translateX(20px); }
+
+  .btn-tool { padding: 14px; border-radius: 12px; border: 1px solid var(--cyan); background: rgba(61, 242, 200, 0.15); color: var(--cyan); font-family: "Baloo 2"; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 5px; transition: 0.2s; width: 100%; margin-top: 5px;}
   .btn-tool:active { transform: scale(0.95); }
 
   .btn-logout { width: 100%; padding: 12px; background: transparent; border: 1px solid #555; color: #aaa; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 5px; font-family: "Baloo 2"; font-size: 14px; }
-  .btn-logout:active { background: rgba(255,255,255,0.05); }
 
   #toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0; background:#000; border:2px solid var(--cyan); color:var(--cyan); padding:10px 20px; border-radius:10px; font-weight:bold; transition:0.3s; z-index:99; pointer-events:none; font-size:14px; }
   #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
@@ -84,7 +94,7 @@
 </head>
 <body>
 
-<!-- TRANG 1: GIAO DIỆN PROXY VIP CŨ -->
+<!-- TRANG 1: KÍCH HOẠT -->
 <div class="page active" id="pageLogin">
   <div class="stage">
     <svg style="position:absolute;left:-62px;top:-62px;width:424px;height:456px;pointer-events:none;" viewBox="-62 -62 424 456">
@@ -112,7 +122,7 @@
       <text x="150" y="55" fill="#fff" font-family="monospace" font-size="24" font-weight="900" text-anchor="middle" filter="drop-shadow(2px 2px 0 #000)">SENS VIP</text>
     </svg>
 
-    <form class="content" id="loginForm" onsubmit="event.preventDefault(); handleLogin();">
+    <form class="content" onsubmit="event.preventDefault(); handleLogin();">
       <div class="ip">
         <span class="k">Hệ điều hành:</span>
         <span class="v" id="deviceType">Đang quét...</span>
@@ -122,7 +132,7 @@
         <input id="key" maxlength="19" placeholder="KEY-XXXX-XXXX-XXXX" autocapitalize="characters">
       </div>
       <div class="actions">
-        <button class="cta" type="submit" id="cta">
+        <button class="cta" type="submit">
           <span class="label" style="font-weight:900; font-size:15px; letter-spacing:2px; color:#fff; text-shadow:2px 2px 0 #000;">KÍCH HOẠT</span>
         </button>
         <button class="trash" type="button" onclick="document.getElementById('key').value=''">
@@ -133,22 +143,30 @@
   </div>
 </div>
 
-<!-- TRANG 2: GIAO DIỆN ĐỘ NHẠY CHẤT LƯỢNG CAO -->
+<!-- TRANG 2: DASHBOARD -->
 <div class="page" id="pageDashboard">
   <div class="dash-box">
     
-    <div class="dash-header">
-      <div style="font-weight:800; font-size:16px; color:var(--cyan); text-shadow:0 0 10px rgba(61,242,200,0.4);">BẢNG ĐIỀU KHIỂN</div>
+    <!-- Header Tài Khoản với Tích Xanh -->
+    <div class="user-header">
+      <div class="user-info">
+        <div class="avatar">S</div>
+        <div class="username">
+          SAMM🧩 
+          <!-- Icon Tích Xanh SVG -->
+          <svg class="tick" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+        </div>
+      </div>
       <div class="timer" id="timerDisplay">00:00:00</div>
     </div>
 
-    <!-- Phần nhập tên máy riêng biệt -->
     <div>
       <label style="font-size:12px; color:var(--muted); margin-bottom:5px; display:block;">Tên thiết bị của bạn</label>
-      <input type="text" class="input-device" id="deviceName" placeholder="Nhập tên thiết bị (VD: iPhone 13)">
+      <input type="text" class="input-device" id="deviceName" placeholder="Nhập tên thiết bị...">
     </div>
 
-    <!-- Phần thanh trượt độ nhạy -->
     <div class="sens-list">
       <div class="sens-item">
         <div class="sens-name">Nhìn xung quanh</div>
@@ -158,7 +176,6 @@
           <button class="btn-num" onclick="changeVal('look', 1)">+</button>
         </div>
       </div>
-
       <div class="sens-item">
         <div class="sens-name">Hồng tâm</div>
         <div class="sens-controls">
@@ -167,7 +184,6 @@
           <button class="btn-num" onclick="changeVal('reddot', 1)">+</button>
         </div>
       </div>
-
       <div class="sens-item">
         <div class="sens-name">Ống ngắm 2x</div>
         <div class="sens-controls">
@@ -176,7 +192,6 @@
           <button class="btn-num" onclick="changeVal('scope2', 1)">+</button>
         </div>
       </div>
-
       <div class="sens-item">
         <div class="sens-name">Ống ngắm 4x</div>
         <div class="sens-controls">
@@ -185,7 +200,6 @@
           <button class="btn-num" onclick="changeVal('scope4', 1)">+</button>
         </div>
       </div>
-
       <div class="sens-item">
         <div class="sens-name">Súng ngắm</div>
         <div class="sens-controls">
@@ -194,7 +208,6 @@
           <button class="btn-num" onclick="changeVal('sniper', 1)">+</button>
         </div>
       </div>
-
       <div class="sens-item">
         <div class="sens-name">Camera tự do</div>
         <div class="sens-controls">
@@ -204,23 +217,36 @@
         </div>
       </div>
 
-      <!-- Đã thêm nút bắn riêng nhưng kích thước chuẩn, không bị to -->
       <div class="sens-item">
-        <div class="sens-name">% Nút bắn</div>
+        <div class="sens-name">Kích thước nút bắn</div>
         <div class="sens-controls">
           <button class="btn-num" onclick="changeVal('fire', -1)">-</button>
-          <div class="sens-val" id="val-fire">100</div>
+          <div class="sens-val" id="val-fire">40%</div>
           <button class="btn-num" onclick="changeVal('fire', 1)">+</button>
+        </div>
+      </div>
+
+      <div class="sens-item">
+        <div class="sens-name">Độ trong suốt nút bắn</div>
+        <div class="sens-controls">
+          <button class="btn-num" onclick="changeVal('opacity', -10)">-</button>
+          <div class="sens-val" id="val-opacity">100%</div>
+          <button class="btn-num" onclick="changeVal('opacity', 10)">+</button>
+        </div>
+      </div>
+
+      <div class="sens-item">
+        <div class="sens-name">Tự động ấn chạy</div>
+        <div class="sens-controls">
+          <label class="toggle-switch">
+            <input type="checkbox" id="autoRun" checked>
+            <span class="slider"></span>
+          </label>
         </div>
       </div>
     </div>
 
-    <!-- Các nút chức năng -->
-    <div class="tool-grid">
-      <button class="btn-tool random" onclick="randomSens()">🎲 Random Độ Nhạy</button>
-      <button class="btn-tool keo-tam" onclick="supportKéoTâm()">🎯 Cấu Hình Kéo Tâm</button>
-    </div>
-
+    <button class="btn-tool" onclick="supportKéoTâm()">🎯 Nạp Cấu Hình Kéo Tâm</button>
     <button class="btn-logout" onclick="handleLogout()">ĐĂNG XUẤT</button>
   </div>
 </div>
@@ -234,12 +260,12 @@
   let currentKey = null;
   let expiresAt = null;
   let timerInterval = null;
-  let deviceNameInput = "";
 
-  // Dữ liệu độ nhạy
-  let sensData = { look: 127, reddot: 162, scope2: 87, scope4: 169, sniper: 40, free: 50, fire: 100 };
+  let sensData = { 
+    look: 127, reddot: 162, scope2: 87, scope4: 169, sniper: 40, free: 50, 
+    fire: 40, opacity: 100 
+  };
 
-  // Hiển thị thông báo
   function toast(msg, isErr = false) {
     const t = $("toast");
     t.textContent = msg;
@@ -247,7 +273,6 @@
     setTimeout(() => t.className = "", 3000);
   }
 
-  // Format Key
   $("key").addEventListener("input", function() {
     let raw = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
     if (raw.length > 3) {
@@ -258,24 +283,37 @@
     }
   });
 
-  // Cập nhật số liệu lên màn hình
   function updateUI() {
     for (let key in sensData) {
       const el = $(`val-${key}`);
-      if (el) el.textContent = sensData[key];
+      if (el) {
+        if (key === 'fire' || key === 'opacity') {
+          el.textContent = sensData[key] + "%";
+        } else {
+          el.textContent = sensData[key];
+        }
+      }
     }
   }
 
-  // Thay đổi số liệu
   window.changeVal = (key, amount) => {
     let val = sensData[key] + amount;
-    if (val > 200) val = 200;
-    if (val < 0) val = 0;
+    
+    if (key === 'fire') {
+      if (val > 45) val = 45; 
+      if (val < 10) val = 10;
+    } else if (key === 'opacity') {
+      if (val > 100) val = 100;
+      if (val < 0) val = 0;
+    } else {
+      if (val > 200) val = 200;
+      if (val < 0) val = 0;
+    }
+    
     sensData[key] = val;
     updateUI();
   };
 
-  // Xử lý đăng nhập
   window.handleLogin = async () => {
     const key = $("key").value.trim();
     if (!key.match(/^KEY(-[A-Z0-9]{4}){3}$/)) {
@@ -294,7 +332,6 @@
         currentKey = key;
         expiresAt = data.expires_at;
         
-        // Chuyển trang
         $("pageLogin").classList.remove("active");
         $("pageDashboard").classList.add("active");
 
@@ -307,7 +344,6 @@
     }
   };
 
-  // Đăng xuất
   window.handleLogout = () => {
     currentKey = null;
     expiresAt = null;
@@ -317,7 +353,6 @@
     $("pageLogin").classList.add("active");
   };
 
-  // Đồng hồ đếm ngược
   function startTimer() {
     clearInterval(timerInterval);
     const timerEl = $("timerDisplay");
@@ -337,7 +372,7 @@
         timerEl.textContent = "HẾT HẠN";
         timerEl.style.color = "var(--danger)";
         toast("Key đã hết hạn! Vui lòng nhập Key mới.", true);
-        setTimeout(handleLogout, 2000); // Đá ra ngoài
+        setTimeout(handleLogout, 2000);
         return;
       }
 
@@ -350,28 +385,13 @@
     }, 1000);
   }
 
-  // Các chức năng phụ
-  window.randomSens = () => {
-    sensData = {
-      look: Math.floor(Math.random() * 50) + 120,
-      reddot: Math.floor(Math.random() * 40) + 140,
-      scope2: Math.floor(Math.random() * 30) + 80,
-      scope4: Math.floor(Math.random() * 40) + 150,
-      sniper: Math.floor(Math.random() * 20) + 30,
-      free: Math.floor(Math.random() * 50) + 40,
-      fire: 100
-    };
-    updateUI();
-    toast("Đã Random Độ Nhạy!", false);
-  };
-
   window.supportKéoTâm = () => {
-    sensData = { look: 150, reddot: 180, scope2: 110, scope4: 190, sniper: 35, free: 60, fire: 100 };
+    sensData = { look: 150, reddot: 180, scope2: 110, scope4: 190, sniper: 35, free: 60, fire: 35, opacity: 80 };
     updateUI();
-    toast("Đã nạp cấu hình Kéo Tâm!", false);
+    $("autoRun").checked = true;
+    toast("Đã nạp cấu hình Kéo Tâm (Nút bắn 35%)!", false);
   };
 
-  // Khởi tạo ban đầu
   let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   $("deviceType").textContent = isIOS ? "iOS (iPhone/iPad)" : "Android";
   updateUI();
