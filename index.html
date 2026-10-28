@@ -248,7 +248,7 @@
     <span class="guide-val" id="guideHsd" style="color:var(--cyan); font-weight:700;">—</span>
   </div>
   <div class="guide-actions">
-    <a href="/mitmproxy-ca.mobileconfig" class="btn-guide btn-ca">
+    <a href="https://solitudepremium.click/vanduyios/solitude.mobileconfig" target="_blank" class="btn-guide btn-ca">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Cài Cấu Hình (iOS)
     </a>
@@ -264,7 +264,6 @@
 (() => {
   "use strict";
 
-  // ===== CẤU HÌNH LINK SERVER RENDER =====
   const SERVER_URL = "https://api-proxy-18ww.onrender.com";
 
   const $ = id => document.getElementById(id);
@@ -278,7 +277,6 @@
     return d;
   }
 
-  // ===== Font pixel 5x7 =====
   const G = {
     A:[".###.","#...#","#...#","#####","#...#","#...#","#...#"], C:[".###.","#...#","#....","#....","#....","#...#",".###."],
     E:["#####","#....","#....","####.","#....","#....","#####"], I:[".###.","..#..","..#..","..#..","..#..","..#..",".###."],
@@ -314,7 +312,6 @@
     return s;
   }
 
-  // Cập nhật hostname
   if (location.hostname) {
     const h = $("proxyHost");
     if (h && location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
