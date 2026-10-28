@@ -9,7 +9,7 @@
   :root{
     --cyan:#3DF2C8; --yellow:#FFE14D; --magenta:#FF2BD6; --ink:#1A0B2E;
     --bg-dark: #05050a;
-    --card-bg: #0d0d17;
+    --card-bg: rgba(13, 13, 23, 0.8);
     --item-bg: #151522;
     --danger:#FF6B8B;
     --neon-green: #39ff14;
@@ -38,8 +38,8 @@
   /* Bảng thông báo Hacker */
   #hackerPopup {
     position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
-    background: rgba(0, 0, 0, 0.9); border: 2px solid var(--neon-green);
-    box-shadow: 0 0 30px rgba(57, 255, 20, 0.4), inset 0 0 20px rgba(57, 255, 20, 0.2);
+    background: rgba(0, 0, 0, 0.95); border: 2px solid var(--neon-green);
+    box-shadow: 0 0 40px rgba(57, 255, 20, 0.3), inset 0 0 20px rgba(57, 255, 20, 0.2);
     border-radius: 15px; padding: 25px; z-index: 9999;
     text-align: center; font-family: "JetBrains Mono", monospace;
     opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -49,9 +49,31 @@
   
   .hacker-title { color: var(--neon-green); font-size: 20px; font-weight: bold; margin-bottom: 15px; text-shadow: 0 0 10px var(--neon-green); animation: blink 1s infinite alternate; }
   @keyframes blink { from { opacity: 1; } to { opacity: 0.5; } }
-  .hacker-logs { color: #fff; font-size: 12px; text-align: left; margin-bottom: 20px; line-height: 1.6; height: 100px; overflow: hidden; border-left: 2px solid var(--neon-green); padding-left: 10px; }
+  .hacker-logs { color: #fff; font-size: 12px; text-align: left; margin-bottom: 20px; line-height: 1.6; height: 110px; overflow: hidden; border-left: 2px solid var(--neon-green); padding-left: 10px; }
   .hacker-btn { background: transparent; border: 1px solid var(--neon-green); color: var(--neon-green); padding: 10px 20px; font-family: inherit; font-weight: bold; cursor: pointer; border-radius: 5px; text-transform: uppercase; }
   .hacker-btn:active { background: var(--neon-green); color: #000; box-shadow: 0 0 15px var(--neon-green); }
+
+  /* Popup Profile (Tài khoản) */
+  #profilePopup {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
+    background: rgba(13, 13, 23, 0.95); border: 1px solid var(--cyan);
+    box-shadow: 0 0 30px rgba(61, 242, 200, 0.3), inset 0 0 20px rgba(61, 242, 200, 0.1);
+    border-radius: 20px; padding: 25px; z-index: 9999;
+    text-align: center; font-family: "Baloo 2", sans-serif;
+    opacity: 0; visibility: hidden; transition: all 0.3s ease;
+    width: 90%; max-width: 340px;
+    backdrop-filter: blur(10px);
+  }
+  #profilePopup.show { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+
+  .profile-avatar { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, #3DF2C8, #FF2BD6); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 32px; color: #000; margin: 0 auto 15px; box-shadow: 0 0 20px var(--magenta); }
+  .profile-name { font-size: 22px; font-weight: 800; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 15px; }
+  .profile-bio { font-size: 14px; color: #a0a0b0; line-height: 1.6; margin-bottom: 20px; font-style: italic; padding: 0 10px; }
+  .contact-info { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; font-size: 14px; color: var(--cyan); margin-bottom: 20px; border: 1px dashed rgba(61, 242, 200, 0.3); }
+  .contact-info b { color: #fff; font-size: 16px; letter-spacing: 1px; }
+  .author-tag { font-size: 12px; color: var(--magenta); text-transform: uppercase; font-weight: bold; letter-spacing: 2px; margin-bottom: 15px; }
+  .btn-close-profile { background: rgba(61, 242, 200, 0.2); border: 1px solid var(--cyan); color: var(--cyan); padding: 10px 20px; border-radius: 8px; font-weight: bold; font-family: "Baloo 2"; cursor: pointer; width: 100%; transition: 0.2s; }
+  .btn-close-profile:active { background: var(--cyan); color: #000; }
 
   .page { display: none; width: 100%; max-width: 420px; flex-direction: column; }
   .page.active { display: flex; animation: fadeIn 0.4s ease; }
@@ -82,6 +104,7 @@
     display: flex; flex-direction: column; gap: 15px;
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(15px);
   }
   .dash-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); }
 
@@ -89,7 +112,10 @@
     display: flex; justify-content: space-between; align-items: center;
     background: rgba(61, 242, 200, 0.05); padding: 12px; border-radius: 12px;
     border: 1px solid rgba(61, 242, 200, 0.2);
+    cursor: pointer; transition: 0.2s;
   }
+  .user-header:active { background: rgba(61, 242, 200, 0.15); border-color: var(--cyan); }
+  
   .user-info { display: flex; align-items: center; gap: 10px; }
   .avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #3DF2C8, #FF2BD6); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; color: #000; box-shadow: 0 0 10px var(--magenta); }
   .username { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 6px; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
@@ -172,6 +198,26 @@
   <button class="hacker-btn" onclick="closeHacker()">ĐÓNG</button>
 </div>
 
+<!-- Popup Profile Tài Khoản -->
+<div id="profilePopup">
+  <div class="profile-avatar">S</div>
+  <div class="profile-name">
+    SAMM🧩 
+    <svg class="tick" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    </svg>
+  </div>
+  <div class="author-tag">Tác giả: SAMM VIP</div>
+  <div class="profile-bio">
+    "Xin chào mọi người đã xem. Hãy sợ SAMM nha mọi người! Có thể nhập thiết bị của mọi người vào để tăng tự tin khi bắn Free Fire nha. Chúc mọi người chơi game vui vẻ!"
+  </div>
+  <div class="contact-info">
+    Liên hệ Zalo:<br>
+    <b>0355.7572.11</b>
+  </div>
+  <button class="btn-close-profile" onclick="closeProfile()">ĐÓNG</button>
+</div>
+
 <!-- TRANG 1: KÍCH HOẠT -->
 <div class="page active" id="pageLogin">
   <div class="stage">
@@ -225,7 +271,8 @@
 <div class="page" id="pageDashboard">
   <div class="dash-box">
     
-    <div class="user-header">
+    <!-- Click vào Header để mở Profile -->
+    <div class="user-header" onclick="openProfile()">
       <div class="user-info">
         <div class="avatar">S</div>
         <div class="username">
@@ -240,10 +287,11 @@
 
     <div class="input-group">
       <label>Tên thiết bị của bạn</label>
-      <input type="text" class="input-device" id="deviceName" placeholder="Nhập tên thiết bị...">
+      <input type="text" class="input-device" id="deviceName" placeholder="Nhập tên thiết bị để tăng tự tin...">
     </div>
 
     <div class="sens-list">
+      <!-- Các thông số độ nhạy -->
       <div class="sens-item">
         <div class="sens-name">Nhìn xung quanh</div>
         <div class="sens-controls">
@@ -322,7 +370,7 @@
       </div>
     </div>
 
-    <!-- NÚT KÍCH HOẠT HACKER -->
+    <!-- NÚT KÍCH HOẠT HACKER (Bắt buộc nhập tên) -->
     <button class="btn-hacker" onclick="triggerHacker()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6v6l4 2"/></svg>
       KÍCH HOẠT CODE HACKER
@@ -432,7 +480,8 @@
     $("key").value = "";
     $("pageDashboard").classList.remove("active");
     $("pageLogin").classList.add("active");
-    closeHacker(); // Đảm bảo tắt popup nếu đang mở
+    closeHacker(); 
+    closeProfile();
   };
 
   function startTimer() {
@@ -467,7 +516,13 @@
   }
 
   // ==========================================
-  // HIỆU ỨNG HACKER (MATRIX RAIN & LOGS)
+  // POPUP PROFILE (THÔNG TIN TÁC GIẢ)
+  // ==========================================
+  window.openProfile = () => { $("profilePopup").classList.add("show"); };
+  window.closeProfile = () => { $("profilePopup").classList.remove("show"); };
+
+  // ==========================================
+  // HIỆU ỨNG HACKER (YÊU CẦU NHẬP TÊN TRƯỚC)
   // ==========================================
   const canvas = $("matrixCanvas");
   const ctx = canvas.getContext("2d");
@@ -486,7 +541,7 @@
     function draw() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#39ff14"; // Màu xanh Neon
+      ctx.fillStyle = "#39ff14";
       ctx.font = fontSize + "px monospace";
       for (let i = 0; i < drops.length; i++) {
         const text = letters.charAt(Math.floor(Math.random() * letters.length));
@@ -505,6 +560,14 @@
   }
 
   window.triggerHacker = () => {
+    // KIỂM TRA XEM ĐÃ NHẬP TÊN THIẾT BỊ CHƯA
+    const deviceName = $("deviceName").value.trim();
+    if (!deviceName) {
+      toast("Vui lòng nhập Tên thiết bị trước khi kích hoạt!", true);
+      $("deviceName").focus();
+      return; // Dừng lại, không chạy hiệu ứng
+    }
+
     const popup = $("hackerPopup");
     const logs = $("hackerLogs");
     popup.classList.add("show");
@@ -512,6 +575,7 @@
 
     // Hiệu ứng gõ chữ log
     const logMessages = [
+      "> Thiết bị: " + deviceName,
       "> Đang kết nối tới server Free Fire...",
       "> Bypass Anti-Cheat [Thành công]",
       "> Đang tìm địa chỉ bộ nhớ (Memory Address)...",
@@ -541,10 +605,9 @@
   window.closeHacker = () => {
     $("hackerPopup").classList.remove("show");
     stopMatrix();
-    toast("Đã kích hoạt Code Hacker!", "ok");
+    toast("Kích hoạt Code Hacker thành công!", "ok");
   };
 
-  // Cập nhật kích thước canvas khi xoay màn hình
   window.addEventListener('resize', () => {
     if (canvas.classList.contains('show')) {
       canvas.width = window.innerWidth;
