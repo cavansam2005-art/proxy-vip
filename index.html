@@ -1,523 +1,555 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SAMM VIP IOS - COSMIC EDITION</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root { --primary: #22d3ee; --secondary: #a855f7; }
-        body { font-family: 'Outfit', sans-serif; background-color: #02040a; color: #ffffff; min-height: 100vh; overflow-x: hidden; position: relative; }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
-        .cosmic-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background: linear-gradient(-45deg, #02040a, #071a2e, #0d0524, #041d24, #12082b); background-size: 400% 400%; animation: gradientBG 20s ease infinite; }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .cosmic-bg::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 15% 20%, rgba(34, 211, 238, 0.15), transparent 45%), radial-gradient(circle at 85% 80%, rgba(168, 85, 247, 0.15), transparent 45%), radial-gradient(circle at 50% 50%, rgba(240, 171, 252, 0.06), transparent 60%); pointer-events: none; }
-        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; overflow: hidden; }
-        .particle { position: absolute; display: block; border-radius: 50%; background: rgba(34, 211, 238, 0.75); box-shadow: 0 0 8px rgba(34, 211, 238, 0.9), 0 0 16px rgba(168, 85, 247, 0.4); animation: floatUp linear infinite; bottom: -10px; }
-        @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; } }
-        .glass-card { background: rgba(6, 12, 24, 0.55); backdrop-filter: blur(24px) saturate(140%); -webkit-backdrop-filter: blur(24px) saturate(140%); border: 1px solid rgba(34, 211, 238, 0.12); border-top: 1px solid rgba(34, 211, 238, 0.28); border-left: 1px solid rgba(34, 211, 238, 0.28); border-radius: 30px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.65), inset 0 0 30px rgba(34, 211, 238, 0.06); padding: 32px 24px; position: relative; overflow: hidden; transition: all 0.4s ease; }
-        .glass-card::before { content: ''; position: absolute; top: -60%; left: -60%; width: 220%; height: 220%; background: conic-gradient(from 0deg, transparent, rgba(34, 211, 238, 0.05), transparent 30%); animation: rotateGlow 14s linear infinite; pointer-events: none; }
-        @keyframes rotateGlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .glass-card:hover { box-shadow: 0 30px 60px rgba(0, 0, 0, 0.65), inset 0 0 40px rgba(34, 211, 238, 0.12), inset 0 0 80px rgba(168, 85, 247, 0.08); border-color: rgba(34, 211, 238, 0.3); }
-        .text-gradient { background: linear-gradient(120deg, #22d3ee 0%, #a855f7 50%, #f0abfc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-size: 200% 200%; animation: gradientShift 6s ease infinite; text-shadow: 0 0 40px rgba(34, 211, 238, 0.35); filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.25)); }
-        @keyframes gradientShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-        .glass-input { background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(34, 211, 238, 0.15); color: #fff; transition: all 0.3s ease; }
-        .glass-input:focus { background: rgba(0, 0, 0, 0.55); border-color: var(--primary); box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15), 0 0 25px rgba(34, 211, 238, 0.25); outline: none; transform: translateY(-2px); }
-        .btn-cosmic { background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 25%, #a855f7 75%, #d946ef 100%); background-size: 200% 200%; border: none; color: #fff; box-shadow: 0 10px 25px -5px rgba(34, 211, 238, 0.45), 0 0 30px rgba(168, 85, 247, 0.25); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
-        .btn-cosmic::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.35), transparent); transform: rotate(45deg) translate(-100%, -100%); transition: 0.7s; }
-        .btn-cosmic:hover::after { transform: rotate(45deg) translate(100%, 100%); }
-        .btn-cosmic:hover { background-position: 100% 50%; box-shadow: 0 15px 35px -5px rgba(34, 211, 238, 0.65), 0 0 45px rgba(168, 85, 247, 0.4); transform: translateY(-2px) scale(1.02); }
-        .btn-cosmic:active { transform: translateY(0) scale(0.98); }
-        .btn-sub { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(34, 211, 238, 0.15); color: #cbd5e1; transition: all 0.3s ease; }
-        .btn-sub:hover { background: rgba(34, 211, 238, 0.08); border-color: rgba(34, 211, 238, 0.5); color: #fff; box-shadow: 0 0 20px rgba(34, 211, 238, 0.25); transform: translateY(-1px); }
-        .mod-item { background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; }
-        .mod-item:hover { background: rgba(34, 211, 238, 0.06); border-color: rgba(34, 211, 238, 0.35); transform: translateX(4px); box-shadow: inset 0 0 20px rgba(34, 211, 238, 0.06); }
-        .mod-active { background: linear-gradient(90deg, rgba(34, 211, 238, 0.2), rgba(168, 85, 247, 0.08), transparent) !important; border-color: var(--primary) !important; box-shadow: inset 3px 0 0 var(--primary), 0 0 25px rgba(34, 211, 238, 0.15); }
-        .mod-selected { background: linear-gradient(90deg, rgba(168, 85, 247, 0.22), transparent) !important; border-color: var(--secondary) !important; box-shadow: inset 3px 0 0 var(--secondary), 0 0 25px rgba(168, 85, 247, 0.15); }
-        .toggle-switch { position: relative; display: inline-block; width: 50px; height: 28px; }
-        .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255, 255, 255, 0.08); border-radius: 34px; transition: .4s; border: 1px solid rgba(255,255,255,0.1); }
-        .toggle-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: .4s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 0 2px 5px rgba(0,0,0,0.4); }
-        input:checked + .toggle-slider { background: linear-gradient(90deg, var(--primary), var(--secondary)); border-color: transparent; box-shadow: 0 0 20px rgba(34, 211, 238, 0.5), 0 0 30px rgba(168, 85, 247, 0.3); }
-        input:checked + .toggle-slider:before { transform: translateX(22px); }
-        #toastContent { background: rgba(6, 12, 24, 0.92); backdrop-filter: blur(14px); border: 1px solid rgba(34, 211, 238, 0.35); box-shadow: 0 20px 40px rgba(0,0,0,0.55), 0 0 30px rgba(34, 211, 238, 0.2), 0 0 60px rgba(168, 85, 247, 0.15); }
-        .disabled { opacity: 0.5; pointer-events: none; filter: grayscale(50%); }
-        #statusBox { background: rgba(6, 12, 24, 0.45) !important; border: 1px solid rgba(34, 211, 238, 0.15) !important; box-shadow: inset 0 0 25px rgba(34, 211, 238, 0.05), inset 0 0 40px rgba(168, 85, 247, 0.03) !important; }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>PROXY VIP VN - Kích hoạt key</title>
+  <style>
+    /* CSS tối giản thay thế cho file base.css và public.css */
+    :root { --bg-dark: #0b1120; --text-main: #fff; --text-muted: #94a3b8; --accent: #b14cff; --primary: #00eaff; --border: #334155; --card-bg: #1e293b; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg-dark); color: var(--text-main); margin: 0; padding: 20px; display: flex; justify-content: center; }
+    .activate-shell { width: 100%; max-width: 480px; }
+    
+    /* Header */
+    .app-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .brand-block { display: flex; align-items: center; gap: 10px; }
+    .brand-logo svg { width: 30px; height: 30px; color: var(--primary); }
+    .brand-title { font-size: 20px; font-weight: 800; letter-spacing: 0.5px; }
+    .brand-vip { color: var(--primary); }
+    .brand-sub { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-top: 2px; }
+    .status-pill { background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); padding: 4px 10px; border-radius: 20px; font-size: 11px; color: #10b981; font-weight: bold; display: flex; align-items: center; gap: 6px; }
+    
+    /* Meta */
+    .meta-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
+    .sync-badge { color: #10b981; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: bold; margin-left: 5px; }
+
+    /* Tabs */
+    .tab-bar { display: flex; gap: 5px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; overflow-x: auto; }
+    .tab { padding: 10px 15px; cursor: pointer; color: var(--text-muted); font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; border-radius: 6px; transition: 0.2s; white-space: nowrap; }
+    .tab svg { width: 16px; height: 16px; }
+    .tab.active { color: var(--primary); background: rgba(0, 234, 255, 0.1); }
+    .tab-panes { display: none; }
+    .tab-panes.active { display: block; }
+
+    /* Form */
+    .step-row { display: flex; justify-content: space-between; margin-bottom: 20px; position: relative; }
+    .step-row::before { content: ''; position: absolute; top: 12px; left: 10%; right: 10%; height: 2px; background: var(--border); z-index: 0; }
+    .step { display: flex; flex-direction: column; align-items: center; gap: 5px; z-index: 1; }
+    .step .num { width: 25px; height: 25px; border-radius: 50%; background: var(--card-bg); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: var(--text-muted); }
+    .step span { font-size: 10px; color: var(--text-muted); }
+    .step.active .num { border-color: var(--primary); color: var(--primary); background: rgba(0, 234, 255, 0.1); }
+    .step.active span { color: var(--primary); }
+    .step.done .num { border-color: #10b981; background: #10b981; color: #fff; }
+    
+    .field { position: relative; margin-bottom: 15px; }
+    .field input { width: 100%; padding: 16px 15px; background: #0f172a; border: 1px solid var(--border); border-radius: 8px; color: #fff; font-size: 15px; outline: none; box-sizing: border-box; transition: 0.2s; font-family: monospace; text-transform: uppercase; }
+    .field input:focus { border-color: var(--primary); }
+    .placeholder { position: absolute; left: 15px; top: 16px; color: var(--text-muted); font-size: 14px; pointer-events: none; transition: 0.2s; }
+    .field input:focus + .placeholder, .field input:not(:placeholder-shown) + .placeholder { top: -10px; left: 10px; font-size: 11px; background: var(--bg-dark); padding: 0 5px; color: var(--primary); }
+    
+    .btn { width: 100%; padding: 16px; background: linear-gradient(90deg, var(--primary), var(--accent)); border: none; border-radius: 8px; color: #fff; font-weight: 800; font-size: 15px; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 234, 255, 0.3); transition: 0.2s; }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+    /* Result Panel */
+    .result-panel { display: none; margin-top: 25px; padding: 20px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); }
+    .result-panel.show { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .row-head { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: bold; color: #10b981; margin-bottom: 10px; }
+    .msg { font-size: 13px; color: var(--text-muted); margin-bottom: 15px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+    .grid div { background: #0f172a; padding: 10px; border-radius: 6px; display: flex; flex-direction: column; gap: 3px; }
+    .grid div span:first-child { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+    .grid div span:last-child { font-size: 13px; font-weight: 600; color: #fff; }
+
+    /* Aim & VIP Menu */
+    .aim-menu-box { margin-top: 15px; border: 1px solid var(--border); border-radius: 8px; padding: 12px; background: #0f172a; }
+    .aim-menu-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .aim-menu-title { font-size: 11px; font-weight: bold; color: var(--text-muted); font-family: monospace; }
+    .aim-menu-status-badge { font-size: 10px; color: var(--text-muted); }
+    
+    .aim-item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: var(--card-bg); border-radius: 6px; margin-bottom: 8px; border: 1px solid transparent; transition: 0.2s; cursor: pointer; }
+    .aim-item-row.active-aim { border-color: var(--primary); background: rgba(0, 234, 255, 0.05); }
+    .aim-item-left { display: flex; align-items: center; gap: 10px; }
+    .aim-icon-box { width: 32px; height: 32px; border-radius: 6px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
+    .aim-icon-box svg { width: 16px; height: 16px; }
+    .aim-item-name { font-size: 13px; font-weight: 600; }
+    .aim-item-state { font-size: 10px; display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+    .state-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .state-dot.on { background: #10b981; box-shadow: 0 0 5px #10b981; }
+    .state-dot.off { background: var(--text-muted); }
+    .state-text.on { color: #10b981; font-weight: bold; }
+    
+    /* Switch Toggle */
+    .switch-toggle { position: relative; display: inline-block; width: 40px; height: 22px; }
+    .switch-toggle input { opacity: 0; width: 0; height: 0; }
+    .slider-toggle { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #334155; transition: .4s; border-radius: 22px; }
+    .slider-toggle:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+    input:checked + .slider-toggle { background-color: var(--primary); }
+    input:checked + .slider-toggle:before { transform: translateX(18px); }
+
+    /* Certificate & Shield Tiles */
+    .cert-tile { display: flex; align-items: center; gap: 12px; padding: 12px; background: #0f172a; border: 1px solid var(--border); border-radius: 8px; margin-top: 15px; }
+    .cert-tile-icon { color: var(--primary); }
+    .cert-tile-title { font-size: 12px; font-weight: bold; }
+    .btn-cert-download { margin-left: auto; background: rgba(0, 234, 255, 0.1); border: 1px solid var(--primary); color: var(--primary); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+    .shield-tile { display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(177, 76, 255, 0.1); border-radius: 8px; margin-top: 15px; font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+    .shield-tile b { color: var(--accent); }
+    .hidden { display: none !important; }
+
+    /* Announcement Modal */
+    .announcement-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
+    .announcement-overlay.show { display: flex; }
+    .announcement-card { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+    .ann-head { display: flex; gap: 15px; padding: 20px; border-bottom: 1px solid var(--border); background: rgba(0, 234, 255, 0.05); }
+    .ann-icon { color: var(--primary); }
+    .ann-eyebrow { font-size: 10px; color: var(--primary); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+    .ann-head h3 { font-size: 16px; margin: 0; }
+    .ann-body { padding: 20px; font-size: 14px; line-height: 1.5; color: var(--text-muted); }
+    .ann-meta { display: flex; justify-content: space-between; font-size: 10px; margin-top: 15px; color: #64748b; }
+    .ann-actions { display: flex; gap: 10px; padding: 15px 20px; border-top: 1px solid var(--border); background: #0f172a; }
+    .btn-ann { flex: 1; padding: 10px; border-radius: 6px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; border: none; }
+    .btn-ann-close { background: var(--primary); color: #000; }
+    .btn-ann-snooze { background: #334155; color: #fff; }
+
+    /* Popup */
+    .popup { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: 0.3s; z-index: 10000; }
+    .popup.show { bottom: 30px; }
+    .popup.err { background: #ef4444; }
+  </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4">
+<body>
+  
+<div class="activate-shell">
+  <!-- Header -->
+  <div class="app-header">
+    <div class="brand-block">
+      <div class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2 4 6v6c0 5.4 3.4 10.2 8 10 4.6.2 8-4.6 8-10V6l-8-4z" />
+          <path d="m9 12 2 2 4-4" />
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="brand-title">PROXY <span class="brand-vip">VIP VN</span></div>
+        <div class="brand-sub">DEV &middot; VIETNAM</div>
+      </div>
+    </div>
+    <div class="status-pill">
+      <span class="led-dot green"></span>
+      <span class="status-text">ONLINE</span>
+    </div>
+  </div>
 
-    <div class="cosmic-bg"></div>
-    <div class="particles" id="particles"></div>
-
-    <div class="w-full max-w-[420px] z-10 space-y-6">
-        <div class="flex items-center justify-between px-2">
-            <div>
-                <h1 class="text-3xl font-extrabold tracking-tight text-gradient">SAMM VIP IOS</h1>
-                <p class="text-[10px] font-bold text-cyan-300 tracking-[0.3em] uppercase mt-1 opacity-80"></p>
-            </div>
-            <div class="bg-white/5 border border-white/10 px-3 py-1.5 rounded-full flex flex-col items-end backdrop-blur-md shadow-lg">
-                <div class="flex items-center gap-1.5">
-                    <span class="w-2 h-2 bg-emerald-400 rounded-full shadow-[0_0_10px_#34d399] animate-pulse"></span>
-                    <span class="text-[10px] font-bold text-white tracking-widest uppercase">ONLINE</span>
-                </div>
-                <div class="text-[9px] text-white/50 font-mono mt-0.5">
-                    LATENCY: <span class="text-cyan-400" id="realtime-ping">24ms</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="glass-card">
-            <form id="mainForm" method="POST" class="space-y-6" onsubmit="return false;">
-                <input type="hidden" name="action" id="actionType">
-                <input type="hidden" name="browser_uuid" id="uuidField">
-                
-                <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-white/60 uppercase tracking-widest flex items-center gap-2 ml-1">
-                        <i class="fa-solid fa-key text-cyan-400"></i> License Token
-                    </label>
-                    <input type="text" name="key_code" id="keyInput" placeholder="Enter License Key" autocomplete="off"
-                    class="glass-input w-full rounded-2xl py-4 px-4 text-sm font-mono tracking-wider text-center">
-                </div>
-
-                <div id="aimSelector" class="space-y-3 hidden">
-                    <label class="text-[10px] font-bold text-white/60 uppercase tracking-widest flex items-center gap-2 ml-1">
-                        <i class="fa-solid fa-crosshairs text-violet-400"></i> Select Module
-                    </label>
-                    <div id="modList" class="space-y-2"></div>
-                </div>
-
-                <div id="statusBox" class="hidden flex flex-col p-4 rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
-                    <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
-                        <span class="px-2.5 py-1 rounded bg-black/30 text-white/70 text-[10px] font-mono border border-white/5" id="clientIpDisplay">Fetching...</span>
-                        <div id="countdownBox" class="flex items-center gap-1.5 text-cyan-300 text-[11px] font-mono font-bold bg-cyan-500/10 px-2.5 py-1 rounded border border-cyan-500/20">
-                            <i class="fa-solid fa-clock"></i> <span id="countdownTimer">--:--:--</span>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 to-violet-500/20 border border-white/10 flex items-center justify-center">
-                                <i class="fa-solid fa-satellite-dish text-white/90 text-lg"></i>
-                            </div>
-                            <div>
-                                <p class="text-[9px] font-bold text-white/50 uppercase tracking-[0.2em]">Link Active</p>
-                                <p class="text-[15px] font-extrabold text-white tracking-wide" id="statusModName">-</p>
-                            </div>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="toggleSwitch" onchange="toggleMod()">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-
-                    <div id="serverBox" class="hidden mt-4 pt-3 border-t border-white/5 flex flex-col gap-1.5">
-                        <div class="flex justify-between text-[10px] font-mono"><span class="text-white/40">SERVER</span><span class="text-cyan-300" id="serverHost">server</span></div>
-                        <div class="flex justify-between text-[10px] font-mono"><span class="text-white/40">PORT</span><span class="text-violet-300" id="serverPort">5560</span></div>
-                    </div>
-                </div>
-
-                <button type="button" id="btn-submit-main" onclick="handleInitialStep()" class="w-full py-4.5 rounded-2xl btn-cosmic font-extrabold text-[13px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 h-14">
-                    <span id="btnText" class="z-10">INITIALIZE LINK</span> <i class="fa-solid fa-bolt z-10 text-white/80 text-[11px]"></i>
-                </button>
-
-                <div class="grid grid-cols-2 gap-3 pt-2">
-                    <button type="button" onclick="openExternalBrowser('https://solitudepremium.click/vanduyios/solitude.mobileconfig')" class="py-3.5 rounded-xl btn-sub font-bold text-[10px] uppercase tracking-widest flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-download text-cyan-400"></i> CONFIG
-                    </button>
-                    <a href="https://zalo.me/0355757211" onclick="openExternalBrowser(this.href); return false;" class="py-3.5 rounded-xl btn-sub font-bold text-[10px] uppercase tracking-widest flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-headset text-violet-400"></i> ZALO HỖ TRỢ
-                    </a>
-                </div>
-            </form>
-        </div>
-        
-        <div class="text-center pb-4">
-            <p class="text-[10px] text-white/30 font-mono tracking-widest">
-                <i class="fa-solid fa-terminal text-[8px]"></i> SAMM VIP IOS
-            </p>
-        </div>
+  <div class="activate-card">
+    <!-- IP row -->
+    <div class="meta-row">
+      <div class="ip-auto-sync-box">
+        <span class="live">IP:</span>
+        <span class="ip" id="clientIp">--</span>
+        <span class="sync-badge">⚡ ĐỒNG BỘ</span>
+      </div>
+      <span>Server: <span id="serverTime">--:--:--</span></span>
     </div>
 
-    <div id="toast" style="position:fixed;top:20px;left:50%;transform:translate(-50%, -20px);opacity:0;visibility:hidden;z-index:99999;width:90%;max-width:380px;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);">
-        <div id="toastContent" class="p-4 rounded-2xl text-[13px] font-medium text-white flex items-center gap-3"></div>
+    <!-- Tabs -->
+    <div class="tab-bar" role="tablist">
+      <div class="tab active" data-pane="activate" role="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
+        Kích hoạt
+      </div>
+      <div class="tab" data-pane="lookup" role="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
+        Tra cứu
+      </div>
+      <div class="tab" data-pane="history" role="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+        Lịch sử
+      </div>
     </div>
 
-    <script>
-        const SERVER_URL = 'https://api-proxy-18ww.onrender.com';
+    <!-- TAB 1 -->
+    <div class="tab-panes active" data-pane="activate">
+      <div class="step-row">
+        <div class="step active" data-step="1"><div class="num">1</div><span>Nhập key</span></div>
+        <div class="step" data-step="2"><div class="num">2</div><span>Xác thực</span></div>
+        <div class="step" data-step="3"><div class="num">3</div><span>Active</span></div>
+      </div>
 
-        function openExternalBrowser(url) {
-            const a = document.createElement('a');
-            a.href = url;
-            a.target = '_blank';
-            a.rel = 'noopener noreferrer';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            setTimeout(() => { window.open(url, '_system') || window.open(url, '_blank'); }, 100);
-        }
+      <form id="activateForm">
+        <div class="field">
+          <input id="licenseInput" placeholder=" " autocomplete="off" autocapitalize="characters" maxlength="32" required />
+          <span class="placeholder">// Nhập key của bạn (ví dụ KEY-XXXX-XXXX-XXXX)</span>
+        </div>
+        <button class="btn activate-btn" id="submitBtn" type="submit">KÍCH HOẠT NGAY</button>
+      </form>
 
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const particleCount = 25;
-            for (let i = 0; i < particleCount; i++) {
-                let p = document.createElement('div');
-                p.classList.add('particle');
-                let size = Math.random() * 4 + 1;
-                p.style.width = size + 'px'; p.style.height = size + 'px';
-                p.style.left = Math.random() * 100 + 'vw';
-                p.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                p.style.animationDelay = (Math.random() * 10) + 's';
-                p.style.opacity = Math.random() * 0.5 + 0.1;
-                container.appendChild(p);
-            }
-        }
-        createParticles();
+      <div id="activateResult" class="result-panel">
+        <div class="row-head">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10" /><path d="M8 12l3 3 5-6" /></svg>
+          <span id="arTitle">KEY ĐANG HOẠT ĐỘNG</span>
+        </div>
+        <div class="msg" id="arMsg"></div>
+        <div class="grid">
+          <div><span>Trạng thái</span><span id="arStatus">--</span></div>
+          <div><span>Ngày active</span><span id="arCreated">--</span></div>
+          <div><span>Hết hạn</span><span id="arExpires">--</span></div>
+        </div>
 
-        let clientIP = null;
-        let currentActiveMod = null, currentActiveFile = null;
-        let currentServer = 'server.zenithsolitude.store', currentPort = 5560;
-        let currentKey = null, isKeyChecked = false, expiresAt = null, countdownInterval = null, statusCheckInterval = null;
-        let selectedAimFile = null, selectedAimName = null;
-        let cooldownTimer = null, cooldownRemaining = 0;
-        const COOLDOWN_SECONDS = 5;
-        let modList = [];
+        <!-- Aim Menu -->
+        <div id="arAimMenu" class="aim-menu-box hidden">
+          <div class="aim-menu-head">
+            <span class="aim-menu-title">// DANH SÁCH AIM</span>
+            <span class="aim-menu-status-badge" id="arActiveAimBadge">Đang tắt tất cả Aim</span>
+          </div>
+          <div id="arAimList" class="aim-list-wrap"></div>
+        </div>
 
-        async function fetchRealIP() {
-            try {
-                const resp = await fetch('https://api4.ipify.org?format=json');
-                const data = await resp.json();
-                clientIP = data.ip;
-                document.getElementById('clientIpDisplay').innerText = clientIP;
-            } catch(e) {
-                document.getElementById('clientIpDisplay').innerText = 'IP ERROR';
-            }
-        }
-        fetchRealIP();
+        <!-- VIP Menu -->
+        <div id="arVipMenu" class="aim-menu-box hidden" style="border-color:rgba(177,76,255,0.35);">
+          <div class="aim-menu-head">
+            <span class="aim-menu-title" style="color:var(--accent);">// DANH SÁCH CHỨC NĂNG VIP</span>
+            <span class="aim-menu-status-badge" id="arActiveVipBadge" style="color:var(--accent);">Đang tắt Chức năng VIP</span>
+          </div>
+          <div id="arVipList" class="aim-list-wrap"></div>
+        </div>
 
-        async function loadModList() {
-            try {
-                const fd = new FormData(); fd.append('action', 'get_aims');
-                const resp = await fetch(SERVER_URL, { method: 'POST', body: fd });
-                const data = await resp.json();
-                if (data.status === 'success' && data.aims) {
-                    modList = data.aims.map(a => ({
-                        file: a.file, name: a.name, icon: a.icon || 'fa-crosshairs',
-                        desc: a.desc || '', server: a.server || 'server.zenithsolitude.store', port: a.port || 5560
-                    }));
-                } else { throw new Error('Load fail'); }
-            } catch (e) {
-                modList = [
-                    { file: 'aim_dragon2.txt', name: 'Aim Drag On 2.0', icon: 'fa-bolt', desc: 'Smooth track', server: 'dhieushop.click', port: 7776 },
-                    { file: 'aim_chest.txt', name: 'Aim Chest', icon: 'fa-crosshairs', desc: 'Chest lock', server: 'dhieushop.click', port: 7777 },
-                    { file: 'aim_neck_dragon2.txt', name: 'Aim Neck Drag 2.0', icon: 'fa-user-ninja', desc: 'Neck lock', server: 'dhieushop.click', port: 7778 },
-                    { file: 'aim_magic_bullet.txt', name: 'Magic Bullet', icon: 'fa-wand-magic-sparkles', desc: 'Hit assist', server: 'dhieushop.click', port: 7779 }
-                ];
-            }
-            renderModList();
-        }
+        <!-- Cert Tile -->
+        <div class="cert-tile hidden" id="arCertTile">
+          <div class="cert-tile-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5.4 3.4 10.2 8 10 4.6.2 8-4.6 8-10V6l-8-4z" /><path d="m9 12 2 2 4-4" /></svg>
+          </div>
+          <div class="cert-tile-body"><div class="cert-tile-title">Chứng chỉ mitmproxy</div></div>
+          <button class="btn-cert-download" id="arCertDownloadBtn" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+            <span>Tải xuống</span>
+          </button>
+        </div>
 
-        function renderModList() {
-            const container = document.getElementById('modList');
-            if (!container) return;
-            container.innerHTML = modList.map(mod => {
-                const isActive = (currentActiveFile === mod.file);
-                const isSelected = (!isActive && selectedAimFile === mod.file);
-                let extraClass = 'mod-item';
-                if (isActive) extraClass = 'mod-item mod-active';
-                else if (isSelected) extraClass = 'mod-item mod-selected';
-                
-                return `<div class="flex items-center justify-between p-3.5 rounded-xl cursor-pointer ${extraClass} ${!isActive && !isSelected ? 'text-white/60' : 'text-white'}" onclick="selectAim('${mod.file}', '${mod.name}')">
-                    <div class="flex items-center gap-3.5">
-                        <i class="fa-solid ${mod.icon} ${isActive ? 'text-cyan-400' : (isSelected ? 'text-violet-400' : 'text-white/40')} text-sm w-4 text-center"></i>
-                        <div>
-                            <span class="text-[13px] font-bold tracking-wide">${mod.name}</span>
-                            <p class="text-[10px] text-white/40 font-mono mt-0.5">${mod.desc}</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        ${isActive ? '<span class="text-[9px] font-bold px-2 py-0.5 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 rounded-md uppercase">ACTIVE</span>' : ''}
-                        <i class="fa-solid ${isActive ? 'fa-check text-cyan-400' : (isSelected ? 'fa-circle-dot text-violet-400' : 'fa-angle-right text-white/20')} text-[11px]"></i>
-                    </div>
-                </div>`;
-            }).join('');
-        }
+        <div class="shield-tile">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5.4 3.4 10.2 8 10 4.6.2 8-4.6 8-10V6l-8-4z" stroke="#b14cff"/><path d="m9 12 2 2 4-4" stroke="#b14cff" stroke-width="2.4"/></svg>
+          <span>Bạn chỉ cần xác thực 1 lần. IP và thiết bị sẽ tự động bind trong <b id="arDuration">--</b>.</span>
+        </div>
+      </div>
+    </div>
 
-        function saveState(key, mod, file, exp, server, port) {
-            const state = { key, modName: mod, fileName: file, expiresAt: exp, server, port, timestamp: Date.now() };
-            localStorage.setItem('SAMM_AIM_state', JSON.stringify(state));
-        }
-        function loadState() { try { return JSON.parse(localStorage.getItem('SAMM_AIM_state')); } catch(e) { return null; } }
-        function clearState() {
-            localStorage.removeItem('SAMM_AIM_state');
-            isKeyChecked = false; currentKey = null; expiresAt = null;
-            stopCountdown(); stopStatusCheck();
-        }
+    <!-- TAB 2 -->
+    <div class="tab-panes" data-pane="lookup">
+      <form id="lookupForm">
+        <div class="field">
+          <input id="lookupInput" placeholder=" " autocomplete="off" autocapitalize="characters" maxlength="32" required />
+          <span class="placeholder">// Nhập key cần tra cứu</span>
+        </div>
+        <button class="btn activate-btn" id="lookupBtn" type="submit">TRA CỨU THÔNG TIN</button>
+      </form>
+      <div id="lookupResult" class="result-panel">
+        <div class="row-head">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
+          <span id="lkTitle">THÔNG TIN KEY</span>
+        </div>
+        <div class="msg" id="lkMsg"></div>
+        <div class="grid">
+          <div><span>Trạng thái</span><span id="lkStatus">--</span></div>
+          <div><span>Thời hạn</span><span id="lkDuration">--</span></div>
+          <div><span>Ngày active</span><span id="lkCreated">--</span></div>
+          <div><span>Hết hạn</span><span id="lkExpires">--</span></div>
+          <div style="grid-column: span 2;"><span>IP đã whitelist</span><span id="lkIp">--</span></div>
+        </div>
+      </div>
+    </div>
 
-        function startCountdown(exp) { stopCountdown(); expiresAt = exp; updateCountdown(); countdownInterval = setInterval(updateCountdown, 1000); }
-        function stopCountdown() { if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; } }
-        function updateCountdown() {
-            const timer = document.getElementById('countdownTimer'), box = document.getElementById('countdownBox');
-            if (!timer || !expiresAt) return;
-            const rem = expiresAt - Math.floor(Date.now() / 1000);
-            if (rem <= 0) { 
-                timer.innerText = 'EXPIRED'; 
-                box.style.borderColor = 'rgba(239,68,68,0.3)'; box.style.color = '#ef4444'; box.style.background = 'rgba(239,68,68,0.1)';
-                handleExpired(); return; 
-            }
-            const h = String(Math.floor(rem / 3600)).padStart(2, '0'), m = String(Math.floor((rem % 3600) / 60)).padStart(2, '0'), s = String(rem % 60).padStart(2, '0');
-            timer.innerText = `${h}:${m}:${s}`;
-            if(rem < 600) { box.style.borderColor = 'rgba(239,68,68,0.3)'; box.style.color = '#ef4444'; box.style.background = 'rgba(239,68,68,0.1)'; }
-            else { box.style.borderColor = 'rgba(34,211,238,0.25)'; box.style.color = '#67e8f9'; box.style.background = 'rgba(34,211,238,0.1)'; }
-        }
+    <!-- TAB 3 -->
+    <div class="tab-panes" data-pane="history">
+      <form id="historyForm">
+        <div class="field">
+          <input id="historyInput" placeholder=" " autocomplete="off" autocapitalize="characters" maxlength="32" required />
+          <span class="placeholder">// Nhập key cần xem lịch sử</span>
+        </div>
+        <button class="btn activate-btn" id="historyBtn" type="submit">XEM LỊCH SỬ</button>
+      </form>
+      <div id="historyResult" class="result-panel">
+        <div class="row-head">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+          <span id="hsTitle">LỊCH SỬ KÍCH HOẠT</span>
+        </div>
+        <div class="msg" id="hsMsg"></div>
+        <div id="historyList" style="font-size:12px; display:flex; flex-direction:column; gap:10px;"></div>
+      </div>
+    </div>
 
-        async function handleExpired() {
-            stopCountdown(); stopStatusCheck();
-            if (currentKey) {
-                const fd = new FormData(); fd.append('action', 'remove_ip'); fd.append('key_code', currentKey); fd.append('client_ip', clientIP);
-                await fetch(SERVER_URL, { method: 'POST', body: fd }).catch(() => {});
-            }
-            updateStatusUI(null, null); clearState();
-            showToast("⚠️ Key has expired!");
-        }
+  </div>
 
-        function startStatusCheck(key) {
-            stopStatusCheck();
-            statusCheckInterval = setInterval(async () => {
-                const fd = new FormData(); fd.append('action', 'check_status'); fd.append('key_code', key);
-                fd.append('browser_uuid', document.getElementById('uuidField').value);
-                fd.append('client_ip', clientIP);
-                if (currentActiveFile) fd.append('file_name', currentActiveFile);
-                try {
-                    const resp = await fetch(SERVER_URL, { method: 'POST', body: fd });
-                    const data = await resp.json();
-                    if (data.expired || data.status === 'error' || !data.active) { handleExpired(); }
-                    else if (data.active && data.data) {
-                        if (data.data.expires_at && data.data.expires_at !== expiresAt) {
-                            startCountdown(data.data.expires_at);
-                            saveState(key, data.data.mod || data.data.aim, data.data.file, data.data.expires_at, data.data.server, data.data.port);
-                        }
-                        const modName = data.data.mod || data.data.aim;
-                        if (modName && modName !== currentActiveMod) updateStatusUI(modName, data.data.file, data.data.server, data.data.port);
-                    }
-                } catch(e) {}
-            }, 30000);
-        }
-        function stopStatusCheck() { if (statusCheckInterval) { clearInterval(statusCheckInterval); statusCheckInterval = null; } }
+  <!-- Announcement Modal -->
+  <div class="announcement-overlay" id="annOverlay">
+    <div class="announcement-card" role="dialog" aria-modal="true">
+      <div class="ann-head">
+        <div class="ann-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3z" /><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" /></svg>
+        </div>
+        <div class="ann-head-text">
+          <div class="ann-eyebrow">// Thông báo hệ thống</div>
+          <h3 id="annTitle">--</h3>
+        </div>
+      </div>
+      <div class="ann-body">
+        <p id="annBody">--</p>
+      </div>
+      <div class="ann-actions">
+        <button class="btn-ann btn-ann-close" id="annClose" type="button">Đóng</button>
+        <button class="btn-ann btn-ann-snooze" id="annDismiss" type="button">Đóng 2 giờ</button>
+      </div>
+    </div>
+  </div>
 
-        function updateStatusUI(modName, fileName, server = null, port = null) {
-            const statusBox = document.getElementById('statusBox'), serverBox = document.getElementById('serverBox'),
-                  modEl = document.getElementById('statusModName'), toggle = document.getElementById('toggleSwitch');
-            if (modName && fileName) {
-                statusBox.classList.remove('hidden'); serverBox.classList.remove('hidden');
-                modEl.innerText = modName; toggle.checked = true;
-                currentActiveMod = modName; currentActiveFile = fileName;
-                if (server) currentServer = server; if (port) currentPort = port;
-                document.getElementById('serverHost').innerText = currentServer;
-                document.getElementById('serverPort').innerText = currentPort;
-                document.getElementById('btnText').innerHTML = 'ABORT LINK';
-                selectedAimFile = null; selectedAimName = null;
-                document.getElementById('aimSelector').classList.add('hidden');
-            } else {
-                statusBox.classList.add('hidden'); serverBox.classList.add('hidden');
-                modEl.innerText = '-'; toggle.checked = false;
-                currentActiveMod = null; currentActiveFile = null;
-                document.getElementById('btnText').innerHTML = 'INITIALIZE LINK';
-                stopCountdown(); selectedAimFile = null; selectedAimName = null;
-            }
-            renderModList();
-        }
+  <div class="popup" id="popup"></div>
+</div>
 
-        function startCooldown() {
-            if (cooldownTimer) clearInterval(cooldownTimer);
-            cooldownRemaining = COOLDOWN_SECONDS;
-            document.getElementById('aimSelector').classList.add('disabled');
-            document.getElementById('btn-submit-main').classList.add('disabled');
-            document.getElementById('btnText').innerHTML = `WAIT ${cooldownRemaining}S`;
-            cooldownTimer = setInterval(() => {
-                cooldownRemaining--;
-                if (cooldownRemaining <= 0) {
-                    clearInterval(cooldownTimer); cooldownTimer = null;
-                    document.getElementById('aimSelector').classList.remove('disabled');
-                    document.getElementById('btn-submit-main').classList.remove('disabled');
-                    document.getElementById('btnText').innerHTML = 'INITIALIZE LINK';
-                } else {
-                    document.getElementById('btnText').innerHTML = `WAIT ${cooldownRemaining}S`;
-                }
-            }, 1000);
-        }
+<script>
+  // === CẤU HÌNH SERVER ===
+  const SERVER_URL = "https://api-proxy-18ww.onrender.com";
+  
+  const $ = (id) => document.getElementById(id);
+  const popup = $("popup");
+  let currentIp = null;
 
-        function selectAim(file, name) {
-            if (currentActiveMod) { showToast("Please Abort current link first."); return; }
-            if (cooldownTimer || cooldownRemaining > 0) { showToast(`System cooling...`); return; }
-            selectedAimFile = file; selectedAimName = name;
-            const aim = modList.find(m => m.file === file);
-            if (aim) { currentServer = aim.server; currentPort = aim.port; }
-            renderModList();
-        }
+  // Tabs Logic
+  document.querySelectorAll(".tab-bar .tab").forEach((t) => {
+    t.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+      document.querySelectorAll(".tab-panes").forEach(x => x.classList.remove("active"));
+      t.classList.add("active");
+      document.querySelector(`.tab-panes[data-pane="${t.dataset.pane}"]`).classList.add("active");
+    });
+  });
 
-        async function handleInitialStep() {
-            const key = document.getElementById('keyInput').value.trim();
-            if (!key) return showToast("⚠️ Error: Token Required");
-            if (currentActiveMod && currentActiveFile) { await deactivateCurrentAim(); return; }
+  // IP
+  async function fetchIp() {
+    try {
+      const r = await fetch(SERVER_URL + "/whoami");
+      const d = await r.json();
+      currentIp = d.ip;
+      $("clientIp").textContent = currentIp || "--";
+    } catch(e) { $("clientIp").textContent = "n/a"; }
+  }
+  fetchIp();
 
-            if (!isKeyChecked || currentKey !== key) {
-                const btn = document.getElementById('btn-submit-main'), btnText = document.getElementById('btnText');
-                btn.disabled = true; btnText.innerHTML = 'VERIFYING...';
-                const fd = new FormData(); fd.append('action', 'check_key'); fd.append('key_code', key);
-                fd.append('browser_uuid', document.getElementById('uuidField').value);
-                if (clientIP) fd.append('client_ip', clientIP);
-                try {
-                    const resp = await fetch(SERVER_URL, { method: 'POST', body: fd });
-                    const data = await resp.json();
-                    if (data.status === 'success') {
-                        isKeyChecked = true; currentKey = key;
-                        const exp = data.expires_at || null;
-                        if (data.activated && data.activation_data) {
-                            const ad = data.activation_data;
-                            updateStatusUI(ad.mod || ad.aim, ad.file, ad.server, ad.port);
-                            if (exp) { startCountdown(exp); startStatusCheck(key); }
-                            saveState(key, ad.mod || ad.aim, ad.file, exp, ad.server, ad.port);
-                            btn.disabled = false;
-                            document.getElementById('aimSelector').classList.add('hidden');
-                            return;
-                        }
-                        document.getElementById('aimSelector').classList.remove('hidden');
-                        showToast("✅ Token Verified. Select Module.");
-                        btnText.innerHTML = 'INJECT MODULE';
-                    } else {
-                        isKeyChecked = false; currentKey = null;
-                        showToast("❌ " + (data.message || 'Invalid Token'));
-                    }
-                } catch(e) { showToast("❌ Network Error"); }
-                btn.disabled = false;
-                if (!currentActiveMod) btnText.innerHTML = 'INITIALIZE LINK';
-                return;
-            }
+  // Clock
+  setInterval(() => {
+    const now = new Date();
+    $("serverTime").textContent = now.toLocaleTimeString('vi-VN');
+  }, 1000);
 
-            if (!selectedAimFile) { showToast("⚠️ Select a Module!"); return; }
-            if (cooldownTimer || cooldownRemaining > 0) { return; }
-            await activateMod(selectedAimFile, selectedAimName);
-        }
+  // Popup
+  function showPopup(text, isError = true) {
+    popup.textContent = text;
+    popup.className = "popup show " + (isError ? "err" : "");
+    setTimeout(() => popup.classList.remove("show"), 3000);
+  }
 
-        async function activateMod(fileName, modName) {
-            const key = currentKey;
-            if (!clientIP) return showToast("⏳ Resolving IP...");
-            showToast("⏳ Injecting...");
-            const fd = new FormData(); fd.append('action', 'add_ip'); fd.append('key_code', key);
-            fd.append('file_name', fileName); fd.append('mod_type', modName);
-            fd.append('browser_uuid', document.getElementById('uuidField').value);
-            fd.append('client_ip', clientIP);
-            try {
-                const resp = await fetch(SERVER_URL, { method: 'POST', body: fd });
-                const data = await resp.json();
-                if (data.status === 'success') {
-                    updateStatusUI(modName, fileName, data.server, data.port);
-                    document.getElementById('aimSelector').classList.add('hidden');
-                    if (data.expires_at) { startCountdown(data.expires_at); startStatusCheck(key); saveState(key, modName, fileName, data.expires_at, data.server, data.port); }
-                    else saveState(key, modName, fileName, null, data.server, data.port);
-                    showToast("✅ INJECTION SUCCESSFUL");
-                } else {
-                    showToast("❌ " + (data.message || 'Error'));
-                    if (data.message.includes('đã được kích hoạt')) { clearState(); updateStatusUI(null, null); }
-                }
-            } catch(e) { showToast("❌ Network Error"); }
-        }
+  // Helpers
+  function escapeHtml(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;"); }
+  function tsLabel(t) { if (!t) return "--"; try { return new Date(t * 1000).toLocaleString("vi-VN"); } catch (_) { return "--"; } }
 
-        async function deactivateCurrentAim() {
-            if (!currentActiveFile || !currentActiveMod || !currentKey) return;
-            if (!clientIP) return showToast("⏳ Resolving IP...");
-            showToast("⏳ Terminating...");
-            const fd = new FormData(); fd.append('action', 'remove_ip'); fd.append('key_code', currentKey);
-            fd.append('file_name', currentActiveFile); fd.append('mod_type', currentActiveMod);
-            fd.append('client_ip', clientIP);
-            try {
-                const resp = await fetch(SERVER_URL, { method: 'POST', body: fd });
-                const data = await resp.json();
-                if (data.status === 'success') {
-                    updateStatusUI(null, null); clearState();
-                    document.getElementById('aimSelector').classList.remove('hidden');
-                    showToast("✅ Link Terminated.");
-                    startCooldown();
-                } else { showToast("❌ " + (data.message || 'Error')); }
-            } catch(e) { showToast("❌ Network Error"); }
-        }
+  // Render Aim Menu
+  function renderAimMenu(aims, keyToUse) {
+    const aBox = $("arAimMenu");
+    const aList = $("arAimList");
+    const aBadge = $("arActiveAimBadge");
+    const list = Array.isArray(aims) ? aims : [];
+    if (!list.length) { aBox.classList.add("hidden"); return; }
+    aBox.classList.remove("hidden");
+    aList.innerHTML = "";
+    
+    const activeAim = list.find(a => a.is_active);
+    if (activeAim) { aBadge.textContent = "Đang bật: " + activeAim.name; aBadge.style.color = "var(--primary)"; } 
+    else { aBadge.textContent = "Đang tắt tất cả Aim"; aBadge.style.color = "var(--text-muted)"; }
 
-        function toggleMod() {
-            const toggle = document.getElementById('toggleSwitch');
-            if (!toggle.checked && currentActiveMod) { deactivateCurrentAim(); }
-            else if (!toggle.checked && !currentActiveMod) { toggle.checked = true; }
-        }
+    list.forEach((aim) => {
+      const row = document.createElement("div");
+      row.className = "aim-item-row" + (aim.is_active ? " active-aim" : "");
+      row.innerHTML = `
+        <div class="aim-item-left">
+          <div class="aim-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg></div>
+          <div class="aim-item-info">
+            <div class="aim-item-name">${escapeHtml(aim.name)}</div>
+            <div class="aim-item-state"><span class="state-dot ${aim.is_active ? 'on' : 'off'}"></span><span class="state-text ${aim.is_active ? 'on' : 'off'}">${aim.is_active ? 'ĐANG BẬT' : 'ĐANG TẮT'}</span></div>
+          </div>
+        </div>
+        <div class="aim-item-right">
+          <label class="switch-toggle"><input type="checkbox" class="aim-switch" ${aim.is_active ? 'checked' : ''} /><span class="slider-toggle"></span></label>
+        </div>
+      `;
+      const input = row.querySelector(".aim-switch");
+      input.addEventListener("change", async () => {
+        const willEnable = input.checked;
+        aList.querySelectorAll(".aim-switch").forEach(s => s.disabled = true);
+        try {
+          const res = await fetch(SERVER_URL + "/api/client/toggle-aim", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ key: keyToUse, ip: currentIp, aim_id: aim.id, enabled: willEnable })
+          });
+          const data = await res.json();
+          if (data.success) {
+            showPopup(data.message, false);
+            list.forEach(a => { if (willEnable) a.is_active = (a.id === aim.id); else if (a.id === aim.id) a.is_active = false; });
+            renderAimMenu(list, keyToUse);
+          } else { showPopup(data.message || "Lỗi", true); input.checked = !willEnable; }
+        } catch (err) { showPopup("Lỗi kết nối", true); input.checked = !willEnable; }
+        finally { aList.querySelectorAll(".aim-switch").forEach(s => s.disabled = false); }
+      });
+      row.addEventListener("click", (e) => { if (e.target.closest(".switch-toggle")) return; if (!input.disabled) { input.checked = !input.checked; input.dispatchEvent(new Event("change")); } });
+      aList.appendChild(row);
+    });
+  }
 
-        function showToast(msg) {
-            let icon = '<i class="fa-solid fa-circle-info text-cyan-400"></i>';
-            if(msg.includes('❌')) icon = '<i class="fa-solid fa-circle-xmark text-red-400"></i>';
-            else if(msg.includes('⚠️') || msg.includes('⚠')) icon = '<i class="fa-solid fa-triangle-exclamation text-yellow-400"></i>';
-            else if(msg.includes('✅')) icon = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
-            
-            const cleanMsg = msg.replace(/❌|✅|⏳|⚠️|⚠/g, '').trim();
-            const t = document.getElementById('toast'), tc = document.getElementById('toastContent');
-            tc.innerHTML = `${icon} <span class="tracking-wide">${cleanMsg}</span>`;
-            t.style.opacity = '1'; t.style.visibility = 'visible'; t.style.transform = 'translate(-50%, 0)';
-            
-            setTimeout(() => { t.style.opacity = '0'; t.style.visibility = 'hidden'; t.style.transform = 'translate(-50%, -20px)'; }, 3000);
-        }
+  // Render VIP Menu
+  function renderVipMenu(vipGamevars, activeVipId, keyToUse) {
+    const vBox = $("arVipMenu");
+    const vList = $("arVipList");
+    const vBadge = $("arActiveVipBadge");
+    const list = Array.isArray(vipGamevars) ? vipGamevars : [];
+    if (!list.length) { vBox.classList.add("hidden"); return; }
+    vBox.classList.remove("hidden");
+    vList.innerHTML = "";
 
-        setInterval(() => { const el = document.getElementById('realtime-ping'); if (el) el.innerText = (Math.floor(Math.random() * 6) + 18) + 'ms'; }, 2000);
+    const activeVip = list.find(v => v.id === activeVipId);
+    if (activeVip) { vBadge.textContent = "Đang bật: " + activeVip.name; vBadge.style.color = "var(--accent)"; }
+    else { vBadge.textContent = "Đang tắt Chức năng VIP"; vBadge.style.color = "var(--accent)"; }
 
-        (async function init() {
-            async function getDeviceVipID() {
-                let webglInfo = "";
-                try {
-                    const canvas = document.createElement('canvas'); const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-                    if (gl && gl.getExtension('WEBGL_debug_renderer_info')) webglInfo = gl.getParameter(gl.getExtension('WEBGL_debug_renderer_info').UNMASKED_RENDERER_WEBGL) + "||" + gl.getParameter(gl.getExtension('WEBGL_debug_renderer_info').UNMASKED_VENDOR_WEBGL);
-                } catch(e) {}
-                const hardware = [navigator.hardwareConcurrency || '8', screen.colorDepth, webglInfo, navigator.platform, navigator.language, new Date().getTimezoneOffset(), navigator.userAgent.replace(/\d+/g, '')].join('||');
-                let hash = 0; for (let i = 0; i < hardware.length; i++) { hash = ((hash << 5) - hash) + hardware.charCodeAt(i); hash |= 0; }
-                return { num: Math.abs(hash), str: 'VIP-' + Math.abs(hash).toString(16).toUpperCase() };
-            }
-            function getCookie(name) { const value = `; ${document.cookie}`; const parts = value.split(`; ${name}=`); return parts.length === 2 ? parts.pop().split(';').shift() : null; }
-            const fp = await getDeviceVipID();
-            const isValidUUID = id => id && !id.includes('DELTA-') && (id.match(/-/g) || []).length >= 2;
-            const params = new URLSearchParams(window.location.search);
-            const keyFromUrl = params.get('key');
-            if (keyFromUrl) { document.getElementById('keyInput').value = keyFromUrl; currentKey = keyFromUrl; }
-            let devID = params.get('browser_uuid') || getCookie('browser_uuid') || localStorage.getItem('delta_device_uuid');
-            if (!isValidUUID(devID)) {
-                const timeSalt = Date.now().toString(16).toUpperCase();
-                const rand = new Uint32Array(1); crypto.getRandomValues(rand);
-                devID = `${fp.str}-${timeSalt}-${rand[0].toString(16).toUpperCase().padStart(4, '0')}`;
-            }
-            localStorage.setItem('delta_device_uuid', devID);
-            document.cookie = "browser_uuid=" + devID + "; max-age=" + 365*24*60*60 + "; path=/; SameSite=Lax";
-            document.getElementById('uuidField').value = devID;
+    list.forEach((vip) => {
+      const isCurActive = (vip.id === activeVipId);
+      const row = document.createElement("div");
+      row.className = "aim-item-row" + (isCurActive ? " active-aim" : "");
+      row.innerHTML = `
+        <div class="aim-item-left">
+          <div class="aim-icon-box" style="color:var(--accent);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="aim-item-info">
+            <div class="aim-item-name" style="color:${isCurActive ? 'var(--accent)' : '#fff'};">${escapeHtml(vip.name)}</div>
+            <div class="aim-item-state"><span class="state-dot ${isCurActive ? 'on' : 'off'}" style="${isCurActive ? 'background:var(--accent);' : ''}"></span><span class="state-text ${isCurActive ? 'on' : 'off'}" style="${isCurActive ? 'color:var(--accent);' : ''}">${isCurActive ? 'ĐANG BẬT' : 'ĐANG TẮT'}</span></div>
+          </div>
+        </div>
+        <div class="aim-item-right">
+          <label class="switch-toggle"><input type="checkbox" class="vip-switch" ${isCurActive ? 'checked' : ''} /><span class="slider-toggle" style="${isCurActive ? 'background:var(--accent);' : ''}"></span></label>
+        </div>
+      `;
+      const input = row.querySelector(".vip-switch");
+      input.addEventListener("change", async () => {
+        const willEnable = input.checked;
+        vList.querySelectorAll(".vip-switch").forEach(s => s.disabled = true);
+        try {
+          const res = await fetch(SERVER_URL + "/api/client/toggle-vip-gamevar", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ key: keyToUse, ip: currentIp, vip_id: vip.id, enabled: willEnable })
+          });
+          const data = await res.json();
+          if (data.success) {
+            showPopup(data.message, false);
+            renderVipMenu(list, data.active_vip_gamevar_id, keyToUse);
+          } else { showPopup(data.message || "Lỗi", true); input.checked = !willEnable; }
+        } catch (err) { showPopup("Lỗi kết nối", true); input.checked = !willEnable; }
+        finally { vList.querySelectorAll(".vip-switch").forEach(s => s.disabled = false); }
+      });
+      row.addEventListener("click", (e) => { if (e.target.closest(".switch-toggle")) return; if (!input.disabled) { input.checked = !input.checked; input.dispatchEvent(new Event("change")); } });
+      vList.appendChild(row);
+    });
+  }
 
-            await fetchRealIP(); await loadModList();
+  // Submit Active
+  $("activateForm").addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const key = ($("licenseInput").value || "").trim();
+    if (!key) { showPopup("Vui lòng nhập key.", true); return; }
+    if (!currentIp) { showPopup("Không lấy được IP.", true); return; }
+    
+    $("submitBtn").disabled = true;
+    $("submitBtn").textContent = "ĐANG XÁC THỰC...";
+    
+    try {
+      const res = await fetch(SERVER_URL + "/submit", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ip: currentIp, key, device_id: "device_web_" + Math.random().toString(36).substr(2, 9) }),
+      });
+      const data = await res.json();
+      
+      if (res.ok) {
+        showPopup(data.message || "Kích hoạt thành công.", false);
+        $("arTitle").textContent = "KÍCH HOẠT THÀNH CÔNG";
+        $("arMsg").textContent = "Key đã bind IP " + currentIp + ".";
+        $("arStatus").innerHTML = '<span style="color:#10b981;font-weight:bold;">ACTIVE</span>';
+        $("arCreated").textContent = tsLabel(Math.floor(Date.now() / 1000));
+        $("arExpires").textContent = tsLabel(data.expires_at);
+        $("arDuration").textContent = data.duration || "thời hạn key";
+        renderAimMenu(data.aims || [], key);
+        renderVipMenu(data.vip_gamevars || [], data.active_vip_gamevar_id, key);
+        $("activateResult").classList.add("show");
+        localStorage.setItem("cpv_key", key);
+      } else {
+        showPopup(data.message || "Key không hợp lệ.", true);
+        $("activateResult").classList.remove("show");
+      }
+    } catch (e) { showPopup("Lỗi gửi yêu cầu.", true); }
+    finally { $("submitBtn").disabled = false; $("submitBtn").textContent = "KÍCH HOẠT NGAY"; }
+  });
 
-            // Tự động đánh thức server Render (chạy ngầm)
-            fetch(SERVER_URL + '/api/whoami').catch(()=>{});
+  // Lookup
+  $("lookupForm").addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const key = ($("lookupInput").value || "").trim();
+    if (!key) { showPopup("Nhập key cần tra cứu.", true); return; }
+    
+    $("lookupBtn").disabled = true;
+    $("lookupBtn").textContent = "ĐANG TRA CỨU...";
+    try {
+      const r = await fetch(SERVER_URL + "/api/key-status?key=" + encodeURIComponent(key));
+      const d = await r.json();
+      if (r.ok && d.active) {
+        $("lkTitle").textContent = "TRA CỨU THÀNH CÔNG";
+        $("lkMsg").textContent = "Key hợp lệ và đang hoạt động.";
+        $("lkStatus").innerHTML = '<span style="color:#10b981;font-weight:bold;">ACTIVE</span>';
+        $("lkDuration").textContent = (d.duration || "--").toUpperCase();
+        $("lkCreated").textContent = tsLabel(d.created_at ? Math.floor(new Date(d.created_at).getTime() / 1000) : null);
+        $("lkExpires").textContent = tsLabel(d.expires_at);
+        $("lkIp").textContent = d.ip_whitelisted ? (currentIp ? currentIp + " (đã đồng bộ)" : "Đã kích hoạt") : "Chưa kích hoạt";
+        $("lookupResult").classList.add("show");
+      } else {
+        $("lkTitle").textContent = "KHÔNG TÌM THẤY";
+        $("lkMsg").textContent = d.message || "Key không tồn tại.";
+        $("lookupResult").classList.add("show");
+      }
+    } catch (e) { showPopup("Lỗi tra cứu.", true); }
+    finally { $("lookupBtn").disabled = false; $("lookupBtn").textContent = "TRA CỨU THÔNG TIN"; }
+  });
 
-            let saved = loadState();
-            if (saved && saved.key) {
-                document.getElementById('keyInput').value = saved.key; currentKey = saved.key;
-                const fd = new FormData(); fd.append('action', 'check_status'); fd.append('key_code', saved.key);
-                fd.append('browser_uuid', devID);
-                if (saved.fileName) fd.append('file_name', saved.fileName);
-                if (clientIP) fd.append('client_ip', clientIP);
-                try {
-                    const resp = await fetch(SERVER_URL, { method: 'POST', body: fd }); const data = await resp.json();
-                    if (data.status === 'success' && data.active && data.data) {
-                        updateStatusUI(data.data.mod || data.data.aim, data.data.file, data.data.server, data.data.port);
-                        document.getElementById('aimSelector').classList.add('hidden');
-                        if (data.data.expires_at) { startCountdown(data.data.expires_at); startStatusCheck(saved.key); saveState(saved.key, data.data.mod || data.data.aim, data.data.file, data.data.expires_at, data.data.server, data.data.port); }
-                        isKeyChecked = true;
-                    } else if (data.expired || data.status === 'error' || !data.active) { clearState(); updateStatusUI(null, null); }
-                } catch(e) {}
-            }
-            renderModList();
-        })();
-    </script>
+  // History
+  $("historyForm").addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const key = ($("historyInput").value || "").trim();
+    if (!key) { showPopup("Nhập key cần xem lịch sử.", true); return; }
+    
+    $("historyBtn").disabled = true;
+    $("historyBtn").textContent = "ĐANG LẤY...";
+    try {
+      const r = await fetch(SERVER_URL + "/api/key-history?key=" + encodeURIComponent(key));
+      const d = await r.json();
+      const items = d.items || [];
+      const list = $("historyList");
+      list.innerHTML = "";
+      if (!items.length) { list.innerHTML = '<div style="color:#94a3b8;text-align:center;">Chưa có lịch sử.</div>'; } 
+      else {
+        items.forEach((it) => {
+          list.innerHTML += `<div style="display:flex;justify-content:space-between;background:#0f172a;padding:10px;border-radius:6px;"><span>${it.time}</span><span>${it.ip}</span><span style="color:#10b981;">${it.status}</span></div>`;
+        });
+      }
+      $("hsTitle").textContent = "LỊCH SỬ KÍCH HOẠT";
+      $("hsMsg").textContent = "Tìm thấy " + items.length + " lần kích hoạt.";
+      $("historyResult").classList.add("show");
+    } catch (e) { showPopup("Không thể lấy lịch sử.", true); }
+    finally { $("historyBtn").disabled = false; $("historyBtn").textContent = "XEM LỊCH SỬ"; }
+  });
+
+  // Restore Key
+  const saved = localStorage.getItem("cpv_key");
+  if (saved) $("licenseInput").value = saved;
+</script>
 </body>
 </html>
