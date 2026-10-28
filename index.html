@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SENS VIP – Cấu hình độ nhạy</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<title>SENS VIP – Hệ Thống Cấu Hình</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --cyan:#3DF2C8; --yellow:#FFE14D; --magenta:#FF2BD6; --ink:#1A0B2E;
@@ -12,21 +12,46 @@
     --card-bg: #0d0d17;
     --item-bg: #151522;
     --danger:#FF6B8B;
+    --neon-green: #39ff14;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{
     margin:0; min-height:100dvh;
-    /* Nền lưới Cyber phát sáng */
     background-color: var(--bg-dark);
     background-image: 
-      radial-gradient(circle at 50% 0%, rgba(61, 242, 200, 0.1) 0%, transparent 50%),
-      linear-gradient(rgba(61, 242, 200, 0.05) 1px, transparent 1px), 
-      linear-gradient(90deg, rgba(61, 242, 200, 0.05) 1px, transparent 1px);
+      radial-gradient(circle at 50% 0%, rgba(61, 242, 200, 0.08) 0%, transparent 50%),
+      linear-gradient(rgba(61, 242, 200, 0.03) 1px, transparent 1px), 
+      linear-gradient(90deg, rgba(61, 242, 200, 0.03) 1px, transparent 1px);
     background-size: 100% 100%, 40px 40px, 40px 40px;
     font-family:"Baloo 2", system-ui, sans-serif; color:#fff;
     display:flex; flex-direction:column; align-items:center; justify-content:center; overflow-x:hidden;
     padding: calc(env(safe-area-inset-top) + 15px) 15px calc(env(safe-area-inset-bottom) + 15px);
   }
+
+  /* Nền Matrix (Ẩn mặc định) */
+  #matrixCanvas {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: 9998; pointer-events: none; opacity: 0; transition: opacity 0.5s;
+  }
+  #matrixCanvas.show { opacity: 1; }
+
+  /* Bảng thông báo Hacker */
+  #hackerPopup {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(0, 0, 0, 0.9); border: 2px solid var(--neon-green);
+    box-shadow: 0 0 30px rgba(57, 255, 20, 0.4), inset 0 0 20px rgba(57, 255, 20, 0.2);
+    border-radius: 15px; padding: 25px; z-index: 9999;
+    text-align: center; font-family: "JetBrains Mono", monospace;
+    opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    width: 90%; max-width: 350px;
+  }
+  #hackerPopup.show { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+  
+  .hacker-title { color: var(--neon-green); font-size: 20px; font-weight: bold; margin-bottom: 15px; text-shadow: 0 0 10px var(--neon-green); animation: blink 1s infinite alternate; }
+  @keyframes blink { from { opacity: 1; } to { opacity: 0.5; } }
+  .hacker-logs { color: #fff; font-size: 12px; text-align: left; margin-bottom: 20px; line-height: 1.6; height: 100px; overflow: hidden; border-left: 2px solid var(--neon-green); padding-left: 10px; }
+  .hacker-btn { background: transparent; border: 1px solid var(--neon-green); color: var(--neon-green); padding: 10px 20px; font-family: inherit; font-weight: bold; cursor: pointer; border-radius: 5px; text-transform: uppercase; }
+  .hacker-btn:active { background: var(--neon-green); color: #000; box-shadow: 0 0 15px var(--neon-green); }
 
   .page { display: none; width: 100%; max-width: 420px; flex-direction: column; }
   .page.active { display: flex; animation: fadeIn 0.4s ease; }
@@ -58,7 +83,6 @@
     position: relative;
     overflow: hidden;
   }
-  /* Hiệu ứng đường kẻ trang trí */
   .dash-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); }
 
   .user-header {
@@ -88,7 +112,6 @@
   .sens-name { font-size: 15px; font-weight: 600; color: #e2e8f0; text-shadow: 0 1px 2px #000; }
   .sens-controls { display: flex; align-items: center; gap: 12px; }
   
-  /* Nút bấm phát sáng */
   .btn-num { 
     width: 36px; height: 36px; border-radius: 10px; 
     background: #1a1a2e; border: 1px solid #3a3a5e; color: var(--cyan); 
@@ -105,7 +128,6 @@
   }
   .sens-val { width: 50px; text-align: center; font-family: "JetBrains Mono"; font-size: 18px; font-weight: bold; color: var(--yellow); text-shadow: 0 0 8px rgba(255, 225, 77, 0.6); }
 
-  /* Toggle Switch Đèn LED */
   .toggle-switch { position: relative; display: inline-block; width: 54px; height: 30px; }
   .toggle-switch input { opacity: 0; width: 0; height: 0; }
   .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #111; transition: .4s; border-radius: 30px; border: 1px solid #333; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); }
@@ -113,17 +135,20 @@
   input:checked + .slider { background-color: rgba(61, 242, 200, 0.15); border-color: var(--cyan); box-shadow: inset 0 0 10px rgba(61, 242, 200, 0.3), 0 0 10px rgba(61, 242, 200, 0.3); }
   input:checked + .slider:before { transform: translateX(24px); background-color: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
 
-  .btn-tool { 
+  /* Nút Hacker Mới */
+  .btn-hacker { 
     padding: 16px; border-radius: 12px; 
-    border: 1px solid var(--magenta); 
-    background: linear-gradient(90deg, rgba(255, 43, 214, 0.1), rgba(255, 43, 214, 0.2)); 
-    color: #fff; font-family: "Baloo 2"; font-size: 16px; font-weight: 800; 
+    border: 1px solid var(--neon-green); 
+    background: linear-gradient(90deg, rgba(57, 255, 20, 0.1), rgba(57, 255, 20, 0.2)); 
+    color: #fff; font-family: "JetBrains Mono", monospace; font-size: 15px; font-weight: 800; 
     cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; 
     transition: 0.1s; width: 100%; margin-top: 5px; 
-    box-shadow: 0 4px 0 #8a146e, 0 0 15px rgba(255, 43, 214, 0.3);
-    text-shadow: 0 0 5px var(--magenta);
+    box-shadow: 0 4px 0 #1a7a09, 0 0 15px rgba(57, 255, 20, 0.3);
+    text-shadow: 0 0 5px var(--neon-green);
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
-  .btn-tool:active { transform: translateY(4px); box-shadow: 0 0px 0 #8a146e, 0 0 20px var(--magenta); }
+  .btn-hacker:active { transform: translateY(4px); box-shadow: 0 0px 0 #1a7a09, 0 0 20px var(--neon-green); }
 
   .btn-logout { width: 100%; padding: 12px; background: transparent; border: 1px solid #444; color: #888; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 5px; font-family: "Baloo 2"; font-size: 14px; transition: 0.2s; }
   .btn-logout:active { background: #ff000022; border-color: var(--danger); color: var(--danger); }
@@ -138,6 +163,14 @@
 </style>
 </head>
 <body>
+
+<!-- Nền Matrix và Popup Hacker -->
+<canvas id="matrixCanvas"></canvas>
+<div id="hackerPopup">
+  <div class="hacker-title">HỆ THỐNG ĐÃ BỊ XÂM NHẬP!</div>
+  <div class="hacker-logs" id="hackerLogs"></div>
+  <button class="hacker-btn" onclick="closeHacker()">ĐÓNG</button>
+</div>
 
 <!-- TRANG 1: KÍCH HOẠT -->
 <div class="page active" id="pageLogin">
@@ -273,7 +306,7 @@
         <div class="sens-name">Độ trong suốt nút bắn</div>
         <div class="sens-controls">
           <button class="btn-num" onclick="changeVal('opacity', -10)">-</button>
-          <div class="sens-val" id="val-opacity">100%</div>
+          <div class="sens-val" id="val-opacity">80%</div>
           <button class="btn-num" onclick="changeVal('opacity', 10)">+</button>
         </div>
       </div>
@@ -289,7 +322,12 @@
       </div>
     </div>
 
-    <button class="btn-tool" onclick="supportKéoTâm()">🎯 Nạp Cấu Hình Kéo Tâm</button>
+    <!-- NÚT KÍCH HOẠT HACKER -->
+    <button class="btn-hacker" onclick="triggerHacker()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6v6l4 2"/></svg>
+      KÍCH HOẠT CODE HACKER
+    </button>
+    
     <button class="btn-logout" onclick="handleLogout()">ĐĂNG XUẤT</button>
   </div>
 </div>
@@ -306,7 +344,7 @@
 
   let sensData = { 
     look: 127, reddot: 162, scope2: 87, scope4: 169, sniper: 40, free: 50, 
-    fire: 40, opacity: 100 
+    fire: 40, opacity: 80 
   };
 
   function toast(msg, isErr = false) {
@@ -394,6 +432,7 @@
     $("key").value = "";
     $("pageDashboard").classList.remove("active");
     $("pageLogin").classList.add("active");
+    closeHacker(); // Đảm bảo tắt popup nếu đang mở
   };
 
   function startTimer() {
@@ -427,12 +466,91 @@
     }, 1000);
   }
 
-  window.supportKéoTâm = () => {
-    sensData = { look: 150, reddot: 180, scope2: 110, scope4: 190, sniper: 35, free: 60, fire: 35, opacity: 80 };
-    updateUI();
-    $("autoRun").checked = true;
-    toast("Đã nạp cấu hình Kéo Tâm (Nút bắn 35%)!", false);
+  // ==========================================
+  // HIỆU ỨNG HACKER (MATRIX RAIN & LOGS)
+  // ==========================================
+  const canvas = $("matrixCanvas");
+  const ctx = canvas.getContext("2d");
+  let matrixInterval = null;
+
+  function startMatrix() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+    for (let x = 0; x < columns; x++) drops[x] = 1;
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#39ff14"; // Màu xanh Neon
+      ctx.font = fontSize + "px monospace";
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    matrixInterval = setInterval(draw, 33);
+    canvas.classList.add("show");
+  }
+
+  function stopMatrix() {
+    clearInterval(matrixInterval);
+    canvas.classList.remove("show");
+  }
+
+  window.triggerHacker = () => {
+    const popup = $("hackerPopup");
+    const logs = $("hackerLogs");
+    popup.classList.add("show");
+    startMatrix();
+
+    // Hiệu ứng gõ chữ log
+    const logMessages = [
+      "> Đang kết nối tới server Free Fire...",
+      "> Bypass Anti-Cheat [Thành công]",
+      "> Đang tìm địa chỉ bộ nhớ (Memory Address)...",
+      "> Injecting Aim Head Code...",
+      "> Tối ưu hóa đường đạn (Bullet Track) [OK]",
+      "> HỆ THỐNG ĐÃ SẴN SÀNG!"
+    ];
+    
+    logs.innerHTML = "";
+    let i = 0;
+    function typeLog() {
+      if (i < logMessages.length) {
+        logs.innerHTML += logMessages[i] + "<br>";
+        logs.scrollTop = logs.scrollHeight;
+        i++;
+        setTimeout(typeLog, 600);
+      }
+    }
+    typeLog();
+
+    // Tự động tắt sau 5 giây
+    setTimeout(() => {
+      if(popup.classList.contains("show")) closeHacker();
+    }, 5000);
   };
+
+  window.closeHacker = () => {
+    $("hackerPopup").classList.remove("show");
+    stopMatrix();
+    toast("Đã kích hoạt Code Hacker!", "ok");
+  };
+
+  // Cập nhật kích thước canvas khi xoay màn hình
+  window.addEventListener('resize', () => {
+    if (canvas.classList.contains('show')) {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+  });
 
   let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   $("deviceType").textContent = isIOS ? "iOS (iPhone/iPad)" : "Android";
