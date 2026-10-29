@@ -8,20 +8,32 @@
     body { background: #0a0a0c; color: #fff; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
     .container { max-width: 680px; width: 100%; background: #121216; padding: 20px; border-radius: 20px; border: 1px solid #333; }
     h1 { text-align: center; background: linear-gradient(45deg, #ff7a00, #fe2c55, #25f4ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
     .input-box { display: flex; gap: 10px; margin-top: 20px; }
     .input-box input { flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #25f4ee; background: #000; color: #25f4ee; font-weight: bold; text-transform: uppercase; }
     .input-box button { padding: 12px 20px; border-radius: 8px; border: none; background: linear-gradient(45deg, #ff7a00, #fe2c55, #25f4ee); font-weight: bold; cursor: pointer; }
-    .link-card { background: #1a1a20; border-left: 4px solid #25f4ee; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-    .btn-open { background: linear-gradient(90deg, #ff2c55, #ff7a00, #25f4ee); border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; color: #fff; }
-    .hidden { display: none; }
     
-    /* CSS cho khung Mã thiết bị */
     .device-box { margin-top: 20px; text-align: center; }
     .device-divider { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
     .device-divider .line { flex: 1; height: 1px; background: #333; }
     .device-divider .text { font-size: 11px; color: #888; text-transform: uppercase; }
     .device-id { background: #000; padding: 10px; border-radius: 8px; border: 1px dashed #555; font-family: monospace; color: #25f4ee; word-break: break-all; cursor: pointer; }
     .device-id:hover { border-color: #25f4ee; }
+
+    .hidden { display: none; }
+    
+    /* Tabs */
+    .tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
+    .tab-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid #333; background: #1a1a20; color: #888; cursor: pointer; white-space: nowrap; font-size: 13px; }
+    .tab-btn.active { background: rgba(254, 44, 85, 0.2); color: #fe2c55; border-color: #fe2c55; }
+
+    /* Link Card */
+    .link-card { background: #1a1a20; border-left: 4px solid #25f4ee; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .btn-open { background: linear-gradient(90deg, #ff2c55, #ff7a00, #25f4ee); border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; color: #fff; }
+
+    /* Đồng hồ */
+    .timer-box { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
+    .timer-text { font-family: monospace; background: rgba(255, 122, 0, 0.1); color: #ff7a00; padding: 5px 10px; border-radius: 6px; border: 1px solid rgba(255, 122, 0, 0.3); font-size: 14px; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -38,25 +50,37 @@
     </div>
     <p id="errorMsg" style="color: #ef4444; text-align: center; margin-top: 10px;"></p>
 
-    <!-- Khung hiển thị mã thiết bị -->
     <div class="device-box">
       <div class="device-divider">
         <div class="line"></div>
         <span class="text">Mã Thiết Bị Của Bạn</span>
         <div class="line"></div>
       </div>
-      <div class="device-id" id="deviceIdDisplay" onclick="copyDeviceId()" title="Bấm để sao chép">
-        Đang tải...
-      </div>
-      <p style="font-size: 11px; color: #888; margin-top: 8px;">Gửi mã này cho Admin nếu bạn muốn được cấp quyền trực tiếp.</p>
+      <div class="device-id" id="deviceIdDisplay" onclick="copyDeviceId()" title="Bấm để sao chép">Đang tải...</div>
     </div>
   </div>
 
   <!-- Màn hình đã kích hoạt -->
   <div id="authView" class="hidden">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
       <h1>Kênh Link TikTok</h1>
-      <span style="color: #25f4ee; font-weight: bold;">✓ Đã kích hoạt</span>
+      <span style="color: #25f4ee; font-weight: bold; font-size: 12px;">✓ Đã kích hoạt</span>
+    </div>
+
+    <!-- Đồng hồ đếm ngược -->
+    <div class="timer-box">
+      <div class="timer-text" id="countdownTimer">⏳ Đang tải...</div>
+    </div>
+
+    <!-- Các Tab -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('ruong_treo', this)">Rương treo</button>
+      <button class="tab-btn" onclick="switchTab('ruong_lon', this)">Rương lớn</button>
+      <button class="tab-btn" onclick="switchTab('ruong_nho', this)">Rương nhỏ</button>
+      <button class="tab-btn" onclick="switchTab('nhan_pham', this)">Nhân phẩm</button>
+      <button class="tab-btn" onclick="switchTab('ruong_test', this)">Rương Test</button>
+      <button class="tab-btn" onclick="switchTab('tui', this)">Túi</button>
+      <button class="tab-btn" onclick="switchTab('tui_0xu', this)">Túi 0xu</button>
     </div>
     
     <div id="linksList"></div>
@@ -66,17 +90,17 @@
 <script>
   const SERVER_URL = "https://api-proxy-18ww.onrender.com"; 
   
-  // Khởi tạo hoặc lấy ID thiết bị
   let deviceId = localStorage.getItem('device_id');
   if (!deviceId) {
     deviceId = 'device_' + Math.random().toString(36).substring(2, 15);
     localStorage.setItem('device_id', deviceId);
   }
-
-  // Hiển thị mã thiết bị lên màn hình
   document.getElementById('deviceIdDisplay').innerText = deviceId;
 
-  // Hàm copy ID thiết bị
+  let allLinks = {};
+  let currentTab = 'ruong_treo';
+  let countdownInterval = null;
+
   function copyDeviceId() {
     navigator.clipboard.writeText(deviceId).then(() => {
       const el = document.getElementById('deviceIdDisplay');
@@ -87,7 +111,6 @@
     });
   }
 
-  // Hàm kích hoạt Key
   async function activateKey() {
     const key = document.getElementById('keyInput').value.trim().toUpperCase();
     const errMsg = document.getElementById('errorMsg');
@@ -111,7 +134,6 @@
     }
   }
 
-  // Hàm kiểm tra quyền và load link
   async function checkAuth() {
     try {
       const res = await fetch(SERVER_URL + '/api/check-auth?device_id=' + deviceId);
@@ -120,7 +142,12 @@
       if (data.authorized) {
         document.getElementById('unauthView').classList.add('hidden');
         document.getElementById('authView').classList.remove('hidden');
-        loadLinks();
+        
+        // Bắt đầu đếm ngược
+        startCountdown(data.expires_at);
+        
+        // Tải danh sách link
+        await loadLinks();
       } else {
         document.getElementById('unauthView').classList.remove('hidden');
         document.getElementById('authView').classList.add('hidden');
@@ -130,7 +157,42 @@
     }
   }
 
-  // Hàm lấy danh sách link
+  // Hàm đếm ngược thời gian
+  function startCountdown(expiresAt) {
+    if (countdownInterval) clearInterval(countdownInterval);
+    const timerEl = document.getElementById('countdownTimer');
+    
+    if (!expiresAt) {
+      timerEl.innerText = "⏳ Vĩnh viễn";
+      return;
+    }
+
+    const endTime = new Date(expiresAt).getTime();
+
+    function updateTimer() {
+      const now = new Date().getTime();
+      const diff = endTime - now;
+
+      if (diff <= 0) {
+        clearInterval(countdownInterval);
+        timerEl.innerText = "⚠️ Key đã hết hạn";
+        timerEl.style.color = "#ef4444";
+        timerEl.style.borderColor = "#ef4444";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      timerEl.innerText = `⏳ Còn lại: ${days} ngày ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    updateTimer();
+    countdownInterval = setInterval(updateTimer, 1000);
+  }
+
   async function loadLinks() {
     try {
       const res = await fetch(SERVER_URL + '/api/v2/feed/stream', {
@@ -140,26 +202,43 @@
       });
       const data = await res.json();
       
-      const listEl = document.getElementById('linksList');
       if (data.links) {
-        listEl.innerHTML = Object.keys(data.links).map(key => `
-          <div class="link-card">
-            <div>
-              <div style="font-weight: bold; color: #25f4ee;">/${key}</div>
-              <div style="font-size: 12px; color: #888;">${data.links[key].created_at}</div>
-            </div>
-            <button class="btn-open" onclick="openLink('${key}')">Mở Link</button>
-          </div>
-        `).join('');
-      } else {
-        listEl.innerHTML = "<p style='text-align:center;'>Chưa có link nào.</p>";
+        allLinks = data.links;
+        renderLinks();
       }
     } catch (e) {
       console.log("Lỗi load link", e);
     }
   }
 
-  // Hàm mở link
+  function switchTab(tab, btn) {
+    currentTab = tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderLinks();
+  }
+
+  function renderLinks() {
+    const listEl = document.getElementById('linksList');
+    // Lọc link theo tab đang chọn
+    const filteredKeys = Object.keys(allLinks).filter(key => allLinks[key].group === currentTab);
+
+    if (filteredKeys.length === 0) {
+      listEl.innerHTML = "<p style='text-align:center;color:#888;'>Chưa có link nào trong mục này.</p>";
+      return;
+    }
+
+    listEl.innerHTML = filteredKeys.map(key => `
+      <div class="link-card">
+        <div>
+          <div style="font-weight: bold; color: #25f4ee;">/${key}</div>
+          <div style="font-size: 12px; color: #888;">${allLinks[key].created_at}</div>
+        </div>
+        <button class="btn-open" onclick="openLink('${key}')">Mở Link</button>
+      </div>
+    `).join('');
+  }
+
   async function openLink(shopId) {
     try {
       const res = await fetch(SERVER_URL + '/api/v2/feed/claim-link', {
