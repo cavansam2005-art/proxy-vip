@@ -1,194 +1,151 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SAMM X MODZ — Active Key</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --cyan:#3DF2C8; --yellow:#FFE14D; --magenta:#FF2BD6; --ink:#1A0B2E;
-    --extrude:#4B1F7A; --muted:#B9A6E0; --danger:#FF6B8B;
-  }
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  body{
-    margin:0; min-height:100dvh;
-    background: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px) 0 0/28px 28px, linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px) 0 0/28px 28px, radial-gradient(ellipse at 80% 0%, #2a1850 0%, #120c1e 55%) #120c1e;
-    font-family:"Baloo 2", system-ui, sans-serif; color:#fff;
-    display:flex; flex-direction:column; align-items:center; justify-content:center; overflow-x:hidden;
-    padding: calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 16px);
-  }
-  
-  .stage { position: relative; width: 300px; height: 332px; margin: 0 auto; margin-bottom: 20px; }
-  .panel { position: absolute; left:0; top:0; width:100%; height:100%; transform-origin: 0 0; }
-  .art { position: absolute; left:-62px; top:-62px; width:424px; height:456px; pointer-events:none; }
-  .content { position: absolute; left:36px; top:120px; width:228px; display:flex; flex-direction:column; gap:12px; }
-
-  .ip { display:flex; align-items:center; gap:7px; height:36px; width:100%; padding:0 10px; border-radius:9px; background:rgba(26,11,46,.75); box-shadow:inset 0 0 0 1px rgba(163,91,214,.55); }
-  .ip .k { font-size:13px; color:var(--muted); }
-  .ip .v { font-weight:700; font-size:13.5px; color:#fff; flex:1; text-align:right; }
-
-  .field { position:relative; height:58px; border-radius:11px; background:#170a2e; box-shadow:inset 0 0 0 1.5px #7B4FD6; transition: box-shadow .12s; }
-  .field:focus-within { box-shadow: inset 0 0 0 2px var(--magenta), 3px 3px 0 0 var(--cyan); }
-  .field.bad { box-shadow: inset 0 0 0 2px var(--danger); }
-  .field.good { box-shadow: inset 0 0 0 2px var(--cyan); }
-  .field label { position:absolute; left:13px; top:8px; font-size:10.5px; font-weight:700; color:var(--cyan); }
-  .field input { position:absolute; left:0; right:0; bottom:0; height:40px; width:100%; border:0; outline:0; background:transparent; padding:0 13px 4px; font-family:"JetBrains Mono",monospace; font-size:16px; color:#fff; text-transform:uppercase; }
-
-  .actions { display:flex; gap:10px; margin-top:2px; }
-  .cta { flex:1; height:52px; border:0; cursor:pointer; border-radius:11px; background:linear-gradient(#FF6BE6 52%, #FF2BD6 52%); box-shadow:inset 0 0 0 2px var(--ink), 0 0 0 1px var(--ink), 0 5px 0 1px var(--extrude); display:grid; place-items:center; transition: .06s; }
-  .cta:active { transform:translateY(4px); box-shadow:inset 0 0 0 2px var(--ink),0 0 0 1px var(--ink),0 1px 0 1px var(--extrude); }
-  .trash { width:52px; height:52px; border:0; border-radius:11px; cursor:pointer; background:linear-gradient(#FF8A6B 52%, #FF3D5E 52%); display:grid; place-items:center; box-shadow:inset 0 0 0 2px var(--ink),0 0 0 1px var(--ink),0 5px 0 1px var(--extrude); }
-  
-  #toast { position:fixed; left:50%; top:20px; transform:translate(-50%,-20px); opacity:0; z-index:40; background:var(--ink); border:2px solid var(--magenta); box-shadow:3px 3px 0 var(--cyan); border-radius:10px; padding:8px 16px; font-size:14px; font-weight:600; transition:.15s; pointer-events:none; }
-  #toast.show { opacity:1; transform:translate(-50%,0); }
-  #toast.ok { border-color:var(--cyan); color:var(--cyan); }
-  #toast.err { border-color:var(--danger); color:var(--danger); }
-
-  .info-box { margin-top:20px; width:100%; max-width:360px; background:rgba(23,10,46,0.88); border:1.5px solid rgba(163,91,214,0.55); border-radius:14px; padding:14px 16px; display:none; flex-direction:column; gap:9px; }
-  .info-box.show { display:flex; }
-  .info-title { font-size:12.5px; font-weight:700; color:var(--cyan); text-transform:uppercase; text-align:center; }
-  .info-row { display:flex; justify-content:space-between; font-size:13px; border-bottom:1px solid rgba(163,91,214,0.2); padding-bottom:6px; }
-  .info-val { color:#fff; font-weight:600; font-family:"JetBrains Mono",monospace; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kênh Link TikTok - ShopLink</title>
+  <style>
+    body { background: #0a0a0c; color: #fff; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
+    .container { max-width: 680px; width: 100%; background: #121216; padding: 20px; border-radius: 20px; border: 1px solid #333; }
+    h1 { text-align: center; background: linear-gradient(45deg, #ff7a00, #fe2c55, #25f4ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .input-box { display: flex; gap: 10px; margin-top: 20px; }
+    .input-box input { flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #25f4ee; background: #000; color: #25f4ee; font-weight: bold; text-transform: uppercase; }
+    .input-box button { padding: 12px 20px; border-radius: 8px; border: none; background: linear-gradient(45deg, #ff7a00, #fe2c55, #25f4ee); font-weight: bold; cursor: pointer; }
+    .link-card { background: #1a1a20; border-left: 4px solid #25f4ee; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .btn-open { background: linear-gradient(90deg, #ff2c55, #ff7a00, #25f4ee); border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; color: #fff; }
+    .hidden { display: none; }
+  </style>
 </head>
 <body>
 
-<div class="stage" id="stage">
-  <div class="panel" id="panel">
-    <svg class="art" viewBox="-62 -62 424 456">
-      <defs>
-        <path id="frame" d="M0,0 L-42,-34 L22,-10 L46,-26 L62,0 L98,0 L182,0 L220,0 L240,-22 L252,0 L270,-6 L336,-40 L300,28 L300,130 L310,140 L300,152 L300,300 L332,364 L278,332 L184,332 L174,344 L164,332 L18,332 L-28,358 L0,300 L0,200 L-11,190 L0,180 L0,80 L-20,48 L0,36 Z"/>
-        <polygon id="emb" points="98,-8 114,-38 136,-32 150,-52 164,-32 186,-38 202,-8 190,22 166,36 150,28 134,36 110,22"/>
-        <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="332"><stop offset="0" stop-color="#3A1A7A"/><stop offset=".75" stop-color="#5B2DB0"/><stop offset="1" stop-color="#8E7BE8"/></linearGradient>
-        <pattern id="dots" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="1.8" fill="#9FB4FF"/></pattern>
-        <clipPath id="frameClip"><use href="#frame"/></clipPath>
-      </defs>
-      <use href="#frame" fill="none" stroke="#3DF2C8" stroke-width="24" transform="translate(4 3)"/>
-      <use href="#frame" fill="none" stroke="#FFE14D" stroke-width="17" transform="translate(-3 -2)"/>
-      <use href="#frame" fill="none" stroke="#FF2BD6" stroke-width="11"/>
-      <use href="#frame" fill="url(#bodyGrad)"/>
-      <g clip-path="url(#frameClip)"><rect x="-62" y="-62" width="424" height="456" fill="url(#dots)" opacity="0.5"/></g>
-      <use href="#frame" fill="none" stroke="#1A0B2E" stroke-width="5"/>
-      <rect x="22" y="104" width="256" height="212" rx="14" fill="#1E0E44" fill-opacity=".72" stroke="#A35BD6" stroke-width="2"/>
-      <use href="#emb" fill="none" stroke="#FF2BD6" stroke-width="3" transform="translate(0 3)"/>
-      <use href="#emb" fill="#7B3FE0" stroke="#FFE14D" stroke-width="5"/>
-      <g transform="translate(150 -6)">
-        <rect x="-22" y="-18" width="44" height="36" rx="7" fill="#C9B3EE" stroke="#1A0B2E" stroke-width="3"/>
-        <rect x="-16" y="-13" width="32" height="24" rx="4" fill="#1A0B2E"/>
-        <g id="eyes"><polygon points="-12,-7 -2,-3 -3,0.5 -12,-3" fill="#FF2BD6"/><polygon points="12,-7 12,-3 3,0.5 2,-3" fill="#FF2BD6"/></g>
-      </g>
-      <text x="150" y="55" fill="#fff" font-family="monospace" font-size="24" font-weight="900" text-anchor="middle" filter="drop-shadow(2px 2px 0 #000)">SAMM X MODZ</text>
-    </svg>
+<div class="container">
+  <!-- Màn hình chưa kích hoạt -->
+  <div id="unauthView">
+    <h1>ShopLink</h1>
+    <p style="text-align: center; color: #888;">Nhập Mã Key để mở khóa hệ thống link</p>
+    <div class="input-box">
+      <input type="text" id="keyInput" placeholder="VIP-XXXX-XXXX-XXXX">
+      <button onclick="activateKey()">⚡ Kích Hoạt</button>
+    </div>
+    <p id="errorMsg" style="color: #ef4444; text-align: center; margin-top: 10px;"></p>
+  </div>
 
-    <form class="content" id="form" onsubmit="event.preventDefault(); handleActivate();">
-      <div class="ip">
-        <span class="k">IP của bạn:</span>
-        <span class="v" id="ipDisplay">Đang lấy...</span>
-      </div>
-      <div class="field" id="field">
-        <label for="key">Key của bạn</label>
-        <input id="key" maxlength="19" placeholder="KEY-XXXX-XXXX-XXXX" autocapitalize="characters">
-      </div>
-      <div class="actions">
-        <button class="cta" type="submit">
-          <span style="font-weight:900; font-size:15px; letter-spacing:2px; color:#fff; text-shadow:2px 2px 0 #000;">KÍCH HOẠT</span>
-        </button>
-        <button class="trash" type="button" onclick="document.getElementById('key').value=''">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
-        </button>
-      </div>
-    </form>
+  <!-- Màn hình đã kích hoạt -->
+  <div id="authView" class="hidden">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <h1>Kênh Link TikTok</h1>
+      <span style="color: #25f4ee; font-weight: bold;">✓ Đã kích hoạt</span>
+    </div>
+    
+    <div id="linksList"></div>
   </div>
 </div>
 
-<div class="info-box" id="infoBox">
-  <div class="info-title">KÍCH HOẠT THÀNH CÔNG</div>
-  <div class="info-row"><span>Trạng thái:</span><span style="color:#3DF2C8;">Hoạt động</span></div>
-  <div class="info-row"><span>Hạn sử dụng:</span><span class="info-val" id="expiresAt">Vĩnh viễn</span></div>
-  <div class="info-row"><span>Thiết bị:</span><span class="info-val" id="deviceName">Chưa xác định</span></div>
-</div>
-
-<div id="toast"></div>
-
 <script>
-(() => {
-  const SERVER_URL = "https://api-proxy-18ww.onrender.com";
-  const $ = id => document.getElementById(id);
-  let currentIp = "";
-
-  async function loadIp() {
-    try {
-      const r = await fetch(SERVER_URL + "/api/whoami", { cache: "no-store" });
-      const data = await r.json();
-      currentIp = data.ip || "";
-    } catch (e) {
-      try {
-        const r2 = await fetch("https://api.ipify.org?format=json");
-        currentIp = (await r2.json()).ip;
-      } catch (e2) { currentIp = ""; }
-    }
-    $("ipDisplay").textContent = currentIp || "Không xác định";
-  }
-  loadIp();
-
-  let toastTimer = 0;
-  function showToast(msg, type) {
-    const t = $("toast");
-    t.textContent = msg;
-    t.className = type + " show";
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove("show"), 3000);
+  // Đường dẫn Server Render của bạn (Nhớ sửa lại nếu link khác)
+  const SERVER_URL = "https://api-proxy-18ww.onrender.com"; 
+  
+  // Tạo ID thiết bị ngẫu nhiên cho mỗi trình duyệt
+  let deviceId = localStorage.getItem('device_id');
+  if (!deviceId) {
+    deviceId = 'device_' + Math.random().toString(36).substring(2, 15);
+    localStorage.setItem('device_id', deviceId);
   }
 
-  $("key").addEventListener("input", function() {
-    let raw = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
-    if (raw.length > 3) {
-      const rest = raw.slice(3, 15).match(/.{1,4}/g) || [];
-      this.value = ["KEY", ...rest].join("-");
-    } else {
-      this.value = raw;
-    }
-    $("field").classList.remove("bad", "good");
-  });
-
-  window.handleActivate = async () => {
-    const key = $("key").value.trim();
-    if (!key.match(/^KEY(-[A-Z0-9]{4}){3}$/)) {
-      $("field").classList.add("bad");
-      return showToast("Sai định dạng Key!", "err");
-    }
-
-    const deviceName = /iPhone|iPad|iPod/.test(navigator.userAgent) ? "iOS" : "Android";
+  // Hàm kích hoạt Key
+  async function activateKey() {
+    const key = document.getElementById('keyInput').value.trim().toUpperCase();
+    const errMsg = document.getElementById('errorMsg');
+    if (!key) return errMsg.innerText = "Vui lòng nhập Key!";
 
     try {
-      const res = await fetch(SERVER_URL + "/api/activate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ key: key, device_name: deviceName })
+      const res = await fetch(SERVER_URL + '/api/activate-key', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: key, device_id: deviceId })
       });
       const data = await res.json();
-
-      if (data.ok) {
-        $("field").classList.add("good");
-        showToast("Kích hoạt thành công!", "ok");
-        $("infoBox").classList.add("show");
-        $("deviceName").textContent = deviceName;
-        
-        if (data.expires_at) {
-          $("expiresAt").textContent = new Date(data.expires_at * 1000).toLocaleString("vi-VN");
-        } else {
-          $("expiresAt").textContent = "Vĩnh viễn";
-        }
+      
+      if (data.success) {
+        checkAuth(); // Kiểm tra lại và load link
       } else {
-        $("field").classList.add("bad");
-        showToast(data.message || "Lỗi kích hoạt", "err");
+        errMsg.innerText = data.error || "Key không đúng!";
       }
-    } catch (err) {
-      showToast("Không kết nối được máy chủ!", "err");
+    } catch (e) {
+      errMsg.innerText = "Lỗi kết nối Server!";
     }
-  };
-})();
+  }
+
+  // Hàm kiểm tra quyền và load link
+  async function checkAuth() {
+    try {
+      const res = await fetch(SERVER_URL + '/api/check-auth?device_id=' + deviceId);
+      const data = await res.json();
+
+      if (data.authorized) {
+        // Đã kích hoạt -> Hiện danh sách link
+        document.getElementById('unauthView').classList.add('hidden');
+        document.getElementById('authView').classList.remove('hidden');
+        loadLinks();
+      } else {
+        // Chưa kích hoạt -> Hiện form
+        document.getElementById('unauthView').classList.remove('hidden');
+        document.getElementById('authView').classList.add('hidden');
+      }
+    } catch (e) {
+      console.log("Lỗi check auth", e);
+    }
+  }
+
+  // Hàm lấy danh sách link từ Server
+  async function loadLinks() {
+    try {
+      const res = await fetch(SERVER_URL + '/api/v2/feed/stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ device_id: deviceId })
+      });
+      const data = await res.json();
+      
+      const listEl = document.getElementById('linksList');
+      if (data.links) {
+        listEl.innerHTML = Object.keys(data.links).map(key => `
+          <div class="link-card">
+            <div>
+              <div style="font-weight: bold; color: #25f4ee;">/${key}</div>
+              <div style="font-size: 12px; color: #888;">${data.links[key].created_at}</div>
+            </div>
+            <button class="btn-open" onclick="openLink('${key}')">Mở Link</button>
+          </div>
+        `).join('');
+      } else {
+        listEl.innerHTML = "<p style='text-align:center;'>Chưa có link nào.</p>";
+      }
+    } catch (e) {
+      console.log("Lỗi load link", e);
+    }
+  }
+
+  // Hàm mở link khi bấm nút
+  async function openLink(shopId) {
+    try {
+      const res = await fetch(SERVER_URL + '/api/v2/feed/claim-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ shop_id: shopId })
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url; // Chuyển hướng sang TikTok
+      }
+    } catch (e) {
+      alert("Lỗi mở link!");
+    }
+  }
+
+  // Chạy kiểm tra ngay khi mở trang
+  checkAuth();
 </script>
+
 </body>
 </html>
